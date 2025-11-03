@@ -504,8 +504,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Resonance Network",
-  "uid": "resonance-network",
+  "title": "Resonance - Node Metrics",
+  "uid": "resonance-node-metrics",
   "version": 1,
   "weekStart": ""
 }

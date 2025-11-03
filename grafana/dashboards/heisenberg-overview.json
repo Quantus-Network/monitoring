@@ -504,8 +504,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Heisenberg Network",
-  "uid": "heisenberg-network",
+  "title": "Heisenberg - Node Metrics",
+  "uid": "heisenberg-node-metrics",
   "version": 1,
   "weekStart": ""
 }

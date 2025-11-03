@@ -504,8 +504,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Schrodinger Network",
-  "uid": "schrodinger-network",
+  "title": "Schrodinger - Node Metrics",
+  "uid": "schrodinger-node-metrics",
   "version": 1,
   "weekStart": ""
 }
