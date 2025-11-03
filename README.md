@@ -97,6 +97,39 @@ PROMETHEUS_USER=monitoring_$(openssl rand -hex 8)
 PROMETHEUS_PASSWORD=$(openssl rand -base64 32)
 ```
 
+### Email Notifications (SMTP)
+
+To enable email notifications in Grafana, configure SMTP settings in your `.env` file:
+
+```bash
+# SMTP Configuration for Grafana Email Notifications
+SMTP_ENABLED=true
+SMTP_HOST=smtp.example.com:587
+SMTP_USER=your-email@example.com
+SMTP_PASSWORD=your_smtp_password_here
+SMTP_FROM_ADDRESS=your-email@example.com
+SMTP_FROM_NAME=Grafana Monitoring
+SMTP_STARTTLS_POLICY=MandatoryStartTLS
+```
+
+**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials:
+```bash
+cp .env.example .env
+nano .env  # Edit SMTP settings
+```
+
+After configuring SMTP, restart Grafana:
+```bash
+docker compose restart grafana
+```
+
+To test email notifications:
+1. Go to Grafana → Alerting → Contact points
+2. Click "New contact point"
+3. Select "Email" as the type
+4. Enter test email address
+5. Click "Test" to send a test email
+
 ### Adding Dashboards
 
 Place JSON dashboard files in `grafana/dashboards/` directory. They will be automatically loaded on startup.
