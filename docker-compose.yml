@@ -3,7 +3,7 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
-      - "127.0.0.1:9090:9090"  # Localhost only - nginx handles external access
+      - "127.0.0.1:9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
@@ -25,7 +25,7 @@ services:
       dockerfile: Dockerfile
     container_name: nginx
     ports:
-      - "127.0.0.1:9091:9091"  # Localhost only - Prometheus proxy with auth
+      - "127.0.0.1:9091:9091"
     environment:
       - PROMETHEUS_USER=${PROMETHEUS_USER:-admin}
       - PROMETHEUS_PASSWORD=${PROMETHEUS_PASSWORD:-prometheus}
@@ -36,10 +36,13 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana:latest
+    # Using 11.3.0 instead of latest (12.x) due to datasource provisioning bug
+    # Issue: Grafana 12.x fails with "Datasource provisioning error: data source not found" 
+    # on some platforms (Fedora/RHEL) while working on macOS - race condition in provisioning
+    image: grafana/grafana:11.3.0
     container_name: grafana
     ports:
-      - "127.0.0.1:3000:3000"  # Localhost only - Cloudflare Tunnel handles external
+      - "127.0.0.1:3000:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
@@ -68,7 +71,7 @@ services:
     image: prom/node-exporter:latest
     container_name: node-exporter
     ports:
-      - "127.0.0.1:9100:9100"  # Localhost only
+      - "127.0.0.1:9100:9100"
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
