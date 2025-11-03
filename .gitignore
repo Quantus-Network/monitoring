@@ -1,0 +1,61 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Cloudflare Tunnel credentials
+.cloudflared/
+*.json
+
+# Docker volumes and data
+*-data/
+prometheus-data/
+grafana-data/
+
+# Grafana runtime files
+grafana/grafana.db
+grafana/*.db
+
+# Prometheus data
+prometheus/data/
+prometheus/wal/
+
+# Logs
+*.log
+logs/
+
+# Backup files
+*.backup
+*.bak
+*.tar.gz
+*.zip
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# SSL certificates (if any)
+*.key
+*.crt
+*.pem
+*.pfx
+!ca-certificates.crt
+
+# Local configuration overrides
+*local.yml
+*local.yaml
+config.local.*
+
