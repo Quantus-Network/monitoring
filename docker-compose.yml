@@ -2,8 +2,8 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    expose:
-      - "9090"
+    ports:
+      - "127.0.0.1:9090:9090"  # Localhost only - nginx handles external access
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
@@ -25,7 +25,7 @@ services:
       dockerfile: Dockerfile
     container_name: nginx
     ports:
-      - "9091:9091"  # Prometheus proxy with auth
+      - "127.0.0.1:9091:9091"  # Localhost only - Prometheus proxy with auth
     environment:
       - PROMETHEUS_USER=${PROMETHEUS_USER:-admin}
       - PROMETHEUS_PASSWORD=${PROMETHEUS_PASSWORD:-prometheus}
@@ -39,7 +39,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"  # Localhost only - Cloudflare Tunnel handles external
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
@@ -68,7 +68,7 @@ services:
     image: prom/node-exporter:latest
     container_name: node-exporter
     ports:
-      - "9100:9100"
+      - "127.0.0.1:9100:9100"  # Localhost only
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
