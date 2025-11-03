@@ -5,7 +5,7 @@
 
 # Cloudflare Tunnel credentials
 .cloudflared/
-*.json
+.cloudflared/*.json
 
 # Docker volumes and data
 *-data/
