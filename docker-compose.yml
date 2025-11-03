@@ -15,6 +15,12 @@ services:
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
       - '--web.enable-lifecycle'
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
     networks:
       - monitoring
@@ -47,9 +53,11 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_ROOT_URL=${GRAFANA_ROOT_URL:-http://localhost:3000}
       - GF_SERVER_DOMAIN=${GRAFANA_DOMAIN:-localhost}
-      - GF_INSTALL_PLUGINS=redis-datasource
       - GF_ANALYTICS_REPORTING_ENABLED=false
       - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+      # Plugin settings - allow unsigned plugins
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-metricsdrilldown-app,grafana-lokiexplore-app,grafana-pyroscope-app,grafana-exploretraces-app
+      - GF_PLUGINS_ENABLE_ALPHA=true
       # Anonymous access - view dashboards without login, edit requires login
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
@@ -59,7 +67,8 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - monitoring
