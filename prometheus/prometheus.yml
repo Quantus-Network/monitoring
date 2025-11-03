@@ -1,0 +1,45 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'substrate-monitoring'
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          instance: 'prometheus-server'
+
+  # Node Exporter - system metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          instance: 'monitoring-host'
+
+  # Local Substrate node (optional - will be down if not running)
+  - job_name: 'substrate-node-local'
+    scrape_interval: 10s
+    scrape_timeout: 10s
+    static_configs:
+      - targets: ['host.docker.internal:9615']
+        labels:
+          instance: 'local-node'
+          chain: 'dev'
+          role: 'full-node'
+
+  # Example: Remote Substrate nodes
+  # Uncomment and configure for your network
+  # - job_name: 'my-validators'
+  #   scrape_interval: 10s
+  #   scrape_timeout: 10s
+  #   static_configs:
+  #     - targets:
+  #       - 'validator1.example.com:9615'
+  #       - 'validator2.example.com:9615'
+  #       labels:
+  #         chain: 'polkadot'
+  #         network: 'mainnet'
+
