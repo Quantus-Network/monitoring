@@ -1,0 +1,395 @@
+apiVersion: 1
+
+groups:
+  # Node Health Monitoring
+  - orgId: 1
+    name: Node Health Alerts
+    folder: Alerts
+    interval: 1m
+    rules:
+      # Alert when node is down
+      - uid: node-down-alert
+        title: Node Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: up{job=~".*-(substrate|node)"}
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          description: 'Node {{ $labels.instance }} is down for more than 5 minutes'
+          summary: 'Node {{ $labels.instance }} is DOWN'
+        labels:
+          severity: critical
+        notification_settings:
+          receiver: Email Notifications
+      
+      # Alert when peer count is low
+      - uid: low-peer-count-alert
+        title: Low Peer Count
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: substrate_sub_libp2p_peers_count
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 3
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 10m
+        annotations:
+          description: 'Node {{ $labels.instance }} (chain: {{ $labels.chain }}) has {{ $values.B }} peers (threshold: <3) - check network connectivity'
+          summary: 'Low peer count on {{ $labels.instance }}'
+        labels:
+          severity: warning
+        notification_settings:
+          receiver: Email Notifications
+      # Alert when no new blocks for 3+ minutes
+      - uid: no-new-blocks-alert
+        title: No New Blocks
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: (time() - (qpow_metrics{data_group="last_block_time"} / 1000)) / 60
+              refId: A
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 3
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 1m
+        annotations:
+          description: 'Chain {{ $labels.chain }} (instance: {{ $labels.instance }}) - last block was {{ $values.B }} minutes ago (threshold: 3 minutes)'
+          summary: 'No new blocks on {{ $labels.chain }}'
+        labels:
+          severity: critical
+        notification_settings:
+          receiver: Email Notifications
+
+  # System Resource Monitoring
+  - orgId: 1
+    name: System Resource Alerts
+    folder: Alerts
+    interval: 1m
+    rules:
+      # Alert when CPU usage is high
+      - uid: high-cpu-alert
+        title: High CPU Usage
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 80
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 15m
+        annotations:
+          description: 'CPU usage on {{ $labels.instance }} has exceeded 80% for more than 15 minutes'
+          summary: 'High CPU usage on {{ $labels.instance }}'
+        labels:
+          severity: warning
+        notification_settings:
+          receiver: Email Notifications
+      
+      # Alert when memory usage is high
+      - uid: high-memory-alert
+        title: High Memory Usage
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 90
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 10m
+        annotations:
+          description: 'Memory usage on {{ $labels.instance }} has exceeded 90% for more than 10 minutes'
+          summary: 'High memory usage on {{ $labels.instance }}'
+        labels:
+          severity: warning
+        notification_settings:
+          receiver: Email Notifications
+      
+      # Alert when disk space is low
+      - uid: low-disk-space-alert
+        title: Low Disk Space
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 85
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        annotations:
+          description: 'Disk space on {{ $labels.instance }} has exceeded 85% usage - immediate action required'
+          summary: 'Low disk space on {{ $labels.instance }}'
+        labels:
+          severity: critical
+        notification_settings:
+          receiver: Email Notifications

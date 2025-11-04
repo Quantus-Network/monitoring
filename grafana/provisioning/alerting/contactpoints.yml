@@ -1,0 +1,14 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: Email Notifications
+    receivers:
+      - uid: email-contact-point
+        type: email
+        settings:
+          # ⬇️ CHANGE THIS: Add your email address(es) below ⬇️
+          addresses: cezary@quantus.com
+          singleEmail: false
+        disableResolveMessage: false
+
