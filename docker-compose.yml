@@ -71,9 +71,12 @@ services:
       - GF_SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS}
       - GF_SMTP_FROM_NAME=${SMTP_FROM_NAME:-Grafana Monitoring}
       - GF_SMTP_STARTTLS_POLICY=${SMTP_STARTTLS_POLICY:-MandatoryStartTLS}
+      # Alert email addresses (comma-separated)
+      - ALERT_EMAIL_ADDRESSES=${ALERT_EMAIL_ADDRESSES:-admin@example.com}
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/branding:/etc/grafana/branding:ro
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
