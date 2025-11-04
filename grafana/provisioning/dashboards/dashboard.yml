@@ -1,6 +1,15 @@
 apiVersion: 1
 
 providers:
+  - name: 'General'
+    orgId: 1
+    folder: ''
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/general
   - name: 'Schrodinger'
     orgId: 1
     folder: 'Schrodinger'
