@@ -19,17 +19,14 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials & SMTP
+# 2. (Optional) Customize credentials, SMTP & alert emails
 cp .env.example .env
-nano .env  # Set GRAFANA_ADMIN_PASSWORD, PROMETHEUS_USER/PASSWORD, and SMTP settings
+nano .env  # Set passwords, SMTP settings, and ALERT_EMAIL_ADDRESSES
 
-# 3. Configure alert emails
-nano grafana/provisioning/alerting/contactpoints.yml  # Set email addresses
-
-# 4. Start the stack
+# 3. Start the stack
 docker compose up -d
 
-# 5. Access services
+# 4. Access services
 open http://localhost:3000       # Grafana (public dashboards, login: admin / admin)
 open http://localhost:9091       # Prometheus (admin / prometheus)
 ```
@@ -114,12 +111,15 @@ SMTP_PASSWORD=your_smtp_password_here
 SMTP_FROM_ADDRESS=your-email@example.com
 SMTP_FROM_NAME=Grafana Monitoring
 SMTP_STARTTLS_POLICY=MandatoryStartTLS
+
+# Alert Email Addresses (comma-separated)
+ALERT_EMAIL_ADDRESSES=admin@example.com, alerts@example.com
 ```
 
-**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials:
+**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials and alert email addresses:
 ```bash
 cp .env.example .env
-nano .env  # Edit SMTP settings
+nano .env  # Edit SMTP settings and ALERT_EMAIL_ADDRESSES
 ```
 
 After configuring SMTP, restart Grafana:
@@ -148,19 +148,19 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 
 **Customizing Alert Email:**
 
-Edit `grafana/provisioning/alerting/contactpoints.yml` and update the `addresses` field:
+Alert email addresses are configured in your `.env` file. Edit the `ALERT_EMAIL_ADDRESSES` variable:
 
-```yaml
+```bash
 # Single email
-addresses: your-email@example.com
+ALERT_EMAIL_ADDRESSES=your-email@example.com
 
 # Multiple emails (comma-separated)
-addresses: email1@example.com, email2@example.com, team@example.com
+ALERT_EMAIL_ADDRESSES=email1@example.com, email2@example.com, team@example.com
 ```
 
-After editing, restart Grafana:
+After editing `.env`, rebuild and restart Grafana:
 ```bash
-docker compose restart grafana
+docker compose up -d --build grafana
 ```
 
 **Adding Custom Alerts:**

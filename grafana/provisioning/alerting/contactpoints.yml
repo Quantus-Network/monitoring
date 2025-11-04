@@ -7,8 +7,8 @@ contactPoints:
       - uid: email-contact-point
         type: email
         settings:
-          # ⬇️ CHANGE THIS: Add your email address(es) below ⬇️
-          addresses: cezary@quantus.com
+          # Email addresses from environment variable ALERT_EMAIL_ADDRESSES
+          addresses: ${ALERT_EMAIL_ADDRESSES}
           singleEmail: false
         disableResolveMessage: false
 
