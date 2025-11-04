@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🚀 Quantus Network Status\n\nReal-time monitoring of all blockchain networks"
+        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Schrodinger, Resonance, and Heisenberg networks"
       }
     },
     {
@@ -198,15 +198,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "green"
+                "color": "#1f1fa3"
               },
               {
                 "value": 180,
-                "color": "orange"
+                "color": "#ed4cce"
               },
               {
                 "value": 600,
-                "color": "red"
+                "color": "#ffe91f"
               }
             ]
           }
@@ -258,15 +258,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "green"
+                "color": "#1f1fa3"
               },
               {
                 "value": 180,
-                "color": "orange"
+                "color": "#ed4cce"
               },
               {
                 "value": 600,
-                "color": "red"
+                "color": "#ffe91f"
               }
             ]
           }
@@ -318,15 +318,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "green"
+                "color": "#1f1fa3"
               },
               {
                 "value": 180,
-                "color": "orange"
+                "color": "#ed4cce"
               },
               {
                 "value": 600,
-                "color": "red"
+                "color": "#ffe91f"
               }
             ]
           }
@@ -378,15 +378,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "red"
+                "color": "#ffe91f"
               },
               {
                 "value": 50,
-                "color": "orange"
+                "color": "#ed4cce"
               },
               {
                 "value": 90,
-                "color": "green"
+                "color": "#0000ff"
               }
             ]
           }
@@ -438,15 +438,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "red"
+                "color": "#ffe91f"
               },
               {
                 "value": 50,
-                "color": "orange"
+                "color": "#ed4cce"
               },
               {
                 "value": 90,
-                "color": "green"
+                "color": "#0000ff"
               }
             ]
           }
@@ -498,15 +498,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "red"
+                "color": "#ffe91f"
               },
               {
                 "value": 50,
-                "color": "orange"
+                "color": "#ed4cce"
               },
               {
                 "value": 90,
-                "color": "green"
+                "color": "#0000ff"
               }
             ]
           }

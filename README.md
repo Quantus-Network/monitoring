@@ -9,6 +9,7 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 - 🖥️ **Node Exporter** - System metrics (CPU, RAM, Disk, Network)
 - 🔒 **Nginx Reverse Proxy** - Prometheus protected with Basic Auth + Rate Limiting
 - 🎯 **Network Dashboards** - Pre-configured dashboards for multiple blockchain networks
+- 🎨 **Quantus Branding** - Custom logo, colors, and styling matching Quantus design
 - ⚡ **Single Setup** - One configuration, works everywhere
 
 ## Quick Start
@@ -320,6 +321,56 @@ docker run --rm -v monitoring_prometheus-data:/data -v $(pwd):/backup alpine tar
 docker run --rm -v monitoring_grafana-data:/data -v $(pwd):/backup alpine tar czf /backup/grafana-backup.tar.gz /data
 ```
 
+## Quantus Branding & Customization
+
+The monitoring stack is fully customized with Quantus branding:
+
+### 🎨 Visual Branding
+
+- **Custom Logo**: Quantus logo replaces default Grafana branding
+- **Custom Favicon**: Quantus icon appears in browser tabs
+- **App Title**: "Quantus Monitoring" instead of "Grafana"
+- **Login Subtitle**: "Blockchain Network Monitoring"
+
+### 🌈 Color Palette
+
+The dashboards use Quantus color scheme:
+
+- **Blue** (`#0000ff`, `#1f1fa3`) - Healthy/OK state
+- **Pink** (`#ed4cce`) - Warning state
+- **Yellow** (`#ffe91f`) - Critical state
+- **Dark Background** (`#0c1014`) - Main background
+
+### 📊 Dashboard Thresholds
+
+**Last Block Time** (seconds):
+- 🔵 Blue (< 3 min) - Normal block production
+- 🩷 Pink (3-10 min) - Slow block production
+- 💛 Yellow (> 10 min) - Critical delay
+
+**Uptime** (percentage over 30 days):
+- 🔵 Blue (> 90%) - Excellent availability
+- 🩷 Pink (50-90%) - Degraded service
+- 💛 Yellow (< 50%) - Critical downtime
+
+### 🛠️ Customizing Branding
+
+All branding assets are located in `grafana/branding/`:
+
+```bash
+grafana/branding/
+├── logo.svg        # Quantus logo (SVG)
+├── logo.png        # Quantus logo (PNG)
+└── favicon.ico     # Browser favicon
+```
+
+To customize:
+1. Replace files in `grafana/branding/` with your own
+2. Restart Grafana: `docker compose restart grafana`
+3. Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+
+Branding configuration is in `docker-compose.yml` under Grafana environment variables (`GF_BRANDING_*`).
+
 ## Project Structure
 
 ```
@@ -333,9 +384,14 @@ monitoring/
 │   └── docker-entrypoint.sh        # Auth generation script
 ├── grafana/
 │   ├── dashboards/                 # Pre-loaded dashboards (by network)
+│   │   ├── general/                # Welcome/overview dashboard
 │   │   ├── schrodinger/
 │   │   ├── resonance/
 │   │   └── heisenberg/
+│   ├── branding/                   # Quantus branding assets
+│   │   ├── logo.svg                # Quantus logo (SVG)
+│   │   ├── logo.png                # Quantus logo (PNG)
+│   │   └── favicon.ico             # Browser favicon
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
@@ -351,6 +407,20 @@ monitoring/
 ## Included Dashboards
 
 The stack comes with pre-configured dashboards organized by network:
+
+### Network Overview (Home Dashboard)
+
+**Welcome Dashboard** - First page you see when opening Grafana:
+- Chain Height for all 3 networks
+- Last Block Time (in seconds, color-coded)
+- 30-day Uptime percentage (color-coded)
+- Visible without login
+- Auto-refreshes every 10 seconds
+
+Color indicators:
+- 🔵 Blue = Healthy
+- 🩷 Pink = Warning
+- 💛 Yellow = Critical
 
 ### Per Network (Schrodinger, Resonance, Heisenberg):
 - **Node Metrics** - System resources, peers, network I/O
