@@ -170,3 +170,33 @@ scrape_configs:
     - a1.i.res.fm
     - a2.i.res.fm
     - a3.i.res.fm
+- job_name: 'node-exporter'
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  follow_redirects: true
+  enable_http2: true
+  static_configs:
+  - targets:
+    - node-exporter:9100
+    labels:
+      instance: 'monitoring-host'
+      environment: 'monitoring'
+- job_name: 'prometheus'
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  follow_redirects: true
+  enable_http2: true
+  static_configs:
+  - targets:
+    - localhost:9090
+    labels:
+      instance: 'prometheus'
+      environment: 'monitoring'

@@ -47,11 +47,17 @@ That's it! 🎉
 
 The stack monitors:
 
-- **Prometheus** - Self-monitoring
-- **Node Exporter** - Host system metrics (CPU, RAM, Disk, Network)
-- **Local Substrate Node** (optional) - `host.docker.internal:9615`
-  - Monitors your local Substrate/Polkadot node if running
-  - Will show as "down" if not running - this is OK!
+- **Prometheus** - Self-monitoring (metrics collection system)
+- **Node Exporter** - Docker host system metrics
+  - CPU usage and load averages
+  - Memory usage and availability
+  - Disk usage and I/O
+  - Network traffic (receive/transmit)
+  - System uptime
+- **Remote Blockchain Nodes** - Schrodinger, Resonance, Heisenberg networks
+  - Node metrics (system resources, peers, network I/O)
+  - Substrate metrics (block production, finalization)
+  - Mining metrics (hashrate, difficulty)
 
 ## Adding Your Nodes
 
@@ -408,7 +414,7 @@ monitoring/
 
 The stack comes with pre-configured dashboards organized by network:
 
-### Network Overview (Home Dashboard)
+### Quantus Network Overview (Home Dashboard)
 
 **Welcome Dashboard** - First page you see when opening Grafana:
 - Chain Height for all 3 networks
@@ -421,6 +427,19 @@ Color indicators:
 - 🔵 Blue = Healthy
 - 🩷 Pink = Warning
 - 💛 Yellow = Critical
+
+### Localhost Monitoring
+
+**Localhost Monitoring Dashboard** - Docker host system metrics:
+- CPU Usage (current & over time)
+- Memory Usage (current & over time)
+- Disk Usage
+- System Load (1m, 5m, 15m averages)
+- Network I/O (receive/transmit)
+- Disk I/O (read/write)
+- System Uptime
+
+Uses Quantus color scheme with dynamic thresholds. Perfect for monitoring the health of the host running the monitoring stack.
 
 ### Per Network (Schrodinger, Resonance, Heisenberg):
 - **Node Metrics** - System resources, peers, network I/O
