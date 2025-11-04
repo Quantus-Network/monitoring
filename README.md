@@ -18,14 +18,17 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials
+# 2. (Optional) Customize credentials & SMTP
 cp .env.example .env
-nano .env  # Set GRAFANA_ADMIN_PASSWORD and PROMETHEUS_USER/PASSWORD
+nano .env  # Set GRAFANA_ADMIN_PASSWORD, PROMETHEUS_USER/PASSWORD, and SMTP settings
 
-# 3. Start the stack
+# 3. Configure alert emails
+nano grafana/provisioning/alerting/contactpoints.yml  # Set email addresses
+
+# 4. Start the stack
 docker compose up -d
 
-# 4. Access services
+# 5. Access services
 open http://localhost:3000       # Grafana (public dashboards, login: admin / admin)
 open http://localhost:9091       # Prometheus (admin / prometheus)
 ```
@@ -96,6 +99,168 @@ PROMETHEUS_PASSWORD=prometheus
 PROMETHEUS_USER=monitoring_$(openssl rand -hex 8)
 PROMETHEUS_PASSWORD=$(openssl rand -base64 32)
 ```
+
+### Email Notifications (SMTP)
+
+To enable email notifications in Grafana, configure SMTP settings in your `.env` file:
+
+```bash
+# SMTP Configuration for Grafana Email Notifications
+SMTP_ENABLED=true
+SMTP_HOST=smtp.example.com:587
+SMTP_USER=your-email@example.com
+SMTP_PASSWORD=your_smtp_password_here
+SMTP_FROM_ADDRESS=your-email@example.com
+SMTP_FROM_NAME=Grafana Monitoring
+SMTP_STARTTLS_POLICY=MandatoryStartTLS
+```
+
+**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials:
+```bash
+cp .env.example .env
+nano .env  # Edit SMTP settings
+```
+
+After configuring SMTP, restart Grafana:
+```bash
+docker compose restart grafana
+```
+
+To test email notifications:
+1. Go to Grafana → Alerting → Contact points
+2. Click "New contact point"
+3. Select "Email" as the type
+4. Enter test email address
+5. Click "Test" to send a test email
+
+### Alert Configuration (Provisioning)
+
+Alerts are configured via provisioning files in `grafana/provisioning/alerting/`:
+
+**Pre-configured Alerts:**
+- 🔴 **Node Down** - Triggers when a node is unreachable for 5+ minutes
+- 🔴 **No New Blocks** - Triggers when no new blocks produced for 3+ minutes
+- 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
+- 🟡 **Low Peer Count** - Triggers when peer count drops below 3
+- 🟡 **High CPU Usage** - Triggers when CPU usage exceeds 80% for 15+ minutes
+- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90%
+
+**Customizing Alert Email:**
+
+Edit `grafana/provisioning/alerting/contactpoints.yml` and update the `addresses` field:
+
+```yaml
+# Single email
+addresses: your-email@example.com
+
+# Multiple emails (comma-separated)
+addresses: email1@example.com, email2@example.com, team@example.com
+```
+
+After editing, restart Grafana:
+```bash
+docker compose restart grafana
+```
+
+**Adding Custom Alerts:**
+
+Edit `grafana/provisioning/alerting/rules.yml`. Use the `reduce` + `threshold` pattern:
+
+```yaml
+- uid: custom-alert
+  title: My Custom Alert
+  condition: C  # Final threshold step
+  data:
+    # Step A: Prometheus query
+    - refId: A
+      datasourceUid: prometheus
+      model:
+        datasource:
+          type: prometheus
+          uid: prometheus
+        expr: your_prometheus_query_here
+        refId: A
+        instant: false
+        range: true
+    
+    # Step B: Reduce to single value
+    - refId: B
+      datasourceUid: __expr__
+      model:
+        datasource:
+          type: __expr__
+          uid: __expr__
+        expression: A
+        reducer: last  # or min, max, mean
+        refId: B
+        type: reduce
+    
+    # Step C: Threshold comparison
+    - refId: C
+      datasourceUid: __expr__
+      model:
+        datasource:
+          type: __expr__
+          uid: __expr__
+        conditions:
+          - evaluator:
+              params: [threshold_value]
+              type: gt  # gt (>), lt (<), eq (=)
+            operator:
+              type: and
+            query:
+              params: [C]
+            reducer:
+              params: []
+              type: last
+            type: query
+        expression: B
+        refId: C
+        type: threshold
+  for: 5m
+  annotations:
+    description: 'Alert description with {{ $value }}'
+    summary: 'Alert summary'
+  labels:
+    severity: warning  # or critical
+  notification_settings:
+    receiver: Email Notifications
+```
+
+**Alert Notification Policies:**
+
+Policies are configured in `grafana/provisioning/alerting/policies.yml` with different priorities for each network:
+
+| Network | Priority | First Notification | Repeat Interval |
+|---------|----------|-------------------|-----------------|
+| **Schrodinger** 🔴 | Highest | 2 minutes | every 30 min |
+| **Heisenberg** 🟡 | Medium | 10 minutes | every 2h |
+| **Resonance** 🟢 | Low | 1 hour | every 8h |
+
+Fallback by severity (if no chain label):
+- **Critical alerts** (severity=critical): 10s wait, repeat every 1h
+- **Warning alerts** (severity=warning): 30s wait, repeat every 4h
+
+After changing alert configuration, restart Grafana:
+```bash
+docker compose restart grafana
+```
+
+**Troubleshooting Alert Provisioning:**
+
+If you see errors like `UNIQUE constraint failed: alert_rule.guid`, it means alerts were already created in Grafana UI and conflict with provisioned alerts. To fix:
+
+```bash
+# Option 1: Reset Grafana data (loses all UI changes)
+docker compose down
+docker volume rm monitoring_grafana-data
+docker compose up -d
+
+# Option 2: Change UIDs in rules.yml if you want to keep existing alerts
+# Edit each alert's 'uid' field to a unique value
+```
+
+**Note**: With provisioning, manage alerts through YAML files instead of the UI. UI changes may conflict with provisioned configuration.
 
 ### Adding Dashboards
 
@@ -173,7 +338,11 @@ monitoring/
 │   │   └── heisenberg/
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
-│       └── dashboards/             # Dashboard providers
+│       ├── dashboards/             # Dashboard providers
+│       └── alerting/               # Alert configuration (provisioning)
+│           ├── rules.yml           # Alert rules
+│           ├── contactpoints.yml   # Contact points (email, etc.)
+│           └── policies.yml        # Notification policies
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
