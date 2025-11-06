@@ -58,6 +58,12 @@ The stack monitors:
   - Node metrics (system resources, peers, network I/O)
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
+- **Support Services** - Telemetry and monitoring infrastructure
+  - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
+  - Telemetry Backend (feed-telemetry.quantus.cat) - Application metrics
+    - Connected nodes/feeds/shards
+    - Message rates and dropped messages
+    - Service availability
 
 ## Adding Your Nodes
 
@@ -145,12 +151,19 @@ To test email notifications:
 Alerts are configured via provisioning files in `grafana/provisioning/alerting/`:
 
 **Pre-configured Alerts:**
+
+**Node Health:**
 - 🔴 **Node Down** - Triggers when a node is unreachable for 5+ minutes
 - 🔴 **No New Blocks** - Triggers when no new blocks produced for 3+ minutes
-- 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
 - 🟡 **Low Peer Count** - Triggers when peer count drops below 3
+
+**System Resources:**
+- 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
 - 🟡 **High CPU Usage** - Triggers when CPU usage exceeds 80% for 15+ minutes
 - 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90%
+
+**Support Services:**
+- 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
 
 **Customizing Alert Email:**
 
@@ -391,6 +404,7 @@ monitoring/
 ├── grafana/
 │   ├── dashboards/                 # Pre-loaded dashboards (by network)
 │   │   ├── general/                # Welcome/overview dashboard
+│   │   ├── system/                 # System monitoring dashboards
 │   │   ├── schrodinger/
 │   │   ├── resonance/
 │   │   └── heisenberg/
@@ -420,6 +434,9 @@ The stack comes with pre-configured dashboards organized by network:
 - Chain Height for all 3 networks
 - Last Block Time (in seconds, color-coded)
 - 30-day Uptime percentage (color-coded)
+- **Support Services Status** - Quick status of telemetry infrastructure
+  - Telemetry Host availability
+  - Connected nodes count
 - Visible without login
 - Auto-refreshes every 10 seconds
 
@@ -428,9 +445,11 @@ Color indicators:
 - 🩷 Pink = Warning
 - 💛 Yellow = Critical
 
-### Localhost Monitoring
+### System Monitoring Dashboards
 
-**Localhost Monitoring Dashboard** - Docker host system metrics:
+Located in the **System** folder:
+
+**Localhost Monitoring** - Docker host system metrics:
 - CPU Usage (current & over time)
 - Memory Usage (current & over time)
 - Disk Usage
@@ -439,7 +458,12 @@ Color indicators:
 - Disk I/O (read/write)
 - System Uptime
 
-Uses Quantus color scheme with dynamic thresholds. Perfect for monitoring the health of the host running the monitoring stack.
+**Telemetry Monitoring** - Telemetry infrastructure monitoring:
+- **Host Metrics (VPS)**: CPU, memory, disk usage, network I/O, system load
+- **Backend Metrics**: Connected feeds/nodes/shards, message rates, dropped messages
+- Real-time status of telemetry collection infrastructure
+
+Both use Quantus color scheme with dynamic thresholds.
 
 ### Per Network (Schrodinger, Resonance, Heisenberg):
 - **Node Metrics** - System resources, peers, network I/O

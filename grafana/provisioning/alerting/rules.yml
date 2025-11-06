@@ -393,3 +393,73 @@ groups:
           severity: critical
         notification_settings:
           receiver: Email Notifications
+
+  # Support Services Monitoring
+  - orgId: 1
+    name: Support Services Alerts
+    folder: Alerts
+    interval: 1m
+    rules:
+      # Alert when telemetry host is down
+      - uid: telemetry-host-down-alert
+        title: Telemetry Host Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: up{job="telemetry-host"}
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          description: 'Telemetry Host ({{ $labels.instance }}) is down for more than 5 minutes - telemetry monitoring unavailable'
+          summary: 'Telemetry Host is DOWN'
+        labels:
+          severity: critical
+        notification_settings:
+          receiver: Email Notifications
