@@ -512,6 +512,145 @@
           }
         }
       }
+    },
+    {
+      "type": "text",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 11,
+      "options": {
+        "mode": "markdown",
+        "content": "## 🔧 Support Services Status"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Telemetry Host",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "id": 12,
+      "targets": [
+        {
+          "expr": "up{job=\"telemetry-host\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 40
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Connected Nodes",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "id": 13,
+      "targets": [
+        {
+          "expr": "telemetry_core_connected_nodes{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 40
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "time": {

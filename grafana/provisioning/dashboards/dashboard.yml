@@ -10,6 +10,15 @@ providers:
     allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards/general
+  - name: 'System'
+    orgId: 1
+    folder: 'System'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/system
   - name: 'Schrodinger'
     orgId: 1
     folder: 'Schrodinger'
