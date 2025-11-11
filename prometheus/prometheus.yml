@@ -10,7 +10,7 @@ global:
 runtime:
   gogc: 75
 scrape_configs:
-- job_name: schrodinger-node
+- job_name: schrodinger-substrate-node
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -30,7 +30,7 @@ scrape_configs:
     - a1.quantu.se
     - a2.quantu.se
     - a3.quantu.se
-- job_name: heisenberg-node
+- job_name: heisenberg-substrate-node
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -182,7 +182,7 @@ scrape_configs:
     labels:
       instance: 'telemetry-backend'
       environment: 'production'
-- job_name: heisenberg-qm
+- job_name: heisenberg-chain
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -201,7 +201,26 @@ scrape_configs:
   - targets:
     - a1-qm-heisenberg.quantus.cat
     - a2-qm-heisenberg.quantus.cat
-- job_name: dirac-qm
+- job_name: heisenberg-node
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  - PrometheusText0.0.4
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  static_configs:
+  - targets:
+    - a1-hm-heisenberg.quantus.cat
+    - a2-hm-heisenberg.quantus.cat
+- job_name: dirac-chain
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -220,3 +239,22 @@ scrape_configs:
   - targets:
     - a1-qm-dirac.quantus.cat
     - a2-qm-dirac.quantus.cat
+- job_name: dirac-node
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  - PrometheusText0.0.4
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  static_configs:
+  - targets:
+    - a1-hm-dirac.quantus.cat
+    - a2-hm-dirac.quantus.cat

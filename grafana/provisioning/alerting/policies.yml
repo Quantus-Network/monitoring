@@ -8,10 +8,10 @@ policies:
     group_interval: 5m
     repeat_interval: 4h
     routes:
-      # 🔴 SCHRODINGER - HIGHEST PRIORITY
+      # 🔴 DIRAC - HIGHEST PRIORITY
       - receiver: Email Notifications
         matchers:
-          - chain = schrodinger
+          - chain = dirac
         group_wait: 2m         # First notification after 2 minutes
         repeat_interval: 30m   # Repeat every 30 minutes
         continue: false
@@ -24,10 +24,10 @@ policies:
         repeat_interval: 2h    # Repeat every 2 hours
         continue: false
       
-      # 🟢 RESONANCE - LOW PRIORITY
+      # 🟢 SCHRODINGER - LOW PRIORITY
       - receiver: Email Notifications
         matchers:
-          - chain = resonance
+          - chain = schrodinger
         group_wait: 1h         # First notification after 1 hour
         repeat_interval: 8h    # Repeat every 8 hours
         continue: false

@@ -7,7 +7,7 @@ providers:
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
-    allowUiUpdates: true
+    allowUiUpdates: false
     options:
       path: /var/lib/grafana/dashboards/general
   - name: 'System'
@@ -28,15 +28,6 @@ providers:
     allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards/schrodinger
-  - name: 'Resonance'
-    orgId: 1
-    folder: 'Resonance'
-    type: file
-    disableDeletion: false
-    updateIntervalSeconds: 10
-    allowUiUpdates: true
-    options:
-      path: /var/lib/grafana/dashboards/resonance
   - name: 'Heisenberg'
     orgId: 1
     folder: 'Heisenberg'
@@ -46,4 +37,13 @@ providers:
     allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards/heisenberg
+  - name: 'Dirac'
+    orgId: 1
+    folder: 'Dirac'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/dirac
 

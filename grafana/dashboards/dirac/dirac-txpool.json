@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 15,
   "links": [],
   "panels": [
     {
@@ -39,98 +40,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 3,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "always",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "ms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "interval": "1s",
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull",
-            "firstNotNull",
-            "min",
-            "max",
-            "mean"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "expr": "qpow_metrics{data_group=\"last_block_duration\", chain=\"resonance\"}",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Last Block Mining Time",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -160,6 +70,10 @@
             "steps": [
               {
                 "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -170,29 +84,37 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 0
       },
       "id": 2,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "multi",
+          "hideZeros": false,
+          "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"resonance\"}",
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "substrate_sub_txpool_finalized_txs_total{chain=\"dirac\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Chain Height",
+      "title": "TXPool - Finalized",
       "type": "timeseries"
     },
     {
@@ -212,8 +134,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -243,10 +166,13 @@
             "steps": [
               {
                 "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
-          },
-          "unit": "ms"
+          }
         },
         "overrides": []
       },
@@ -254,29 +180,41 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 0
       },
-      "id": 3,
+      "id": 1,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "multi",
+          "hideZeros": false,
+          "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"block_time_ema\", chain=\"resonance\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "substrate_sub_txpool_submitted_from_mempool_txs_total{chain=\"dirac\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Block Time EMA",
+      "title": "TXPool - submitted from mempool",
       "type": "timeseries"
     },
     {
@@ -296,8 +234,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -327,6 +266,10 @@
             "steps": [
               {
                 "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
@@ -337,29 +280,37 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 8
       },
       "id": 4,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "multi",
+          "hideZeros": false,
+          "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"resonance\"}",
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "substrate_sub_txpool_watched_txs{chain=\"dirac\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Difficulty",
+      "title": "TXPool - Watched",
       "type": "timeseries"
     },
     {
@@ -379,8 +330,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -410,10 +362,13 @@
             "steps": [
               {
                 "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
-          },
-          "unit": "short"
+          }
         },
         "overrides": []
       },
@@ -421,51 +376,56 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 8
       },
-      "id": 5,
+      "id": 3,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "multi",
+          "hideZeros": false,
+          "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"distance_threshold\", chain=\"resonance\"}",
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "substrate_sub_txpool_active_views{chain=\"dirac\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
-          "refId": "A"
+          "range": true,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Distance Threshold",
+      "title": "TXPool - Active views",
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 38,
-  "style": "dark",
+  "preload": false,
+  "schemaVersion": 41,
   "tags": [
-    "resonance",
-    "business-metrics"
+    "dirac",
+    "txpool"
   ],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Resonance - Business Metrics",
-  "uid": "resonance-business-metrics",
-  "version": 1,
-  "weekStart": ""
+  "title": "Dirac - TXPool",
+  "uid": "dirac-txpool",
+  "version": 6
 }
-
