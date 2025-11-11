@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Schrodinger, Resonance, and Heisenberg networks"
+        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Schrodinger, Heisenberg and Dirac networks"
       }
     },
     {
@@ -67,17 +67,17 @@
     },
     {
       "type": "stat",
-      "title": "Resonance - Chain Height",
+      "title": "Heisenberg - Chain Height",
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 8,
         "y": 3
       },
-      "id": 3,
+      "id": 4,
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"resonance\", instance=~\"a1.*\"}",
+          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\", instance=~\"a1.*\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -111,17 +111,17 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg - Chain Height",
+      "title": "Dirac - Chain Height",
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 16,
         "y": 3
       },
-      "id": 4,
+      "id": 11,
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\", instance=~\"a1.*\"}",
+          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"dirac\", instance=~\"a.*\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -215,17 +215,17 @@
     },
     {
       "type": "stat",
-      "title": "Resonance - Last Block",
+      "title": "Heisenberg - Last Block",
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 8,
         "y": 9
       },
-      "id": 6,
+      "id": 7,
       "targets": [
         {
-          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"resonance\", instance=~\"a1.*\"} / 1000)",
+          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"heisenberg\", instance=~\"a1.*\"} / 1000)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -275,17 +275,17 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg - Last Block",
+      "title": "Dirac - Last Block",
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 16,
         "y": 9
       },
-      "id": 7,
+      "id": 12,
       "targets": [
         {
-          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"heisenberg\", instance=~\"a1.*\"} / 1000)",
+          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"dirac\", instance=~\"a.*\"} / 1000)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -395,17 +395,17 @@
     },
     {
       "type": "stat",
-      "title": "Resonance - Uptime",
+      "title": "Heisenberg - Uptime",
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 8,
         "y": 15
       },
-      "id": 9,
+      "id": 10,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"resonance-substrate\", instance=~\"a1.*\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"heisenberg-substrate\", instance=~\"a1.*\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -455,22 +455,25 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg - Uptime",
+      "title": "Dirac - Uptime",
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 16,
         "y": 15
       },
-      "id": 10,
+      "id": 13,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"heisenberg-substrate\", instance=~\"a1.*\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"dirac-chain\", instance=~\"a1.*\"}[30d]) * 100",
           "refId": "A",
+          "legendFormat": "Uptime",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": false,
+          "range": true
         }
       ],
       "options": {

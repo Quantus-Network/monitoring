@@ -83,12 +83,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_block_height{status=\"best\",chain=\"resonance\"}",
+          "expr": "substrate_block_height{status=\"best\",chain=\"dirac\"}",
           "legendFormat": "Best Block - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "substrate_block_height{status=\"finalized\",chain=\"resonance\"}",
+          "expr": "substrate_block_height{status=\"finalized\",chain=\"dirac\"}",
           "legendFormat": "Finalized Block - {{instance}}",
           "refId": "B"
         }
@@ -142,7 +142,7 @@
       "pluginVersion": "10.0.0",
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"resonance\"}",
+          "expr": "substrate_sub_libp2p_peers_count{chain=\"dirac\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -225,8 +225,8 @@
       },
       "targets": [
         {
-          "expr": "process_resident_memory_bytes{job=\"resonance-node\"}",
-          "legendFormat": "Memory Usage - {{instance}}",
+          "expr": "(node_memory_MemTotal_bytes{job=\"dirac-node\"} - node_memory_MemAvailable_bytes{job=\"dirac-node\"})",
+          "legendFormat": "Memory Used - {{instance}}",
           "refId": "A"
         }
       ],
@@ -308,7 +308,7 @@
       },
       "targets": [
         {
-          "expr": "rate(process_cpu_seconds_total{job=\"resonance-node\"}[1m]) * 100",
+          "expr": "avg(rate(node_cpu_seconds_total{job=\"dirac-node\",mode!=\"idle\"}[5m])) by (instance) * 100",
           "legendFormat": "CPU Usage - {{instance}}",
           "refId": "A"
         }
@@ -391,12 +391,12 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",chain=\"resonance\"}[1m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",chain=\"dirac\"}[1m])",
           "legendFormat": "Network IN - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",chain=\"resonance\"}[1m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",chain=\"dirac\"}[1m])",
           "legendFormat": "Network OUT - {{instance}}",
           "refId": "B"
         }
@@ -479,7 +479,7 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_tasks_polling_duration_sum{chain=\"resonance\"}[1m]) / rate(substrate_tasks_polling_duration_count{chain=\"resonance\"}[1m])",
+          "expr": "rate(substrate_tasks_polling_duration_sum{chain=\"dirac\"}[1m]) / rate(substrate_tasks_polling_duration_count{chain=\"dirac\"}[1m])",
           "legendFormat": "{{instance}} - {{task_name}}",
           "refId": "A"
         }
@@ -563,12 +563,12 @@
       },
       "targets": [
         {
-          "expr": "sum(rate(node_network_transmit_bytes_total{job=\"resonance-node\"}[1m])) / 1024 / 1024",
+          "expr": "sum(rate(node_network_transmit_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
           "legendFormat": "Outbound",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(node_network_receive_bytes_total{job=\"resonance-node\"}[1m])) / 1024 / 1024",
+          "expr": "sum(rate(node_network_receive_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
           "legendFormat": "Inbound",
           "refId": "B"
         }
@@ -652,12 +652,12 @@
       },
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{job=\"resonance-node\"}[1m])) / 1024 / 1024",
+          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
           "legendFormat": "{{instance}} - TX",
           "refId": "A"
         },
         {
-          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{job=\"resonance-node\"}[1m])) / 1024 / 1024",
+          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
           "legendFormat": "{{instance}} - RX",
           "refId": "B"
         }
@@ -670,7 +670,7 @@
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
-    "resonance",
+    "dirac",
     "node-metrics"
   ],
   "templating": {
@@ -682,8 +682,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Resonance - Node Metrics",
-  "uid": "resonance-node-metrics",
+  "title": "Dirac - Node Metrics",
+  "uid": "dirac-node-metrics",
   "version": 1,
   "weekStart": ""
 }
