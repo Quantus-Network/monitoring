@@ -8,8 +8,8 @@ if [ -n "$ALERT_EMAIL_ADDRESSES" ]; then
     # Create temp file with substituted values
     envsubst < /etc/grafana/provisioning/alerting/contactpoints.yml > /tmp/contactpoints.yml
     
-    # Move it back
-    mv /tmp/contactpoints.yml /etc/grafana/provisioning/alerting/contactpoints.yml
+    # Copy it back (use cat to avoid permission issues with bind mounts)
+    cat /tmp/contactpoints.yml > /etc/grafana/provisioning/alerting/contactpoints.yml
     
     echo "Alert email addresses configured: $ALERT_EMAIL_ADDRESSES"
 else
