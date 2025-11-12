@@ -5,11 +5,9 @@ set -e
 if [ -n "$ALERT_EMAIL_ADDRESSES" ]; then
     echo "Setting up alert email addresses from environment..."
     
-    # Create temp file with substituted values
+    # Files are in the image (not bind mounted), so we can modify them directly
     envsubst < /etc/grafana/provisioning/alerting/contactpoints.yml > /tmp/contactpoints.yml
-    
-    # Copy it back (use cat to avoid permission issues with bind mounts)
-    cat /tmp/contactpoints.yml > /etc/grafana/provisioning/alerting/contactpoints.yml
+    mv /tmp/contactpoints.yml /etc/grafana/provisioning/alerting/contactpoints.yml
     
     echo "Alert email addresses configured: $ALERT_EMAIL_ADDRESSES"
 else
