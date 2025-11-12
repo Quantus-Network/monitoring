@@ -83,12 +83,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_block_height{status=\"best\",chain=\"heisenberg\"}",
+          "expr": "substrate_block_height{status=\"best\",job=\"heisenberg-chain\"}",
           "legendFormat": "Best Block - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "substrate_block_height{status=\"finalized\",chain=\"heisenberg\"}",
+          "expr": "substrate_block_height{status=\"finalized\",job=\"heisenberg-chain\"}",
           "legendFormat": "Finalized Block - {{instance}}",
           "refId": "B"
         }
@@ -142,7 +142,7 @@
       "pluginVersion": "10.0.0",
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"heisenberg\"}",
+          "expr": "substrate_sub_libp2p_peers_count{job=\"heisenberg-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -225,8 +225,8 @@
       },
       "targets": [
         {
-          "expr": "process_resident_memory_bytes{job=\"heisenberg-node\"}",
-          "legendFormat": "Memory Usage - {{instance}}",
+          "expr": "(node_memory_MemTotal_bytes{job=\"heisenberg-node\"} - node_memory_MemAvailable_bytes{job=\"heisenberg-node\"})",
+          "legendFormat": "Memory Used - {{instance}}",
           "refId": "A"
         }
       ],
@@ -308,7 +308,7 @@
       },
       "targets": [
         {
-          "expr": "rate(process_cpu_seconds_total{job=\"heisenberg-node\"}[1m]) * 100",
+          "expr": "avg(rate(node_cpu_seconds_total{job=\"heisenberg-node\",mode!=\"idle\"}[5m])) by (instance) * 100",
           "legendFormat": "CPU Usage - {{instance}}",
           "refId": "A"
         }
@@ -391,12 +391,12 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",chain=\"heisenberg\"}[1m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",job=\"heisenberg-chain\"}[1m])",
           "legendFormat": "Network IN - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",chain=\"heisenberg\"}[1m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",job=\"heisenberg-chain\"}[1m])",
           "legendFormat": "Network OUT - {{instance}}",
           "refId": "B"
         }
@@ -479,7 +479,7 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_tasks_polling_duration_sum{chain=\"heisenberg\"}[1m]) / rate(substrate_tasks_polling_duration_count{chain=\"heisenberg\"}[1m])",
+          "expr": "rate(substrate_tasks_polling_duration_sum{job=\"heisenberg-chain\"}[1m]) / rate(substrate_tasks_polling_duration_count{job=\"heisenberg-chain\"}[1m])",
           "legendFormat": "{{instance}} - {{task_name}}",
           "refId": "A"
         }

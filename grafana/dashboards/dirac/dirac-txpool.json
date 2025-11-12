@@ -105,7 +105,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_finalized_txs_total{chain=\"dirac\"}",
+          "expr": "substrate_sub_txpool_finalized_txs_total{job=\"dirac-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -205,7 +205,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_submitted_from_mempool_txs_total{chain=\"dirac\"}",
+          "expr": "substrate_sub_txpool_submitted_from_mempool_txs_total{job=\"dirac-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -301,7 +301,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_watched_txs{chain=\"dirac\"}",
+          "expr": "substrate_sub_txpool_watched_txs{job=\"dirac-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -397,7 +397,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_active_views{chain=\"dirac\"}",
+          "expr": "substrate_sub_txpool_active_views{job=\"dirac-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
