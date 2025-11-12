@@ -258,7 +258,7 @@ scrape_configs:
   - targets:
     - a1-hm-dirac.quantus.cat
     - a2-hm-dirac.quantus.cat
-- job_name: schrodinger-subsquid
+- job_name: dirac-subsquid
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
