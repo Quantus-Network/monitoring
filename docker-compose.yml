@@ -77,7 +77,6 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
-      - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/branding:/etc/grafana/branding:ro
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
