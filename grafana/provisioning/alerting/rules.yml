@@ -110,7 +110,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 3
+                      - 2
                     type: lt
                   operator:
                     type: and
@@ -128,7 +128,7 @@ groups:
         execErrState: Error
         for: 10m
         annotations:
-          description: 'Node {{ $labels.instance }} (chain: {{ $labels.chain }}) has {{ $values.B }} peers (threshold: <3) - check network connectivity'
+          description: 'Node {{ $labels.instance }} (chain: {{ $labels.chain }}) has {{ $values.B }} peers (threshold: <2) - check network connectivity'
           summary: 'Low peer count on {{ $labels.instance }}'
         labels:
           severity: warning

@@ -77,7 +77,7 @@
       "id": 4,
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\", instance=~\"a1.*\"}",
+          "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\"})",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -121,7 +121,7 @@
       "id": 11,
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"dirac\", instance=~\"a.*\"}",
+          "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"dirac\"})",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -225,7 +225,7 @@
       "id": 7,
       "targets": [
         {
-          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"heisenberg\", instance=~\"a1.*\"} / 1000)",
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", chain=\"heisenberg\"}) / 1000)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -285,7 +285,7 @@
       "id": 12,
       "targets": [
         {
-          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"dirac\", instance=~\"a.*\"} / 1000)",
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", chain=\"dirac\"}) / 1000)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -405,7 +405,7 @@
       "id": 10,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"heisenberg-substrate\", instance=~\"a1.*\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"heisenberg-chain\", instance=~\"a1.*\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -657,7 +657,7 @@
     }
   ],
   "time": {
-    "from": "now-30d",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
