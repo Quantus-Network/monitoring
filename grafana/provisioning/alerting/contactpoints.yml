@@ -8,7 +8,7 @@ contactPoints:
         type: email
         settings:
           # Email addresses from environment variable ALERT_EMAIL_ADDRESSES
-          addresses: cezary.olborski@gmail.com
+          addresses: ${ALERT_EMAIL_ADDRESSES}
           singleEmail: false
         disableResolveMessage: false
 
