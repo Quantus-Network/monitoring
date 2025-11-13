@@ -64,8 +64,8 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Node {{ $labels.instance }} is down for more than 5 minutes'
-          summary: 'Node {{ $labels.instance }} is DOWN'
+          description: 'Node {{ index $labels "instance" }} (job: {{ index $labels "job" }}) is down for more than 5 minutes - check node status immediately'
+          summary: 'Node {{ index $labels "instance" }} is DOWN'
         labels:
           severity: critical
         notification_settings:
@@ -85,7 +85,7 @@ groups:
               datasource:
                 type: prometheus
                 uid: prometheus
-              expr: substrate_sub_libp2p_peers_count
+              expr: substrate_sub_libp2p_peers_count{chain!="heisenberg"}
               refId: A
               intervalMs: 1000
               maxDataPoints: 43200
@@ -128,8 +128,8 @@ groups:
         execErrState: Error
         for: 10m
         annotations:
-          description: 'Node {{ $labels.instance }} (chain: {{ $labels.chain }}) has {{ $values.B }} peers (threshold: <2) - check network connectivity'
-          summary: 'Low peer count on {{ $labels.instance }}'
+          description: 'Node {{ index $labels "instance" }} (chain: {{ index $labels "chain" }}) has {{ printf "%.0f" $values.B.Value }} peers (threshold: <2) - check network connectivity'
+          summary: 'Low peer count on {{ index $labels "instance" }}'
         labels:
           severity: warning
         notification_settings:
@@ -189,8 +189,8 @@ groups:
         execErrState: Alerting
         for: 1m
         annotations:
-          description: 'Chain {{ $labels.chain }} (instance: {{ $labels.instance }}) - last block was {{ $values.B }} minutes ago (threshold: 3 minutes)'
-          summary: 'No new blocks on {{ $labels.chain }}'
+          description: 'Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" $values.B.Value }} minutes ago (threshold: 3 minutes) - check block production'
+          summary: 'No new blocks on {{ index $labels "chain" }}'
         labels:
           severity: critical
         notification_settings:
@@ -200,7 +200,7 @@ groups:
   - orgId: 1
     name: System Resource Alerts
     folder: Alerts
-    interval: 1m
+    interval: 2m
     rules:
       # Alert when CPU usage is high
       - uid: high-cpu-alert
@@ -259,8 +259,8 @@ groups:
         execErrState: Error
         for: 15m
         annotations:
-          description: 'CPU usage on {{ $labels.instance }} has exceeded 80% for more than 15 minutes'
-          summary: 'High CPU usage on {{ $labels.instance }}'
+          description: 'CPU usage on {{ index $labels "instance" }} has exceeded 80% (current: {{ printf "%.1f" $values.B.Value }}%) for more than 15 minutes'
+          summary: 'High CPU usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
         notification_settings:
@@ -323,8 +323,8 @@ groups:
         execErrState: Error
         for: 10m
         annotations:
-          description: 'Memory usage on {{ $labels.instance }} has exceeded 90% for more than 10 minutes'
-          summary: 'High memory usage on {{ $labels.instance }}'
+          description: 'Memory usage on {{ index $labels "instance" }} has exceeded 90% (current: {{ printf "%.1f" $values.B.Value }}%) for more than 10 minutes'
+          summary: 'High memory usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
         notification_settings:
@@ -387,8 +387,8 @@ groups:
         execErrState: Error
         for: 5m
         annotations:
-          description: 'Disk space on {{ $labels.instance }} has exceeded 85% usage - immediate action required'
-          summary: 'Low disk space on {{ $labels.instance }}'
+          description: 'Disk space on {{ index $labels "instance" }} has exceeded 85% usage (current: {{ printf "%.1f" $values.B.Value }}%) - immediate action required'
+          summary: 'Low disk space on {{ index $labels "instance" }}'
         labels:
           severity: critical
         notification_settings:
@@ -457,7 +457,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Telemetry Host ({{ $labels.instance }}) is down for more than 5 minutes - telemetry monitoring unavailable'
+          description: 'Telemetry Host ({{ index $labels "instance" }}) is down for more than 5 minutes - telemetry monitoring unavailable'
           summary: 'Telemetry Host is DOWN'
         labels:
           severity: critical
@@ -537,7 +537,7 @@ groups:
         execErrState: Alerting
         for: 2m
         annotations:
-          description: 'Faucet service ({{ $labels.instance }}) is not responding - users cannot request tokens'
+          description: 'Faucet service ({{ index $labels "instance" }}) is not responding - users cannot request tokens'
           summary: 'Faucet Service is DOWN'
         labels:
           chain: dirac
@@ -615,7 +615,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Faucet balance is {{ $values.B }} QU (threshold: <100,000 QU) - please refill the account'
+          description: 'Faucet balance is {{ printf "%.0f" $values.B.Value }} QU (threshold: <100,000 QU) - please refill the account'
           summary: 'Faucet Balance is LOW'
         labels:
           chain: dirac
@@ -693,7 +693,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Faucet transfer failure rate is {{ printf "%.1f" (mul $values.B 100) }}% (threshold: >20%) - check logs and chain connection'
+          description: 'Faucet transfer failure rate is {{ printf "%.1f" (mul $values.B.Value 100) }}% (threshold: >20%) - check logs and chain connection'
           summary: 'High Transfer Failure Rate'
         labels:
           chain: dirac
@@ -771,7 +771,7 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: 'Faucet rejection rate is {{ printf "%.1f" (mul $values.B 100) }}% (threshold: >50%) - possible spam or validation issues'
+          description: 'Faucet rejection rate is {{ printf "%.1f" (mul $values.B.Value 100) }}% (threshold: >50%) - possible spam or validation issues'
           summary: 'High Request Rejection Rate'
         labels:
           chain: dirac
