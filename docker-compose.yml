@@ -35,6 +35,24 @@ services:
     networks:
       - monitoring
 
+  postgres:
+    image: postgres:16-alpine
+    container_name: grafana-postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-grafana}
+      - POSTGRES_USER=${POSTGRES_USER:-grafana}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-grafana}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - monitoring
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U grafana"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   grafana:
     # Using custom Grafana image with Quantus branding
     # Based on 11.3.0 instead of latest (12.x) due to datasource provisioning bug
@@ -63,6 +81,13 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
       # Set Welcome dashboard as home page
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/general/welcome.json
+      # PostgreSQL Database Configuration
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_HOST=postgres:5432
+      - GF_DATABASE_NAME=${POSTGRES_DB:-grafana}
+      - GF_DATABASE_USER=${POSTGRES_USER:-grafana}
+      - GF_DATABASE_PASSWORD=${POSTGRES_PASSWORD:-grafana}
+      - GF_DATABASE_SSL_MODE=disable
       # SMTP Configuration
       - GF_SMTP_ENABLED=${SMTP_ENABLED:-false}
       - GF_SMTP_HOST=${SMTP_HOST:-smtp.example.com:587}
@@ -81,7 +106,10 @@ services:
       - ./grafana/branding:/etc/grafana/branding:ro
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
     depends_on:
-      - prometheus
+      postgres:
+        condition: service_healthy
+      prometheus:
+        condition: service_started
     restart: unless-stopped
     networks:
       - monitoring
@@ -111,4 +139,5 @@ networks:
 volumes:
   prometheus-data:
   grafana-data:
+  postgres-data:
 
