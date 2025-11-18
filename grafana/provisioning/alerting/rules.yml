@@ -633,7 +633,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: rate(faucet_failed_transfers{job="support-faucet"}[5m]) / (rate(faucet_total_requests{job="support-faucet"}[5m]) + 0.001)
+              expr: (rate(faucet_failed_transfers{job="support-faucet"}[5m]) / (rate(faucet_total_requests{job="support-faucet"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -675,7 +675,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 0.2
+                      - 20
                     type: gt
                   operator:
                     type: and
@@ -693,7 +693,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Faucet transfer failure rate is {{ printf "%.1f" (mul $values.B.Value 100) }}% (threshold: >20%) - check logs and chain connection'
+          description: 'Faucet transfer failure rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >20%) - check logs and chain connection'
           summary: 'High Transfer Failure Rate'
         labels:
           chain: dirac
@@ -711,7 +711,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: rate(faucet_rejected_requests{job="support-faucet"}[5m]) / (rate(faucet_total_requests{job="support-faucet"}[5m]) + 0.001)
+              expr: (rate(faucet_rejected_requests{job="support-faucet"}[5m]) / (rate(faucet_total_requests{job="support-faucet"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -753,7 +753,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 0.5
+                      - 50
                     type: gt
                   operator:
                     type: and
@@ -771,7 +771,7 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: 'Faucet rejection rate is {{ printf "%.1f" (mul $values.B.Value 100) }}% (threshold: >50%) - possible spam or validation issues'
+          description: 'Faucet rejection rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >50%) - possible spam or validation issues'
           summary: 'High Request Rejection Rate'
         labels:
           chain: dirac
@@ -1107,7 +1107,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: rate(http_errors_total{job="task-master"}[5m]) / (rate(http_requests_total{job="task-master"}[5m]) + 0.001)
+              expr: (rate(http_errors_total{job="task-master"}[5m]) / (rate(http_requests_total{job="task-master"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1149,7 +1149,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 0.1
+                      - 10
                     type: gt
                   operator:
                     type: and
@@ -1167,7 +1167,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Task Master error rate is {{ printf "%.1f" (mul $values.B.Value 100) }}% (threshold: >10%) - check application logs and dependencies'
+          description: 'Task Master error rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >10%) - check application logs and dependencies'
           summary: 'High Error Rate on Task Master'
         labels:
           chain: dirac
