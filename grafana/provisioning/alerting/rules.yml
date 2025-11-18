@@ -948,7 +948,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: rate(sqd_rpc_request_count{job="dirac-subsquid",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="dirac-subsquid",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="dirac-subsquid",kind="failure"}[5m]) + 0.001)
+              expr: (rate(sqd_rpc_request_count{job="dirac-subsquid",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="dirac-subsquid",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="dirac-subsquid",kind="failure"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -990,7 +990,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 0.1
+                      - 10
                     type: gt
                   operator:
                     type: and
@@ -1008,7 +1008,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Explorer RPC failure rate is {{ printf "%.1f" (mul $values.B.Value 100) }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}'
+          description: 'Explorer RPC failure rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}'
           summary: 'High RPC Failure Rate'
         labels:
           chain: dirac
