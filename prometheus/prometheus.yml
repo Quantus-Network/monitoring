@@ -10,46 +10,6 @@ global:
 runtime:
   gogc: 75
 scrape_configs:
-- job_name: schrodinger-substrate-node
-  honor_timestamps: true
-  track_timestamps_staleness: false
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  scrape_protocols:
-  - OpenMetricsText1.0.0
-  - OpenMetricsText0.0.1
-  - PrometheusText1.0.0
-  - PrometheusText0.0.4
-  metrics_path: /metrics/node
-  scheme: https
-  enable_compression: true
-  follow_redirects: true
-  enable_http2: true
-  static_configs:
-  - targets:
-    - a1.quantu.se
-    - a2.quantu.se
-    - a3.quantu.se
-- job_name: schrodinger-substrate
-  honor_timestamps: true
-  track_timestamps_staleness: false
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  scrape_protocols:
-  - OpenMetricsText1.0.0
-  - OpenMetricsText0.0.1
-  - PrometheusText1.0.0
-  - PrometheusText0.0.4
-  metrics_path: /metrics/substrate
-  scheme: https
-  enable_compression: true
-  follow_redirects: true
-  enable_http2: true
-  static_configs:
-  - targets:
-    - a1.quantu.se
-    - a2.quantu.se
-    - a3.quantu.se
 - job_name: 'node-exporter'
   honor_timestamps: true
   track_timestamps_staleness: false

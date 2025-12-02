@@ -24,14 +24,6 @@ policies:
         repeat_interval: 2h    # Repeat every 2 hours
         continue: false
       
-      # 🟢 SCHRODINGER - LOW PRIORITY
-      - receiver: Email Notifications
-        matchers:
-          - chain = schrodinger
-        group_wait: 1h         # First notification after 1 hour
-        repeat_interval: 8h    # Repeat every 8 hours
-        continue: false
-      
       # SEVERITY - fallback if no chain label
       - receiver: Email Notifications
         matchers:
