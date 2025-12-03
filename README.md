@@ -54,7 +54,7 @@ The stack monitors:
   - Disk usage and I/O
   - Network traffic (receive/transmit)
   - System uptime
-- **Remote Blockchain Nodes** - Schrodinger, Resonance, Heisenberg networks
+- **Remote Blockchain Nodes** - Heisenberg and Dirac networks
   - Node metrics (system resources, peers, network I/O)
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
@@ -253,9 +253,8 @@ Policies are configured in `grafana/provisioning/alerting/policies.yml` with dif
 
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
-| **Schrodinger** 🔴 | Highest | 2 minutes | every 30 min |
+| **Dirac** 🔴 | Highest | 2 minutes | every 30 min |
 | **Heisenberg** 🟡 | Medium | 10 minutes | every 2h |
-| **Resonance** 🟢 | Low | 1 hour | every 8h |
 
 Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, repeat every 1h
@@ -405,9 +404,8 @@ monitoring/
 │   ├── dashboards/                 # Pre-loaded dashboards (by network)
 │   │   ├── general/                # Welcome/overview dashboard
 │   │   ├── system/                 # System monitoring dashboards
-│   │   ├── schrodinger/
-│   │   ├── resonance/
-│   │   └── heisenberg/
+│   │   ├── heisenberg/
+│   │   └── dirac/
 │   ├── branding/                   # Quantus branding assets
 │   │   ├── logo.svg                # Quantus logo (SVG)
 │   │   ├── logo.png                # Quantus logo (PNG)
@@ -465,7 +463,7 @@ Located in the **System** folder:
 
 Both use Quantus color scheme with dynamic thresholds.
 
-### Per Network (Schrodinger, Resonance, Heisenberg):
+### Per Network (Heisenberg, Dirac):
 - **Node Metrics** - System resources, peers, network I/O
 - **TXPool** - Transaction pool statistics
 - **Business Metrics** - Block times, difficulty, chain height

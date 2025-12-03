@@ -18,51 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Schrodinger, Heisenberg and Dirac networks"
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Schrodinger - Chain Height",
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 0,
-        "y": 3
-      },
-      "id": 2,
-      "targets": [
-        {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"schrodinger\", instance=~\"a1.*\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "blue"
-          }
-        }
+        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Dirac and Heisenberg networks"
       }
     },
     {
@@ -70,8 +26,8 @@
       "title": "Heisenberg - Chain Height",
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 3
       },
       "id": 4,
@@ -114,8 +70,8 @@
       "title": "Dirac - Chain Height",
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 0,
         "y": 3
       },
       "id": 11,
@@ -155,71 +111,11 @@
     },
     {
       "type": "stat",
-      "title": "Schrodinger - Last Block",
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 0,
-        "y": 9
-      },
-      "id": 5,
-      "targets": [
-        {
-          "expr": "time() - (qpow_metrics{data_group=\"last_block_time\", chain=\"schrodinger\", instance=~\"a1.*\"} / 1000)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 28
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "decimals": 0,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#1f1fa3"
-              },
-              {
-                "value": 180,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 600,
-                "color": "#ffe91f"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
       "title": "Heisenberg - Last Block",
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 9
       },
       "id": 7,
@@ -278,8 +174,8 @@
       "title": "Dirac - Last Block",
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 0,
         "y": 9
       },
       "id": 12,
@@ -335,71 +231,11 @@
     },
     {
       "type": "stat",
-      "title": "Schrodinger - Uptime",
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 0,
-        "y": 15
-      },
-      "id": 8,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"schrodinger-substrate\", instance=~\"a1.*\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 28
-        },
-        "colorMode": "background",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#ffe91f"
-              },
-              {
-                "value": 50,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 90,
-                "color": "#0000ff"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
       "title": "Heisenberg - Uptime",
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 15
       },
       "id": 10,
@@ -458,8 +294,8 @@
       "title": "Dirac - Uptime",
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 0,
         "y": 15
       },
       "id": 13,
