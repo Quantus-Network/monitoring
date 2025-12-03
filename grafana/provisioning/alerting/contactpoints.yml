@@ -11,4 +11,31 @@ contactPoints:
           addresses: ${ALERT_EMAIL_ADDRESSES}
           singleEmail: false
         disableResolveMessage: false
+  
+  - orgId: 1
+    name: Telegram Notifications
+    receivers:
+      - uid: telegram-contact-point
+        type: telegram
+        settings:
+          # Telegram Bot Token and Chat ID from environment variables
+          bottoken: ${TELEGRAM_BOT_TOKEN}
+          chatid: "${TELEGRAM_CHAT_ID}"
+          message: |
+            {{ range .Alerts }}
+            🚨 *{{ .Labels.alertname }}*
+            
+            *Status:* {{ .Status }}
+            {{ if .Labels.severity }}*Severity:* {{ .Labels.severity }}{{ end }}
+            {{ if .Labels.chain }}*Chain:* {{ .Labels.chain }}{{ end }}
+            {{ if .Labels.instance }}*Instance:* {{ .Labels.instance }}{{ end }}
+            
+            {{ if .Annotations.summary }}📋 {{ .Annotations.summary }}{{ end }}
+            {{ if .Annotations.description }}
+            {{ .Annotations.description }}{{ end }}
+            
+            🔗 [View in Grafana]({{ .GeneratorURL }})
+            {{ end }}
+          parse_mode: Markdown
+        disableResolveMessage: false
 
