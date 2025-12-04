@@ -54,7 +54,7 @@ policies:
       # Warnings (Low Peers, High CPU, etc.) → Email only
       - receiver: Email Notifications
         matchers:
-          - severity = critical
+          - severity = warning
         group_wait: 30s
         repeat_interval: 4h
-        continue: true
+        continue: false
