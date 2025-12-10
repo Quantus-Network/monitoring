@@ -9,14 +9,25 @@ policies:
     repeat_interval: 4h
     routes:
       # 🔴 DIRAC - HIGHEST PRIORITY
+      # Critical alerts (Faucet/Explorer/Task Master DOWN) → Telegram + Email
+      - receiver: Telegram Notifications
+        matchers:
+          - chain = dirac
+          - severity = critical
+        group_wait: 2m         # First notification after 2 minutes
+        repeat_interval: 30m   # Repeat every 30 minutes
+        continue: true         # Continue to email
+      
+      # All Dirac alerts → Email
       - receiver: Email Notifications
         matchers:
           - chain = dirac
-        group_wait: 2m         # First notification after 2 minutes
-        repeat_interval: 30m   # Repeat every 30 minutes
+        group_wait: 2m
+        repeat_interval: 30m
         continue: false
       
       # 🟡 HEISENBERG - MEDIUM PRIORITY
+      # All alerts → Email only
       - receiver: Email Notifications
         matchers:
           - chain = heisenberg
@@ -24,7 +35,15 @@ policies:
         repeat_interval: 2h    # Repeat every 2 hours
         continue: false
       
-      # SEVERITY - fallback if no chain label
+      # GENERIC ALERTS (no chain label)
+      # Critical (Node Down, No Blocks, Disk Full, etc.) → Telegram + Email
+      - receiver: Telegram Notifications
+        matchers:
+          - severity = critical
+        group_wait: 10s
+        repeat_interval: 1h
+        continue: true         # Continue to email
+      
       - receiver: Email Notifications
         matchers:
           - severity = critical
@@ -32,9 +51,10 @@ policies:
         repeat_interval: 1h
         continue: true
       
+      # Warnings (Low Peers, High CPU, etc.) → Email only
       - receiver: Email Notifications
         matchers:
           - severity = warning
         group_wait: 30s
         repeat_interval: 4h
-        continue: true
+        continue: false

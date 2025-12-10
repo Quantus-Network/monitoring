@@ -19,9 +19,9 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials, SMTP & alert emails
-cp .env.example .env
-nano .env  # Set passwords, SMTP settings, and ALERT_EMAIL_ADDRESSES
+# 2. (Optional) Customize credentials, SMTP, Telegram & alert emails
+cp env.example .env
+nano .env  # Set passwords, SMTP settings, Telegram, and ALERT_EMAIL_ADDRESSES
 
 # 3. Start the stack
 docker compose up -d
@@ -128,9 +128,9 @@ SMTP_STARTTLS_POLICY=MandatoryStartTLS
 ALERT_EMAIL_ADDRESSES=admin@example.com, alerts@example.com
 ```
 
-**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials and alert email addresses:
+**Note**: Copy `env.example` to `.env` and update with your SMTP credentials and alert email addresses:
 ```bash
-cp .env.example .env
+cp env.example .env
 nano .env  # Edit SMTP settings and ALERT_EMAIL_ADDRESSES
 ```
 
@@ -145,6 +145,71 @@ To test email notifications:
 3. Select "Email" as the type
 4. Enter test email address
 5. Click "Test" to send a test email
+
+### Telegram Notifications
+
+Grafana has **built-in Telegram support** for instant mobile alerts. Critical alerts are automatically sent to both Telegram and Email.
+
+**Setup Steps:**
+
+**1. Create a Telegram Bot:**
+```bash
+# Open Telegram and message @BotFather
+/newbot
+
+# Follow the instructions
+# You'll receive a bot token like: 123456789:ABCdefGHIjklMNOpqrsTUVwxyz
+```
+
+**2. Get your Chat ID:**
+```bash
+# Send any message to your bot in Telegram
+# Then visit this URL in your browser (replace <YOUR_BOT_TOKEN>):
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+
+# Look for "chat":{"id":123456789} in the JSON response
+# The number is your Chat ID
+```
+
+**3. Add to your `.env` file:**
+```bash
+# Telegram Configuration
+TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
+TELEGRAM_CHAT_ID=123456789
+```
+
+**4. Restart Grafana:**
+```bash
+docker compose restart grafana
+```
+
+**Alert Routing (Already Configured):**
+- 🔴 **Critical Alerts** → Telegram + Email
+- 🟡 **Warning Alerts** → Email only
+- **Dirac network** → Highest priority (2min wait, 30min repeat)
+- **Heisenberg network** → Medium priority (10min wait, 2h repeat)
+
+**Message Format:**
+```
+🚨 Node Down
+
+Status: firing
+Severity: critical
+Chain: dirac
+Instance: a1-qm-dirac.quantus.cat
+
+📋 Node a1-qm-dirac.quantus.cat is DOWN
+Node is down for more than 5 minutes - check immediately
+
+🔗 View in Grafana
+```
+
+**To test:**
+1. Go to Grafana → Alerting → Contact points
+2. Find "Telegram Notifications"
+3. Click "Test" to send a test message
+
+**Note:** If you don't configure Telegram (leave variables empty), only Email notifications will be used.
 
 ### Alert Configuration (Provisioning)
 

@@ -68,8 +68,6 @@ groups:
           summary: 'Node {{ index $labels "instance" }} is DOWN'
         labels:
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
       
       # Alert when peer count is low
       - uid: low-peer-count-alert
@@ -132,8 +130,6 @@ groups:
           summary: 'Low peer count on {{ index $labels "instance" }}'
         labels:
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       # Alert when no new blocks for 3+ minutes
       - uid: no-new-blocks-alert
         title: No New Blocks
@@ -193,8 +189,6 @@ groups:
           summary: 'No new blocks on {{ index $labels "chain" }}'
         labels:
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
 
   # System Resource Monitoring
   - orgId: 1
@@ -263,8 +257,6 @@ groups:
           summary: 'High CPU usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       # Alert when memory usage is high
       - uid: high-memory-alert
@@ -327,8 +319,6 @@ groups:
           summary: 'High memory usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       # Alert when disk space is low
       - uid: low-disk-space-alert
@@ -391,8 +381,6 @@ groups:
           summary: 'Low disk space on {{ index $labels "instance" }}'
         labels:
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
 
   # Support Services Monitoring
   - orgId: 1
@@ -461,8 +449,6 @@ groups:
           summary: 'Telemetry Host is DOWN'
         labels:
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
       
       # ===============================================
       # FAUCET MONITORING ALERTS (Dirac - Highest Priority)
@@ -542,8 +528,6 @@ groups:
         labels:
           chain: dirac
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
       
       - uid: faucet_low_balance
         title: Faucet Low Balance
@@ -620,8 +604,6 @@ groups:
         labels:
           chain: dirac
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       - uid: faucet_high_failure_rate
         title: Faucet High Transfer Failure Rate
@@ -698,8 +680,6 @@ groups:
         labels:
           chain: dirac
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       - uid: faucet_high_rejection_rate
         title: Faucet High Rejection Rate
@@ -776,8 +756,6 @@ groups:
         labels:
           chain: dirac
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       # ===============================================
       # EXPLORER MONITORING ALERTS (Dirac - Highest Priority)
@@ -857,8 +835,6 @@ groups:
         labels:
           chain: dirac
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
       
       - uid: explorer_sync_lag
         title: Explorer Sync Lag
@@ -935,8 +911,6 @@ groups:
         labels:
           chain: dirac
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       - uid: explorer_high_rpc_failure_rate
         title: Explorer High RPC Failure Rate
@@ -1013,8 +987,6 @@ groups:
         labels:
           chain: dirac
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
       
       # ===============================================
       # TASK MASTER MONITORING ALERTS (Dirac - Highest Priority)
@@ -1094,8 +1066,6 @@ groups:
         labels:
           chain: dirac
           severity: critical
-        notification_settings:
-          receiver: Email Notifications
       
       - uid: task_master_high_error_rate
         title: Task Master High Error Rate
@@ -1172,5 +1142,3 @@ groups:
         labels:
           chain: dirac
           severity: warning
-        notification_settings:
-          receiver: Email Notifications
