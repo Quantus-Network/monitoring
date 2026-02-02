@@ -47,4 +47,5 @@ contactPoints:
         settings:
           url: ${ROCKET_WEBHOOK_URL}
           httpMethod: POST
+          message: '{{ template "rocket_template" . }}'
         disableResolveMessage: false
