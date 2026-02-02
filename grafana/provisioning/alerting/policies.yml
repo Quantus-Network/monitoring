@@ -9,16 +9,37 @@ policies:
     repeat_interval: 4h
     routes:
       # 🔴 DIRAC - HIGHEST PRIORITY
-      # Critical alerts (Faucet/Explorer/Task Master DOWN) → Rocket + Email
+      # Business critical alerts (No New Blocks) → Rocket + Email, grouped by alert only
       - receiver: Rocket Notifications
         matchers:
           - chain = dirac
           - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname', 'chain']  # Group by alert name only, ignore instance
         group_wait: 2m         # First notification after 2 minutes
         repeat_interval: 30m   # Repeat every 30 minutes
         continue: true         # Continue to email
       
-      # All Dirac alerts → Email
+      - receiver: Email Notifications
+        matchers:
+          - chain = dirac
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname', 'chain']  # Same grouping as Rocket
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: false
+      
+      # Infrastructure critical alerts (Node Down, Low Peers, etc.) → Rocket + Email, per instance
+      - receiver: Rocket Notifications
+        matchers:
+          - chain = dirac
+          - severity = critical
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: true
+      
+      # All other Dirac alerts → Email
       - receiver: Email Notifications
         matchers:
           - chain = dirac
@@ -36,7 +57,26 @@ policies:
         continue: false
       
       # GENERIC ALERTS (no chain label)
-      # Critical (Node Down, No Blocks, Disk Full, etc.) → Rocket + Email
+      # Business critical alerts (No New Blocks) → Rocket + Email, grouped
+      - receiver: Rocket Notifications
+        matchers:
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname']  # Group by alert name only, ignore instance
+        group_wait: 10s
+        repeat_interval: 1h
+        continue: true
+      
+      - receiver: Email Notifications
+        matchers:
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname']
+        group_wait: 10s
+        repeat_interval: 1h
+        continue: false
+      
+      # Infrastructure critical alerts (Node Down, Disk Full, etc.) → Rocket + Email, per instance
       - receiver: Rocket Notifications
         matchers:
           - severity = critical
