@@ -43,11 +43,8 @@ contactPoints:
     name: Rocket Notifications
     receivers:
       - uid: rocket-contact-point
-        type: webhook
+        type: slack
         settings:
           url: ${ROCKET_WEBHOOK_URL}
           httpMethod: POST
-          title: '{{ template "__subject" . }}'
-          message: '{{ range .Alerts }}🚨 **{{ .Labels.alertname }}** - {{ .Status }}{{ if .Labels.severity }} ({{ .Labels.severity }}){{ end }}{{ if .Annotations.summary }}\n📋 {{ .Annotations.summary }}{{ end }}{{ if .Annotations.description }}\n{{ .Annotations.description }}{{ end }}\n🔗 [View in Grafana]({{ .GeneratorURL }}){{ end }}'
-          username: Quantus Monitor
         disableResolveMessage: false
