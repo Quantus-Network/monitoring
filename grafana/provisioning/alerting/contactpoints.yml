@@ -47,7 +47,6 @@ contactPoints:
         settings:
           url: ${ROCKET_WEBHOOK_URL}
           username: Grafana Monitor
-          title: '{{ template "slack.default.title" . }}'
           text: |
             {{ range .Alerts -}}
             🚨 *{{ .Labels.alertname }}* - {{ .Status | toUpper }}
@@ -68,6 +67,10 @@ contactPoints:
             {{ .Annotations.description }}
             {{- end }}
 
-            🔗 <{{ .GeneratorURL }}|View in Grafana> | <{{ .SilenceURL }}|Silence>
+            {{- if .GeneratorURL }}
+            🔗 <{{ .GeneratorURL }}|View in Grafana>{{ if .SilenceURL }} | <{{ .SilenceURL }}|Silence>{{ end }}
+            {{- else if .SilenceURL }}
+            🔗 <{{ .SilenceURL }}|Silence>
+            {{- end }}
             {{ end -}}
         disableResolveMessage: false
