@@ -39,3 +39,12 @@ contactPoints:
           parse_mode: Markdown
         disableResolveMessage: false
 
+  - orgId: 1
+    name: Rocket Notifications
+    receivers:
+      - uid: rocket-contact-point
+        type: webhook
+        settings:
+          url: ${ROCKET_WEBHOOK_URL}
+          httpMethod: POST
+        disableResolveMessage: false
