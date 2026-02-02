@@ -9,8 +9,8 @@ policies:
     repeat_interval: 4h
     routes:
       # 🔴 DIRAC - HIGHEST PRIORITY
-      # Critical alerts (Faucet/Explorer/Task Master DOWN) → Telegram + Email
-      - receiver: Telegram Notifications
+      # Critical alerts (Faucet/Explorer/Task Master DOWN) → Rocket + Email
+      - receiver: Rocket Notifications
         matchers:
           - chain = dirac
           - severity = critical
@@ -36,8 +36,8 @@ policies:
         continue: false
       
       # GENERIC ALERTS (no chain label)
-      # Critical (Node Down, No Blocks, Disk Full, etc.) → Telegram + Email
-      - receiver: Telegram Notifications
+      # Critical (Node Down, No Blocks, Disk Full, etc.) → Rocket + Email
+      - receiver: Rocket Notifications
         matchers:
           - severity = critical
         group_wait: 10s
