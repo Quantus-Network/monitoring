@@ -46,5 +46,28 @@ contactPoints:
         type: slack
         settings:
           url: ${ROCKET_WEBHOOK_URL}
-          httpMethod: POST
+          username: Grafana Monitor
+          title: '{{ template "slack.default.title" . }}'
+          text: |
+            {{ range .Alerts -}}
+            🚨 *{{ .Labels.alertname }}* - {{ .Status | toUpper }}
+            {{- if .Labels.severity }}
+            *Severity:* {{ .Labels.severity }}
+            {{- end }}
+            {{- if .Labels.chain }}
+            *Chain:* {{ .Labels.chain }}
+            {{- end }}
+            {{- if .Labels.instance }}
+            *Instance:* {{ .Labels.instance }}
+            {{- end }}
+            {{- if .Annotations.summary }}
+
+            📋 {{ .Annotations.summary }}
+            {{- end }}
+            {{- if .Annotations.description }}
+            {{ .Annotations.description }}
+            {{- end }}
+
+            🔗 <{{ .GeneratorURL }}|View in Grafana> | <{{ .SilenceURL }}|Silence>
+            {{ end -}}
         disableResolveMessage: false
