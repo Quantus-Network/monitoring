@@ -1119,7 +1119,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 10
+                      - 20
                     type: gt
                   operator:
                     type: and
@@ -1137,7 +1137,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: 'Task Master error rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >10%) - check application logs and dependencies'
+          description: 'Task Master error rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >20%) - check application logs and dependencies'
           summary: 'High Error Rate on Task Master'
         labels:
           chain: dirac
