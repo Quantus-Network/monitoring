@@ -39,3 +39,38 @@ contactPoints:
           parse_mode: Markdown
         disableResolveMessage: false
 
+  - orgId: 1
+    name: Rocket Notifications
+    receivers:
+      - uid: rocket-contact-point
+        type: slack
+        settings:
+          url: ${ROCKET_WEBHOOK_URL}
+          username: Grafana Monitor
+          text: |
+            {{ range .Alerts -}}
+            🚨 *{{ .Labels.alertname }}* - {{ .Status | toUpper }}
+            {{- if .Labels.severity }}
+            *Severity:* {{ .Labels.severity }}
+            {{- end }}
+            {{- if .Labels.chain }}
+            *Chain:* {{ .Labels.chain }}
+            {{- end }}
+            {{- if .Labels.instance }}
+            *Instance:* {{ .Labels.instance }}
+            {{- end }}
+            {{- if .Annotations.summary }}
+
+            📋 {{ .Annotations.summary }}
+            {{- end }}
+            {{- if .Annotations.description }}
+            {{ .Annotations.description }}
+            {{- end }}
+
+            {{- if .GeneratorURL }}
+            🔗 <{{ .GeneratorURL }}|View in Grafana>{{ if .SilenceURL }} | <{{ .SilenceURL }}|Silence>{{ end }}
+            {{- else if .SilenceURL }}
+            🔗 <{{ .SilenceURL }}|Silence>
+            {{- end }}
+            {{ end -}}
+        disableResolveMessage: false
