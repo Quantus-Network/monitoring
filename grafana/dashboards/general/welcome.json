@@ -18,7 +18,51 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Dirac and Heisenberg networks"
+        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Planck and Heisenberg networks"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Planck - Chain Height",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 3
+      },
+      "id": 50,
+      "targets": [
+        {
+          "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 32
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        }
       }
     },
     {
@@ -67,17 +111,17 @@
     },
     {
       "type": "stat",
-      "title": "Dirac - Chain Height",
+      "title": "Planck - Last Block",
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 3
+        "y": 9
       },
-      "id": 11,
+      "id": 51,
       "targets": [
         {
-          "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"dirac\"})",
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", chain=\"planck\"}) / 1000)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -92,19 +136,35 @@
         },
         "text": {
           "titleSize": 16,
-          "valueSize": 32
+          "valueSize": 28
         },
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
+          "unit": "s",
           "decimals": 0,
           "color": {
-            "mode": "fixed",
-            "fixedColor": "blue"
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#1f1fa3"
+              },
+              {
+                "value": 180,
+                "color": "#ed4cce"
+              },
+              {
+                "value": 600,
+                "color": "#ffe91f"
+              }
+            ]
           }
         }
       }
@@ -171,22 +231,24 @@
     },
     {
       "type": "stat",
-      "title": "Dirac - Last Block",
+      "title": "Planck - Uptime",
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 15
       },
-      "id": 12,
+      "id": 52,
       "targets": [
         {
-          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", chain=\"dirac\"}) / 1000)",
+          "expr": "avg_over_time(up{job=\"planck-chain\", instance=~\"a1.*\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": false,
+          "range": true
         }
       ],
       "options": {
@@ -199,13 +261,13 @@
           "valueSize": 28
         },
         "colorMode": "background",
-        "graphMode": "none",
+        "graphMode": "area",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
-          "decimals": 0,
+          "unit": "percent",
+          "decimals": 2,
           "color": {
             "mode": "thresholds"
           },
@@ -214,15 +276,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "#1f1fa3"
+                "color": "#ffe91f"
               },
               {
-                "value": 180,
+                "value": 50,
                 "color": "#ed4cce"
               },
               {
-                "value": 600,
-                "color": "#ffe91f"
+                "value": 90,
+                "color": "#0000ff"
               }
             ]
           }
@@ -290,69 +352,6 @@
       }
     },
     {
-      "type": "stat",
-      "title": "Dirac - Uptime",
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 15
-      },
-      "id": 13,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"dirac-chain\", instance=~\"a1.*\"}[30d]) * 100",
-          "refId": "A",
-          "legendFormat": "Uptime",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": false,
-          "range": true
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 28
-        },
-        "colorMode": "background",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#ffe91f"
-              },
-              {
-                "value": 50,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 90,
-                "color": "#0000ff"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
       "type": "text",
       "gridPos": {
         "h": 2,
@@ -360,7 +359,7 @@
         "x": 0,
         "y": 21
       },
-      "id": 11,
+      "id": 60,
       "options": {
         "mode": "markdown",
         "content": "## 🔧 Support Services Status"
@@ -375,7 +374,7 @@
         "x": 0,
         "y": 23
       },
-      "id": 12,
+      "id": 61,
       "targets": [
         {
           "expr": "up{job=\"telemetry-host\"}",
@@ -444,7 +443,7 @@
         "x": 12,
         "y": 23
       },
-      "id": 13,
+      "id": 62,
       "targets": [
         {
           "expr": "telemetry_core_connected_nodes{job=\"telemetry-backend\"}",

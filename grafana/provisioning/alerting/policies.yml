@@ -47,6 +47,42 @@ policies:
         repeat_interval: 30m
         continue: false
       
+      # 🔵 PLANCK - same routing as Dirac
+      - receiver: Rocket Notifications
+        matchers:
+          - chain = planck
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname', 'chain']
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: true
+      
+      - receiver: Email Notifications
+        matchers:
+          - chain = planck
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname', 'chain']
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: false
+      
+      - receiver: Rocket Notifications
+        matchers:
+          - chain = planck
+          - severity = critical
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: true
+      
+      - receiver: Email Notifications
+        matchers:
+          - chain = planck
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: false
+      
       # 🟡 HEISENBERG - MEDIUM PRIORITY
       # All alerts → Email only
       - receiver: Email Notifications
