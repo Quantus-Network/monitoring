@@ -25,7 +25,17 @@ policies:
           - chain = dirac
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']  # Same grouping as Rocket
+        group_by: ['alertname', 'chain']
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: true
+      
+      - receiver: Telegram Notifications
+        matchers:
+          - chain = dirac
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname', 'chain']
         group_wait: 2m
         repeat_interval: 30m
         continue: false
@@ -59,6 +69,16 @@ policies:
         continue: true
       
       - receiver: Email Notifications
+        matchers:
+          - chain = planck
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname', 'chain']
+        group_wait: 2m
+        repeat_interval: 30m
+        continue: true
+      
+      - receiver: Telegram Notifications
         matchers:
           - chain = planck
           - severity = critical
@@ -104,6 +124,15 @@ policies:
         continue: true
       
       - receiver: Email Notifications
+        matchers:
+          - severity = critical
+          - alertname = "No New Blocks"
+        group_by: ['alertname']
+        group_wait: 10s
+        repeat_interval: 1h
+        continue: true
+      
+      - receiver: Telegram Notifications
         matchers:
           - severity = critical
           - alertname = "No New Blocks"
