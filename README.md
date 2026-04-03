@@ -442,17 +442,25 @@ All branding assets are located in `grafana/branding/`:
 
 ```bash
 grafana/branding/
-├── logo.svg        # Quantus logo (SVG)
-├── logo.png        # Quantus logo (PNG)
-└── favicon.ico     # Browser favicon
+├── logo.svg        # Sidebar logo (SVG → grafana_icon.svg)
+├── logo.png        # Apple touch icon (180×180)
+├── favicon.ico     # Browser tab icon
+├── fav32.png       # 32×32 PNG for Grafana’s fav32 slot
+├── quantus_login_dark.svg   # Login background (dark theme)
+├── quantus_login_light.svg  # Login background (light theme)
+└── quantus-favicon.svg      # Optional source for regenerating raster icons
 ```
 
 To customize:
 1. Replace files in `grafana/branding/` with your own
-2. Restart Grafana: `docker compose restart grafana`
-3. Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+2. Rebuild the Grafana image (assets are baked in at build time): `docker compose up -d --build grafana`
+3. Hard refresh the browser (Ctrl+Shift+R / Cmd+Shift+R)
 
-Branding configuration is in `docker-compose.yml` under Grafana environment variables (`GF_BRANDING_*`).
+Branding is applied in `grafana/Dockerfile` via `COPY` into `/usr/share/grafana/public/img/` (same idea as commit `53a13823`). For the login background, `docker-compose.yml` also bind-mounts `quantus_login_*.svg` onto `g8_login_*.svg`.
+
+#### Cloudflare (or any CDN) in front of Grafana
+
+Grafana serves `/public/img/*.svg` with long browser cache headers (`Cache-Control: public, max-age=14400` and similar). **Cloudflare will cache those responses** (`cf-cache-status: HIT`). After you change login artwork or icons on the origin, visitors can still see the **old** `g8_login_dark.svg` until the edge cache expires or you **purge cache** for those URLs (or add a Cache Rule to bypass or shorten TTL for `/public/img/*`).
 
 ## Project Structure
 
@@ -472,9 +480,10 @@ monitoring/
 │   │   ├── heisenberg/
 │   │   └── dirac/
 │   ├── branding/                   # Quantus branding assets
-│   │   ├── logo.svg                # Quantus logo (SVG)
-│   │   ├── logo.png                # Quantus logo (PNG)
-│   │   └── favicon.ico             # Browser favicon
+│   │   ├── logo.svg                # Sidebar logo (SVG)
+│   │   ├── logo.png                # Apple touch icon
+│   │   ├── favicon.ico             # Favicon
+│   │   └── fav32.png               # 32×32 favicon PNG
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers

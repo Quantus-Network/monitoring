@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🚀 Quantus Network Overview\n\nReal-time monitoring across Planck and Heisenberg networks"
+        "content": "# Quantus Network Overview\n\nReal-time monitoring across Planck and Heisenberg — [quantus.com](https://www.quantus.com/)"
       }
     },
     {
@@ -60,7 +60,7 @@
           "decimals": 0,
           "color": {
             "mode": "fixed",
-            "fixedColor": "blue"
+            "fixedColor": "#FF6B35"
           }
         }
       }
@@ -104,7 +104,7 @@
           "decimals": 0,
           "color": {
             "mode": "fixed",
-            "fixedColor": "blue"
+            "fixedColor": "#FF6B35"
           }
         }
       }
@@ -154,15 +154,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "#1f1fa3"
+                "color": "#252525"
               },
               {
                 "value": 180,
-                "color": "#ed4cce"
+                "color": "#CC5528"
               },
               {
                 "value": 600,
-                "color": "#ffe91f"
+                "color": "#FF6B35"
               }
             ]
           }
@@ -214,15 +214,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "#1f1fa3"
+                "color": "#252525"
               },
               {
                 "value": 180,
-                "color": "#ed4cce"
+                "color": "#CC5528"
               },
               {
                 "value": 600,
-                "color": "#ffe91f"
+                "color": "#FF6B35"
               }
             ]
           }
@@ -276,15 +276,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "#ffe91f"
+                "color": "#C23B1A"
               },
               {
                 "value": 50,
-                "color": "#ed4cce"
+                "color": "#E8834A"
               },
               {
                 "value": 90,
-                "color": "#0000ff"
+                "color": "#1E4A3A"
               }
             ]
           }
@@ -336,15 +336,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "#ffe91f"
+                "color": "#C23B1A"
               },
               {
                 "value": 50,
-                "color": "#ed4cce"
+                "color": "#E8834A"
               },
               {
                 "value": 90,
-                "color": "#0000ff"
+                "color": "#1E4A3A"
               }
             ]
           }
@@ -423,11 +423,11 @@
             "steps": [
               {
                 "value": null,
-                "color": "#ffe91f"
+                "color": "#5C2E22"
               },
               {
                 "value": 1,
-                "color": "#1f1fa3"
+                "color": "#1E4A3A"
               }
             ]
           }
@@ -479,11 +479,11 @@
             "steps": [
               {
                 "value": null,
-                "color": "#ffe91f"
+                "color": "#5C2E22"
               },
               {
                 "value": 1,
-                "color": "#1f1fa3"
+                "color": "#1E4A3A"
               }
             ]
           }

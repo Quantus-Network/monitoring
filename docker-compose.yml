@@ -75,6 +75,7 @@ services:
       - GF_INSTALL_PLUGINS=redis-datasource
       - GF_ANALYTICS_REPORTING_ENABLED=false
       - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+      - GF_USERS_DEFAULT_THEME=dark
       # Anonymous access - view dashboards without login, edit requires login
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
@@ -109,6 +110,9 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/branding:/etc/grafana/branding:ro
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      # Login background: must override image file (Grafana 11.3 uses url(public/img/g8_login_*.svg)). Bind mount = no stale build cache.
+      - ./grafana/branding/quantus_login_dark.svg:/usr/share/grafana/public/img/g8_login_dark.svg:ro
+      - ./grafana/branding/quantus_login_light.svg:/usr/share/grafana/public/img/g8_login_light.svg:ro
     depends_on:
       postgres:
         condition: service_healthy
