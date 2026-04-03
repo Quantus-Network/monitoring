@@ -442,17 +442,19 @@ All branding assets are located in `grafana/branding/`:
 
 ```bash
 grafana/branding/
-├── logo.svg        # Quantus logo (SVG)
-├── logo.png        # Quantus logo (PNG)
-└── favicon.ico     # Browser favicon
+├── logo.svg        # Sidebar logo (SVG → grafana_icon.svg)
+├── logo.png        # Apple touch icon (180×180)
+├── favicon.ico     # Browser tab icon
+├── fav32.png       # 32×32 PNG for Grafana’s fav32 slot
+└── quantus-favicon.svg  # Optional source for regenerating the raster icons
 ```
 
 To customize:
 1. Replace files in `grafana/branding/` with your own
-2. Restart Grafana: `docker compose restart grafana`
-3. Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+2. Rebuild the Grafana image (assets are baked in at build time): `docker compose up -d --build grafana`
+3. Hard refresh the browser (Ctrl+Shift+R / Cmd+Shift+R)
 
-Branding configuration is in `docker-compose.yml` under Grafana environment variables (`GF_BRANDING_*`).
+Branding is applied in `grafana/Dockerfile` via `COPY` into `/usr/share/grafana/public/img/` (same idea as commit `53a13823`).
 
 ## Project Structure
 
@@ -472,9 +474,10 @@ monitoring/
 │   │   ├── heisenberg/
 │   │   └── dirac/
 │   ├── branding/                   # Quantus branding assets
-│   │   ├── logo.svg                # Quantus logo (SVG)
-│   │   ├── logo.png                # Quantus logo (PNG)
-│   │   └── favicon.ico             # Browser favicon
+│   │   ├── logo.svg                # Sidebar logo (SVG)
+│   │   ├── logo.png                # Apple touch icon
+│   │   ├── favicon.ico             # Favicon
+│   │   └── fav32.png               # 32×32 favicon PNG
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
