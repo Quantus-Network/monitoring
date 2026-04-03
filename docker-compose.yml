@@ -110,6 +110,9 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/branding:/etc/grafana/branding:ro
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      # Login screen uses g8_login_*.svg from the image; bind-mount Quantus art so it always wins (no image rebuild).
+      - ./grafana/branding/quantus_login_dark.svg:/usr/share/grafana/public/img/g8_login_dark.svg:ro
+      - ./grafana/branding/quantus_login_light.svg:/usr/share/grafana/public/img/g8_login_light.svg:ro
     depends_on:
       postgres:
         condition: service_healthy
