@@ -1,0 +1,28 @@
+<svg width="2261" height="1272" viewBox="0 0 2261 1272" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Replaces Grafana default g8_login_dark.svg (purple/blue). Same canvas size as upstream. -->
+  <defs>
+    <linearGradient id="qd_beam" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#FF6B35" stop-opacity="0.55"/>
+      <stop offset="35%" stop-color="#FF6B35" stop-opacity="0.12"/>
+      <stop offset="70%" stop-color="#0E0E0E" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="qd_glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1980 200) rotate(90) scale(900 1400)">
+      <stop stop-color="#FF8555" stop-opacity="0.5"/>
+      <stop offset="0.45" stop-color="#FF6B35" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="qd_floor" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(400 1180) rotate(-20) scale(800 500)">
+      <stop stop-color="#CC5528" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="qd_clip">
+      <rect width="2261" height="1272"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#qd_clip)">
+    <rect width="2261" height="1272" fill="#0E0E0E"/>
+    <rect width="2261" height="1272" fill="url(#qd_beam)"/>
+    <rect width="2261" height="1272" fill="url(#qd_glow)"/>
+    <rect width="2261" height="1272" fill="url(#qd_floor)"/>
+  </g>
+</svg>
