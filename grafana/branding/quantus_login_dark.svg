@@ -1,0 +1,39 @@
+<svg width="2261" height="1272" viewBox="0 0 2261 1272" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0)">
+    <rect width="2261" height="1272" fill="#0E0E0E"/>
+    <rect x="-1147" y="-916" width="4532" height="2576" fill="#0E0E0E"/>
+    <ellipse opacity="0.45" cx="1130.5" cy="-102.5" rx="4422.5" ry="1438.5" fill="url(#q0)"/>
+    <ellipse opacity="0.28" cx="1372" cy="-159.5" rx="1832" ry="1455.5" fill="url(#q1)"/>
+    <ellipse opacity="0.35" cx="400.5" cy="-509" rx="1860.5" ry="1673" fill="url(#q2)"/>
+    <ellipse opacity="0.4" cx="520.5" cy="-305" rx="980.5" ry="702" fill="url(#q3)"/>
+    <ellipse opacity="0.3" cx="500" cy="-160" rx="1049" ry="290" fill="url(#q4)"/>
+  </g>
+  <defs>
+    <radialGradient id="q0" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1130.5 -102.5) rotate(90) scale(1438.5 4422.5)">
+      <stop stop-color="#FF6B35"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1372 -159.5) rotate(90) scale(1455.5 1832)">
+      <stop stop-color="#E85A2A"/>
+      <stop offset="0.5" stop-color="#CC5528" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(400.5 -509) rotate(90) scale(1673 1860.5)">
+      <stop stop-color="#FF8555"/>
+      <stop offset="0.35" stop-color="#FF6B35" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q3" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(520.5 -305) rotate(90) scale(702 980.5)">
+      <stop stop-color="#FF6B35"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="q4" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(500 -160) rotate(90) scale(290 1049)">
+      <stop offset="0.25" stop-color="#FFB08A"/>
+      <stop offset="0.55" stop-color="#FF6B35" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#0E0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="clip0">
+      <rect width="2261" height="1272" fill="white"/>
+    </clipPath>
+  </defs>
+</svg>

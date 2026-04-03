@@ -19,6 +19,10 @@ RUN rsvg-convert -w 16 -h 16 /tmp/quantus-favicon.svg -o /tmp/fav16.png && \
     icotool -c /tmp/fav16.png -c /tmp/fav32.png -o /usr/share/grafana/public/img/favicon.ico && \
     rm -f /tmp/fav16.png /tmp/fav32.png /tmp/quantus-favicon.svg
 
+# Login page background (OSS: Branding.tsx loads public/img/g8_login_{dark,light}.svg — not Enterprise white_labeling)
+COPY branding/quantus_login_dark.svg /usr/share/grafana/public/img/g8_login_dark.svg
+COPY branding/quantus_login_light.svg /usr/share/grafana/public/img/g8_login_light.svg
+
 # Copy alerting provisioning to image (will be modified by entrypoint)
 COPY provisioning/alerting /etc/grafana/provisioning/alerting
 
