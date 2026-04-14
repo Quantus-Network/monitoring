@@ -21,6 +21,19 @@
   "links": [],
   "panels": [
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 100,
+      "panels": [],
+      "title": "RPC Sessions",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
@@ -37,7 +50,6 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -47,13 +59,96 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 3,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "always",
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "substrate_rpc_sessions_opened{chain=\"planck\"} - substrate_rpc_sessions_closed{chain=\"planck\"}",
+          "legendFormat": "Active Sessions - {{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Active RPC Sessions",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -72,294 +167,149 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "cps"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 0
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 1
       },
-      "id": 1,
-      "interval": "1s",
+      "id": 2,
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "firstNotNull",
-            "min",
-            "max",
-            "mean"
-          ],
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(substrate_rpc_sessions_opened{chain=\"planck\"}[5m])",
+          "legendFormat": "Opened/s - {{instance}}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(substrate_rpc_sessions_closed{chain=\"planck\"}[5m])",
+          "legendFormat": "Closed/s - {{instance}}",
+          "refId": "B"
+        }
+      ],
+      "title": "RPC Session Open/Close Rate",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 200,
+      "panels": [],
+      "title": "Transaction Lifecycle",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "expr": "qpow_metrics{data_group=\"last_block_duration\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Last Block Mining Time",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 10
-      },
-      "id": 2,
-      "options": {
-        "legend": {
-          "calcs": ["lastNotNull"],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
           "mode": "multi",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "histogram_quantile(0.50, rate(rpc_transaction_validation_time_bucket{chain=\"planck\"}[5m]))",
+          "legendFormat": "p50 - {{instance}}",
           "refId": "A"
-        }
-      ],
-      "title": "Chain Height",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          },
-          "unit": "ms"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 10
-      },
-      "id": 3,
-      "options": {
-        "legend": {
-          "calcs": ["lastNotNull"],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Block Time EMA",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
-          }
+          "expr": "histogram_quantile(0.95, rate(rpc_transaction_validation_time_bucket{chain=\"planck\"}[5m]))",
+          "legendFormat": "p95 - {{instance}}",
+          "refId": "B"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 18
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": ["lastNotNull"],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
+          "expr": "histogram_quantile(0.99, rate(rpc_transaction_validation_time_bucket{chain=\"planck\"}[5m]))",
+          "legendFormat": "p99 - {{instance}}",
+          "refId": "C"
         }
       ],
-      "title": "Difficulty",
+      "title": "TX Validation Time",
       "type": "timeseries"
     },
     {
@@ -388,13 +338,13 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -421,9 +371,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 8
       },
-      "id": 5,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": ["mean", "max"],
@@ -438,22 +388,22 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.50, rate(rpc_transaction_in_block_time_bucket{chain=\"planck\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.95, rate(rpc_transaction_in_block_time_bucket{chain=\"planck\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.99, rate(rpc_transaction_in_block_time_bucket{chain=\"planck\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
           "refId": "C"
         }
       ],
-      "title": "Block Construction Time",
+      "title": "TX Time to Block Inclusion",
       "type": "timeseries"
     },
     {
@@ -482,13 +432,13 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -506,7 +456,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "s"
         },
         "overrides": []
       },
@@ -514,7 +465,114 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": ["mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, rate(rpc_transaction_finalized_time_bucket{chain=\"planck\"}[5m]))",
+          "legendFormat": "p50 - {{instance}}",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, rate(rpc_transaction_finalized_time_bucket{chain=\"planck\"}[5m]))",
+          "legendFormat": "p95 - {{instance}}",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, rate(rpc_transaction_finalized_time_bucket{chain=\"planck\"}[5m]))",
+          "legendFormat": "p99 - {{instance}}",
+          "refId": "C"
+        }
+      ],
+      "title": "TX Time to Finalization",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 300,
+      "panels": [],
+      "title": "Transaction Errors",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "cps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 25
       },
       "id": 6,
       "options": {
@@ -531,13 +589,194 @@
       },
       "targets": [
         {
-          "expr": "substrate_proposer_number_of_transactions{chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "rate(rpc_transaction_error_time_count{chain=\"planck\"}[5m])",
+          "legendFormat": "Errors/s - {{instance}}",
           "refId": "A"
         }
       ],
-      "title": "Transactions per Block",
+      "title": "TX Error Rate",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "cps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 25
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(rpc_transaction_dropped_time_count{chain=\"planck\"}[5m])",
+          "legendFormat": "Dropped/s - {{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "TX Dropped Rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "cps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 25
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull"],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(rpc_transaction_invalid_time_count{chain=\"planck\"}[5m])",
+          "legendFormat": "Invalid/s - {{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "TX Invalid Rate",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 400,
+      "panels": [],
+      "title": "Totals",
+      "type": "row"
     },
     {
       "datasource": {
@@ -549,21 +788,58 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "color": "green",
-                  "text": "No"
-                },
-                "1": {
-                  "color": "red",
-                  "text": "YES - SYNCING"
-                }
-              },
-              "type": "value"
-            }
-          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 34
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "expr": "rpc_transaction_finalized_time_count{chain=\"planck\"}",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Finalized",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -581,14 +857,14 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 26
+        "w": 4,
+        "x": 4,
+        "y": 34
       },
-      "id": 7,
+      "id": 10,
       "options": {
-        "colorMode": "background",
-        "graphMode": "none",
+        "colorMode": "value",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -600,12 +876,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_is_major_syncing{chain=\"planck\"}",
+          "expr": "rpc_transaction_error_time_count{chain=\"planck\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
-      "title": "Major Syncing",
+      "title": "Total Errors",
       "type": "stat"
     },
     {
@@ -626,12 +902,8 @@
                 "color": "green"
               },
               {
-                "color": "yellow",
-                "value": 5
-              },
-              {
-                "color": "red",
-                "value": 10
+                "color": "orange",
+                "value": 1
               }
             ]
           }
@@ -640,11 +912,11 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 26
+        "w": 4,
+        "x": 8,
+        "y": 34
       },
-      "id": 8,
+      "id": 11,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -659,12 +931,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_number_leaves{chain=\"planck\"}",
+          "expr": "rpc_transaction_dropped_time_count{chain=\"planck\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
-      "title": "Chain Leaves (Forks)",
+      "title": "Total Dropped",
       "type": "stat"
     },
     {
@@ -675,39 +947,62 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 34
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "expr": "rpc_transaction_invalid_time_count{chain=\"planck\"}",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Invalid",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
@@ -722,33 +1017,33 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 30
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 34
       },
-      "id": 9,
+      "id": 13,
       "options": {
-        "legend": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
           "calcs": ["lastNotNull"],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+          "fields": ""
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "textMode": "auto"
       },
       "targets": [
         {
-          "expr": "substrate_number_leaves{chain=\"planck\"}",
+          "expr": "rpc_transaction_in_block_time_count{chain=\"planck\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
-      "title": "Chain Leaves Over Time",
-      "type": "timeseries"
+      "title": "Total In Block",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -758,39 +1053,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
@@ -800,49 +1063,38 @@
                 "color": "green"
               }
             ]
-          },
-          "unit": "s"
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
+        "h": 4,
+        "w": 4,
+        "x": 20,
         "y": 34
       },
-      "id": 10,
+      "id": 14,
       "options": {
-        "legend": {
-          "calcs": ["mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "textMode": "auto"
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p50 - {{instance}}",
+          "expr": "rpc_transaction_validation_time_count{chain=\"planck\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "expr": "histogram_quantile(0.95, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p95 - {{instance}}",
-          "refId": "B"
-        },
-        {
-          "expr": "histogram_quantile(0.99, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p99 - {{instance}}",
-          "refId": "C"
         }
       ],
-      "title": "Block Verification & Import Time",
-      "type": "timeseries"
+      "title": "Total Validated",
+      "type": "stat"
     }
   ],
   "refresh": "10s",
@@ -850,7 +1102,7 @@
   "style": "dark",
   "tags": [
     "planck",
-    "business-metrics"
+    "rpc"
   ],
   "templating": {
     "list": []
@@ -861,8 +1113,8 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Planck - Business Metrics",
-  "uid": "planck-business-metrics",
-  "version": 2,
+  "title": "Planck - RPC",
+  "uid": "planck-rpc",
+  "version": 1,
   "weekStart": ""
 }

@@ -86,7 +86,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 2,
+      "id": 1,
       "options": {
         "legend": {
           "calcs": [],
@@ -105,7 +105,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_finalized_txs_total{job=\"planck-chain\"}",
+          "expr": "substrate_sub_txpool_submitted_transactions{job=\"planck-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -114,7 +114,7 @@
           "useBackend": false
         }
       ],
-      "title": "TXPool - Finalized",
+      "title": "TXPool - Submitted Transactions",
       "type": "timeseries"
     },
     {
@@ -182,7 +182,7 @@
         "x": 12,
         "y": 0
       },
-      "id": 1,
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -199,13 +199,9 @@
       "pluginVersion": "11.6.1",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_submitted_from_mempool_txs_total{job=\"planck-chain\"}",
+          "expr": "substrate_sub_txpool_block_transactions_pruned{job=\"planck-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -214,7 +210,7 @@
           "useBackend": false
         }
       ],
-      "title": "TXPool - submitted from mempool",
+      "title": "TXPool - Block Transactions Pruned",
       "type": "timeseries"
     },
     {
@@ -282,7 +278,7 @@
         "x": 0,
         "y": 8
       },
-      "id": 4,
+      "id": 3,
       "options": {
         "legend": {
           "calcs": [],
@@ -301,7 +297,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_watched_txs{job=\"planck-chain\"}",
+          "expr": "substrate_sub_txpool_block_transactions_resubmitted{job=\"planck-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -310,7 +306,7 @@
           "useBackend": false
         }
       ],
-      "title": "TXPool - Watched",
+      "title": "TXPool - Block Transactions Resubmitted",
       "type": "timeseries"
     },
     {
@@ -378,7 +374,7 @@
         "x": 12,
         "y": 8
       },
-      "id": 3,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -397,7 +393,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_active_views{job=\"planck-chain\"}",
+          "expr": "substrate_sub_txpool_validations_scheduled{job=\"planck-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -406,7 +402,199 @@
           "useBackend": false
         }
       ],
-      "title": "TXPool - Active views",
+      "title": "TXPool - Validations Scheduled",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "substrate_sub_txpool_validations_finished{job=\"planck-chain\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "TXPool - Validations Finished",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "substrate_sub_txpool_validations_invalid{job=\"planck-chain\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "TXPool - Validations Invalid",
       "type": "timeseries"
     }
   ],
@@ -427,5 +615,5 @@
   "timezone": "browser",
   "title": "Planck - TXPool",
   "uid": "planck-txpool",
-  "version": 6
+  "version": 7
 }
