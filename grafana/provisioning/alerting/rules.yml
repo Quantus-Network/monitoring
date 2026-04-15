@@ -691,7 +691,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: (rate(faucet_rejected_requests{job="support-faucet"}[5m]) / (rate(faucet_total_requests{job="support-faucet"}[5m]) + 0.001)) * 100
+              expr: ((rate(faucet_rate_limited_requests{job="support-faucet"}[5m]) + rate(faucet_max_balance_rejections{job="support-faucet"}[5m])) / (rate(faucet_total_requests{job="support-faucet"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -753,6 +753,310 @@ groups:
         annotations:
           description: 'Faucet rejection rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >50%) - possible spam or validation issues'
           summary: 'High Request Rejection Rate'
+        labels:
+          chain: dirac
+          severity: warning
+      
+      - uid: faucet_chain_disconnected
+        title: Faucet Chain Disconnected
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: faucet_chain_connected{job="support-faucet"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 10m
+        annotations:
+          description: 'Faucet has lost connection to the blockchain node for more than 10 minutes - transfers will fail'
+          summary: 'Faucet Chain Connection Lost'
+        labels:
+          chain: dirac
+          severity: critical
+      
+      - uid: faucet_twitter_api_stale
+        title: Faucet Twitter API Stale
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: time() - faucet_twitter_api_last_success_timestamp_seconds{job="support-faucet"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 600
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          description: 'No successful Twitter API call in over 10 minutes - faucet may not be processing Twitter requests'
+          summary: 'Twitter API Polling Stale'
+        labels:
+          chain: dirac
+          severity: warning
+      
+      - uid: faucet_high_transfer_duration
+        title: Faucet High Transfer Duration
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: rate(faucet_transfer_duration_seconds_sum{job="support-faucet"}[5m]) / rate(faucet_transfer_duration_seconds_count{job="support-faucet"}[5m])
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 60
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: OK
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          description: 'Average faucet transfer duration is {{ printf "%.1f" $values.B.Value }}s (threshold: >60s) - chain may be congested or node unresponsive'
+          summary: 'Faucet Transfers Are Slow'
+        labels:
+          chain: dirac
+          severity: warning
+      
+      - uid: faucet_transfer_queue_growing
+        title: Faucet Transfer Queue Growing
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: faucet_pending_transfers{job="support-faucet"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 5
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: OK
+        execErrState: Alerting
+        for: 10m
+        annotations:
+          description: 'Faucet has {{ printf "%.0f" $values.B.Value }} pending transfers in queue (threshold: >5 for 10m) - transfers may be stuck'
+          summary: 'Faucet Transfer Queue Backlog'
         labels:
           chain: dirac
           severity: warning

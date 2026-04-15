@@ -3,307 +3,164 @@
   "uid": "faucet-metrics",
   "tags": ["faucet", "support"],
   "timezone": "browser",
-  "schemaVersion": 38,
-  "refresh": "10s",
+  "schemaVersion": 41,
+  "refresh": "30s",
   "editable": true,
   "panels": [
     {
-      "type": "text",
-      "gridPos": {
-        "h": 3,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
+      "type": "row",
+      "title": "Status",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "collapsed": false
+    },
+    {
+      "type": "stat",
+      "title": "Faucet Up",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 1 },
       "id": 1,
-      "options": {
-        "mode": "markdown",
-        "content": "# 💧 Faucet Metrics\n\nReal-time monitoring of faucet operations and token distribution"
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Total Requests",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 0,
-        "y": 3
-      },
-      "id": 2,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "expr": "faucet_total_requests{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "faucet_up{job=\"support-faucet\"}",
+          "refId": "A"
         }
       ],
       "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "blue"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Successful Transfers",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 6,
-        "y": 3
-      },
-      "id": 3,
-      "targets": [
-        {
-          "expr": "faucet_successful_transfers{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "green"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Failed Transfers",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 12,
-        "y": 3
-      },
-      "id": 4,
-      "targets": [
-        {
-          "expr": "faucet_failed_transfers{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "red"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Success Rate",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 18,
-        "y": 3
-      },
-      "id": 5,
-      "targets": [
-        {
-          "expr": "(faucet_successful_transfers{job=\"support-faucet\"} / (faucet_total_requests{job=\"support-faucet\"} > 0)) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 32
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"] },
         "colorMode": "background",
         "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "min": 0,
-          "max": 100,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 80,
-                "color": "yellow"
-              },
-              {
-                "value": 95,
-                "color": "green"
-              }
-            ]
-          }
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "value": 1, "color": "green" }] }
         }
       }
     },
     {
       "type": "stat",
-      "title": "Faucet Account Balance",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 9
-      },
-      "id": 6,
+      "title": "Chain Connected",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 1 },
+      "id": 2,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "expr": "faucet_account_balance{job=\"support-faucet\"} / 1e12",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "faucet_chain_connected{job=\"support-faucet\"}",
+          "refId": "A"
         }
       ],
       "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 48
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"] },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 100,
-                "color": "yellow"
-              },
-              {
-                "value": 1000,
-                "color": "green"
-              }
-            ]
-          }
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DISCONNECTED", "color": "red" }, "1": { "text": "CONNECTED", "color": "green" } } }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "value": 1, "color": "green" }] }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Uptime",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 1 },
+      "id": 3,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "time() - faucet_start_time_seconds{job=\"support-faucet\"}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": { "mode": "fixed", "fixedColor": "blue" }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Twitter",
+      "gridPos": { "h": 4, "w": 3, "x": 12, "y": 1 },
+      "id": 4,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "faucet_twitter_enabled{job=\"support-faucet\"}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "OFF", "color": "dark-red" }, "1": { "text": "ON", "color": "dark-green" } } }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "dark-red" }, { "value": 1, "color": "dark-green" }] }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Telegram",
+      "gridPos": { "h": 4, "w": 3, "x": 15, "y": 1 },
+      "id": 5,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "faucet_telegram_enabled{job=\"support-faucet\"}",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "OFF", "color": "dark-red" }, "1": { "text": "ON", "color": "dark-green" } } }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "dark-red" }, { "value": 1, "color": "dark-green" }] }
         }
       }
     },
     {
       "type": "stat",
       "title": "Active Users",
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 9
-      },
-      "id": 7,
+      "gridPos": { "h": 4, "w": 3, "x": 18, "y": 1 },
+      "id": 6,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
           "expr": "faucet_active_users{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         }
       ],
       "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 48
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"] },
         "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
@@ -312,42 +169,24 @@
         "defaults": {
           "unit": "short",
           "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "purple"
-          }
+          "color": { "mode": "fixed", "fixedColor": "purple" }
         }
       }
     },
     {
       "type": "stat",
-      "title": "Balance Queries",
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 9
-      },
-      "id": 8,
+      "title": "Chain Reconnects",
+      "gridPos": { "h": 4, "w": 3, "x": 21, "y": 1 },
+      "id": 7,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "expr": "faucet_balance_queries{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "faucet_chain_reconnects_total{job=\"support-faucet\"}",
+          "refId": "A"
         }
       ],
       "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 48
-        },
+        "reduceOptions": { "calcs": ["lastNotNull"] },
         "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
@@ -356,261 +195,495 @@
         "defaults": {
           "unit": "short",
           "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "blue"
-          }
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "value": 1, "color": "orange" }, { "value": 5, "color": "red" }] }
         }
       }
     },
+
     {
-      "type": "timeseries",
-      "title": "Request Rate (per minute)",
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 17
-      },
-      "id": 9,
-      "targets": [
-        {
-          "expr": "rate(faucet_total_requests{job=\"support-faucet\"}[1m]) * 60",
-          "refId": "A",
-          "legendFormat": "Total Requests",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "rate(faucet_successful_transfers{job=\"support-faucet\"}[1m]) * 60",
-          "refId": "B",
-          "legendFormat": "Successful",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "rate(faucet_failed_transfers{job=\"support-faucet\"}[1m]) * 60",
-          "refId": "C",
-          "legendFormat": "Failed",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "legend": {
-          "calcs": ["lastNotNull", "mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "reqpm",
-          "decimals": 2,
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          }
-        }
-      }
+      "type": "row",
+      "title": "Requests & Transfers",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 101,
+      "collapsed": false
     },
     {
-      "type": "timeseries",
-      "title": "Faucet Balance Over Time",
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 17
-      },
+      "type": "stat",
+      "title": "Total Requests",
+      "gridPos": { "h": 5, "w": 4, "x": 0, "y": 6 },
       "id": 10,
-      "targets": [
-        {
-          "expr": "faucet_account_balance{job=\"support-faucet\"} / 1e18",
-          "refId": "A",
-          "legendFormat": "Balance (tokens)",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_total_requests{job=\"support-faucet\"}", "refId": "A" }],
       "options": {
-        "legend": {
-          "calcs": ["lastNotNull", "min", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "color": { "mode": "fixed", "fixedColor": "blue" } } }
+    },
+    {
+      "type": "stat",
+      "title": "Successful",
+      "gridPos": { "h": 5, "w": 4, "x": 4, "y": 6 },
+      "id": 11,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_successful_transfers{job=\"support-faucet\"}", "refId": "A" }],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "color": { "mode": "fixed", "fixedColor": "green" } } }
+    },
+    {
+      "type": "stat",
+      "title": "Failed",
+      "gridPos": { "h": 5, "w": 4, "x": 8, "y": 6 },
+      "id": 12,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_failed_transfers{job=\"support-faucet\"}", "refId": "A" }],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "value": 1, "color": "red" }] } } }
+    },
+    {
+      "type": "stat",
+      "title": "Success Rate",
+      "gridPos": { "h": 5, "w": 4, "x": 12, "y": 6 },
+      "id": 13,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "(faucet_successful_transfers{job=\"support-faucet\"} / clamp_min(faucet_total_requests{job=\"support-faucet\"}, 1)) * 100", "refId": "A" }],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
-          "decimals": 2,
-          "color": {
-            "mode": "palette-classic"
-          },
+          "unit": "percent", "decimals": 1, "min": 0, "max": 100,
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "value": 80, "color": "yellow" }, { "value": 95, "color": "green" }] }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Rate Limited",
+      "gridPos": { "h": 5, "w": 4, "x": 16, "y": 6 },
+      "id": 14,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_rate_limited_requests{job=\"support-faucet\"}", "refId": "A" }],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "value": 1, "color": "orange" }] } } }
+    },
+    {
+      "type": "stat",
+      "title": "Max Balance Rejected",
+      "gridPos": { "h": 5, "w": 4, "x": 20, "y": 6 },
+      "id": 15,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_max_balance_rejections{job=\"support-faucet\"}", "refId": "A" }],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": { "defaults": { "unit": "short", "decimals": 0, "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "value": 1, "color": "yellow" }] } } }
+    },
+
+    {
+      "type": "row",
+      "title": "Balance",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 11 },
+      "id": 102,
+      "collapsed": false
+    },
+    {
+      "type": "stat",
+      "title": "Faucet Account Balance",
+      "gridPos": { "h": 7, "w": 8, "x": 0, "y": 12 },
+      "id": 20,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_account_balance{job=\"support-faucet\"} / 1e12", "legendFormat": "Balance", "refId": "A" }],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "text": { "titleSize": 16, "valueSize": 40 }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short", "decimals": 0,
+          "displayName": "QU",
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "value": 100000, "color": "yellow" }, { "value": 1000000, "color": "green" }] }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Balance Over Time",
+      "gridPos": { "h": 7, "w": 16, "x": 8, "y": 12 },
+      "id": 21,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [{ "expr": "faucet_account_balance{job=\"support-faucet\"} / 1e12", "legendFormat": "Balance (QU)", "refId": "A" }],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "min"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short", "decimals": 0,
+          "color": { "mode": "palette-classic" },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 15, "gradientMode": "scheme",
+            "showPoints": "never", "spanNulls": false,
+            "axisBorderShow": false, "axisLabel": "QU", "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" },
+            "thresholdsStyle": { "mode": "dashed" }
+          },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }, { "value": 100000, "color": "transparent" }] }
+        }
+      }
+    },
+
+    {
+      "type": "row",
+      "title": "Platform Breakdown",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 19 },
+      "id": 103,
+      "collapsed": false
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Rate by Platform",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "id": 30,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_platform_requests_total{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "{{platform}} requests", "refId": "A" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "sum"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 20,
+            "showPoints": "never", "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
           }
         }
       }
     },
     {
       "type": "timeseries",
-      "title": "Rejection Reasons",
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 27
-      },
-      "id": 11,
+      "title": "Transfers by Platform",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "id": 31,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
-        {
-          "expr": "rate(faucet_rate_limited_requests{job=\"support-faucet\"}[5m]) * 60",
-          "refId": "A",
-          "legendFormat": "Rate Limited",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "rate(faucet_max_balance_rejections{job=\"support-faucet\"}[5m]) * 60",
-          "refId": "B",
-          "legendFormat": "Max Balance Exceeded",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
+        { "expr": "rate(faucet_platform_transfers_ok_total{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "{{platform}} OK", "refId": "A" },
+        { "expr": "rate(faucet_platform_transfers_failed_total{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "{{platform}} failed", "refId": "B" }
       ],
       "options": {
-        "legend": {
-          "calcs": ["lastNotNull", "mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "legend": { "calcs": ["lastNotNull", "sum"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "reqpm",
-          "decimals": 2,
-          "color": {
-            "mode": "palette-classic"
-          },
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 20,
+            "showPoints": "never", "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+
+    {
+      "type": "row",
+      "title": "Transfer Performance",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 28 },
+      "id": 104,
+      "collapsed": false
+    },
+    {
+      "type": "timeseries",
+      "title": "Transfer Duration (avg)",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 29 },
+      "id": 40,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_transfer_duration_seconds_sum{job=\"support-faucet\"}[5m]) / rate(faucet_transfer_duration_seconds_count{job=\"support-faucet\"}[5m])", "legendFormat": "avg duration", "refId": "A" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "auto", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" },
+            "thresholdsStyle": { "mode": "dashed" }
+          },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "value": 30, "color": "yellow" }, { "value": 60, "color": "red" }] }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Queue Wait Time (avg)",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 29 },
+      "id": 41,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_transfer_queue_wait_seconds_sum{job=\"support-faucet\"}[5m]) / rate(faucet_transfer_queue_wait_seconds_count{job=\"support-faucet\"}[5m])", "legendFormat": "avg wait", "refId": "A" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s", "decimals": 3,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "auto", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Pending Transfers & Retries",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 29 },
+      "id": 42,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "faucet_pending_transfers{job=\"support-faucet\"}", "legendFormat": "Pending in queue", "refId": "A" },
+        { "expr": "faucet_transfer_retries_total{job=\"support-faucet\"}", "legendFormat": "Transfer retries (total)", "refId": "B" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short", "decimals": 0,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "auto", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+
+    {
+      "type": "row",
+      "title": "Twitter API Health",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 37 },
+      "id": 105,
+      "collapsed": false
+    },
+    {
+      "type": "stat",
+      "title": "Time Since Last Successful Poll",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 38 },
+      "id": 50,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "time() - faucet_twitter_api_last_success_timestamp_seconds{job=\"support-faucet\"}", "refId": "A" }
+      ],
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": { "mode": "thresholds" },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }, { "value": 300, "color": "yellow" }, { "value": 600, "color": "red" }] }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Twitter API Request Rate",
+      "gridPos": { "h": 6, "w": 9, "x": 6, "y": 38 },
+      "id": 51,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_twitter_api_requests_total{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "requests/min", "refId": "A" },
+        { "expr": "rate(faucet_twitter_api_retries_total{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "retries/min", "refId": "B" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull"], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "never", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Twitter API Errors by Type",
+      "gridPos": { "h": 6, "w": 9, "x": 15, "y": 38 },
+      "id": 52,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_twitter_api_errors_total{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "{{error_type}}", "refId": "A" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull"], "displayMode": "list", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "never", "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Twitter Poll Duration (avg)",
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 44 },
+      "id": 53,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_twitter_poll_duration_seconds_sum{job=\"support-faucet\"}[5m]) / rate(faucet_twitter_poll_duration_seconds_count{job=\"support-faucet\"}[5m])", "legendFormat": "avg poll duration", "refId": "A" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s", "decimals": 3,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "auto", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+
+    {
+      "type": "row",
+      "title": "Rejections & Requests Over Time",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 50 },
+      "id": 106,
+      "collapsed": false
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Rate",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 51 },
+      "id": 60,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_total_requests{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "Total Requests", "refId": "A" },
+        { "expr": "rate(faucet_successful_transfers{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "Successful", "refId": "B" },
+        { "expr": "rate(faucet_failed_transfers{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "Failed", "refId": "C" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "never", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Rejection Rate",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 51 },
+      "id": 61,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "rate(faucet_rate_limited_requests{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "Rate Limited", "refId": "A" },
+        { "expr": "rate(faucet_max_balance_rejections{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "Max Balance Exceeded", "refId": "B" }
+      ],
+      "options": {
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "never", "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
           }
         }
       }
@@ -618,206 +691,51 @@
     {
       "type": "timeseries",
       "title": "Active Users Over Time",
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 27
-      },
-      "id": 12,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 59 },
+      "id": 62,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
-        {
-          "expr": "faucet_active_users{job=\"support-faucet\"}",
-          "refId": "A",
-          "legendFormat": "Active Users",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
+        { "expr": "faucet_active_users{job=\"support-faucet\"}", "legendFormat": "Active Users", "refId": "A" }
       ],
       "options": {
-        "legend": {
-          "calcs": ["lastNotNull", "mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "palette-classic"
-          },
+          "unit": "short", "decimals": 0,
+          "color": { "mode": "palette-classic" },
           "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 15,
+            "showPoints": "auto", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
           }
         }
       }
     },
     {
-      "type": "stat",
-      "title": "Rate Limited Requests",
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 0,
-        "y": 37
-      },
-      "id": 13,
+      "type": "timeseries",
+      "title": "Balance Queries Rate",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 59 },
+      "id": 63,
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
-        {
-          "expr": "faucet_rate_limited_requests{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
+        { "expr": "rate(faucet_balance_queries{job=\"support-faucet\"}[5m]) * 60", "legendFormat": "queries/min", "refId": "A" }
       ],
       "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 28
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "textMode": "value"
+        "legend": { "calcs": ["lastNotNull", "mean", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true },
+        "tooltip": { "mode": "single", "sort": "none" }
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "orange"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Max Balance Rejections",
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 8,
-        "y": 37
-      },
-      "id": 14,
-      "targets": [
-        {
-          "expr": "faucet_max_balance_rejections{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 28
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "yellow"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Total Balance Queries",
-      "gridPos": {
-        "h": 6,
-        "w": 8,
-        "x": 16,
-        "y": 37
-      },
-      "id": 15,
-      "targets": [
-        {
-          "expr": "faucet_balance_queries{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 28
-        },
-        "colorMode": "value",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "blue"
+          "unit": "reqpm", "decimals": 2,
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10,
+            "showPoints": "never", "spanNulls": false,
+            "axisBorderShow": false, "axisPlacement": "auto",
+            "scaleDistribution": { "type": "linear" }
           }
         }
       }
@@ -828,8 +746,7 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h"],
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "7d", "30d"]
   }
 }
-
