@@ -611,17 +611,15 @@
         "reduceOptions": {
           "values": false,
           "calcs": ["lastNotNull"],
-          "fields": "/^version$/"
+          "fields": ""
         },
         "textMode": "name"
       },
       "targets": [
         {
-          "expr": "substrate_build_info{chain=\"planck\"}",
-          "legendFormat": "{{name}} - {{version}}",
-          "refId": "A",
-          "format": "table",
-          "instant": true
+          "expr": "label_replace(substrate_build_info{chain=\"planck\"}, \"__name__\", \"$1 $2\", \"name\", \"(.+)\")",
+          "legendFormat": "{{name}} v{{version}}",
+          "refId": "A"
         }
       ],
       "title": "Node Build Info",
