@@ -183,7 +183,7 @@ groups:
               type: threshold
         noDataState: Alerting
         execErrState: Alerting
-        for: 7m
+        for: 10m
         annotations:
           description: 'Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" $values.B.Value }} minutes ago (threshold: 3 minutes) - check block production'
           summary: 'No new blocks on {{ index $labels "chain" }}'
