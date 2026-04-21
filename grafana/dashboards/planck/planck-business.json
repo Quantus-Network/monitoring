@@ -72,7 +72,7 @@
               }
             ]
           },
-          "unit": "Hz"
+          "unit": "MH/s"
         },
         "overrides": []
       },
@@ -97,7 +97,7 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"planck\"} / (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"} / 1000)",
+          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"planck\"} / ignoring(data_group) (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"} / 1000) / 1e6",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -157,7 +157,7 @@
               }
             ]
           },
-          "unit": "Hz"
+          "unit": "MH/s"
         },
         "overrides": []
       },
@@ -182,7 +182,7 @@
       },
       "targets": [
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}[10m]))",
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}[10m])) / 1e6",
           "legendFormat": "{{chain}}",
           "refId": "A"
         }
@@ -1033,6 +1033,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
