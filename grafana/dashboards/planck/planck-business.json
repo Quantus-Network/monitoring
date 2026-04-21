@@ -78,7 +78,7 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 12,
+        "w": 16,
         "x": 0,
         "y": 0
       },
@@ -136,8 +136,8 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 0
       },
       "id": 13,
@@ -145,7 +145,7 @@
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "center",
-        "orientation": "horizontal",
+        "orientation": "vertical",
         "reduceOptions": {
           "values": false,
           "calcs": ["lastNotNull"],
@@ -157,12 +157,12 @@
       "targets": [
         {
           "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) / avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"} / 1000) / 1e6)[$__range:])",
-          "legendFormat": "EMA-based avg",
+          "legendFormat": "EMA:",
           "refId": "A"
         },
         {
           "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}[10m])) / 1e6)[$__range:])",
-          "legendFormat": "Block-rate avg",
+          "legendFormat": "Block:",
           "refId": "B"
         }
       ],
@@ -1012,6 +1012,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 7,
+  "version": 8,
   "weekStart": ""
 }
