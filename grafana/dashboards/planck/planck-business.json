@@ -25,6 +25,155 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "Estimated network hashrate, two methods overlaid:\n- EMA-based: difficulty / block_time_ema (uses on-chain difficulty controller's smoothed block time).\n- Block-rate based: difficulty * d(chain_height)/dt over a 10m window (uses empirically observed block production rate).\nBoth assume QPOW difficulty represents the expected number of hash attempts per block. They should converge over long enough windows; short-term divergence is informative (e.g. EMA lag after a difficulty change, or Poisson noise on the block-rate side).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "MH/s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull", "mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) / avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"} / 1000) / 1e6",
+          "legendFormat": "EMA-based",
+          "refId": "A"
+        },
+        {
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}[10m])) / 1e6",
+          "legendFormat": "Block-rate (10m)",
+          "refId": "B"
+        }
+      ],
+      "title": "Estimated Network Hashrate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Average estimated network hashrate over the dashboard's selected time range. Two methods shown: EMA-based (uses on-chain block_time_ema) and block-rate-based (uses observed chain_height growth). Both should converge over long enough windows.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "MH/s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.0.0",
+      "targets": [
+        {
+          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) / avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"} / 1000) / 1e6)[$__range:])",
+          "legendFormat": "EMA:",
+          "refId": "A"
+        },
+        {
+          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}[10m])) / 1e6)[$__range:])",
+          "legendFormat": "Block:",
+          "refId": "B"
+        }
+      ],
+      "title": "Avg Network Hashrate (range)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -80,7 +229,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 10
       },
       "id": 1,
       "interval": "1s",
@@ -170,7 +319,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 20
       },
       "id": 2,
       "options": {
@@ -187,8 +336,8 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -254,7 +403,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 20
       },
       "id": 3,
       "options": {
@@ -271,8 +420,8 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -337,7 +486,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 28
       },
       "id": 4,
       "options": {
@@ -354,8 +503,8 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -421,7 +570,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 28
       },
       "id": 5,
       "options": {
@@ -438,18 +587,18 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p50 - {{instance}}",
+          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p95 - {{instance}}",
+          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p99 - {{instance}}",
+          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p99",
           "refId": "C"
         }
       ],
@@ -514,7 +663,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 36
       },
       "id": 6,
       "options": {
@@ -531,8 +680,8 @@
       },
       "targets": [
         {
-          "expr": "substrate_proposer_number_of_transactions{chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "avg by (chain) (substrate_proposer_number_of_transactions{chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -583,7 +732,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 26
+        "y": 36
       },
       "id": 7,
       "options": {
@@ -642,7 +791,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 26
+        "y": 36
       },
       "id": 8,
       "options": {
@@ -725,7 +874,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 40
       },
       "id": 9,
       "options": {
@@ -809,7 +958,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 44
       },
       "id": 10,
       "options": {
@@ -826,18 +975,18 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p50 - {{instance}}",
+          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p95 - {{instance}}",
+          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p99 - {{instance}}",
+          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p99",
           "refId": "C"
         }
       ],
@@ -863,6 +1012,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 2,
+  "version": 10,
   "weekStart": ""
 }
