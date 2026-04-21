@@ -78,7 +78,7 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 16,
+        "w": 12,
         "x": 0,
         "y": 0
       },
@@ -136,16 +136,16 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 8,
-        "x": 16,
+        "w": 12,
+        "x": 12,
         "y": 0
       },
       "id": 13,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "vertical",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
         "reduceOptions": {
           "values": false,
           "calcs": ["lastNotNull"],
@@ -1012,6 +1012,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }
