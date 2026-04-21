@@ -749,8 +749,8 @@
       },
       "targets": [
         {
-          "expr": "max by (chain) (substrate_sub_libp2p_is_major_syncing{chain=\"planck\"})",
-          "legendFormat": "{{chain}}",
+          "expr": "substrate_sub_libp2p_is_major_syncing{chain=\"planck\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
@@ -808,8 +808,8 @@
       },
       "targets": [
         {
-          "expr": "max by (chain) (substrate_number_leaves{chain=\"planck\"})",
-          "legendFormat": "{{chain}}",
+          "expr": "substrate_number_leaves{chain=\"planck\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
@@ -891,8 +891,8 @@
       },
       "targets": [
         {
-          "expr": "max by (chain) (substrate_number_leaves{chain=\"planck\"})",
-          "legendFormat": "{{chain}}",
+          "expr": "substrate_number_leaves{chain=\"planck\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
@@ -1012,6 +1012,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 9,
+  "version": 10,
   "weekStart": ""
 }
