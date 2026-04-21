@@ -336,8 +336,8 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -420,8 +420,8 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -503,8 +503,8 @@
       },
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -587,18 +587,18 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p50 - {{instance}}",
+          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p95 - {{instance}}",
+          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p99 - {{instance}}",
+          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p99",
           "refId": "C"
         }
       ],
@@ -680,8 +680,8 @@
       },
       "targets": [
         {
-          "expr": "substrate_proposer_number_of_transactions{chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "avg by (chain) (substrate_proposer_number_of_transactions{chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -749,8 +749,8 @@
       },
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_is_major_syncing{chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (substrate_sub_libp2p_is_major_syncing{chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -808,8 +808,8 @@
       },
       "targets": [
         {
-          "expr": "substrate_number_leaves{chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (substrate_number_leaves{chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -891,8 +891,8 @@
       },
       "targets": [
         {
-          "expr": "substrate_number_leaves{chain=\"planck\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (substrate_number_leaves{chain=\"planck\"})",
+          "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
@@ -975,18 +975,18 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p50 - {{instance}}",
+          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p95 - {{instance}}",
+          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m]))",
-          "legendFormat": "p99 - {{instance}}",
+          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"planck\"}[5m])))",
+          "legendFormat": "p99",
           "refId": "C"
         }
       ],
@@ -1012,6 +1012,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }
