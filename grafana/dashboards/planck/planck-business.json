@@ -25,6 +25,176 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "Estimated network hashrate based on difficulty and EMA-smoothed block time. Formula: difficulty / (block_time_ema_seconds). Assumes QPOW difficulty represents the expected number of hash attempts per block.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "Hz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull", "mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "qpow_metrics{data_group=\"difficulty\", chain=\"planck\"} / (qpow_metrics{data_group=\"block_time_ema\", chain=\"planck\"} / 1000)",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Estimated Network Hashrate (EMA-based)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Estimated network hashrate computed from observed block production rate. Formula: difficulty * d(chain_height)/dt. Independent of the on-chain block_time_ema and reflects the actual rate at which the network is finding blocks.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "Hz"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull", "mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"planck\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"}[10m]))",
+          "legendFormat": "{{chain}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Estimated Network Hashrate (Block-rate based, 10m)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -80,7 +250,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 10
       },
       "id": 1,
       "interval": "1s",
@@ -170,7 +340,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 20
       },
       "id": 2,
       "options": {
@@ -254,7 +424,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 20
       },
       "id": 3,
       "options": {
@@ -337,7 +507,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 28
       },
       "id": 4,
       "options": {
@@ -421,7 +591,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 28
       },
       "id": 5,
       "options": {
@@ -514,7 +684,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 36
       },
       "id": 6,
       "options": {
@@ -583,7 +753,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 26
+        "y": 36
       },
       "id": 7,
       "options": {
@@ -642,7 +812,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 26
+        "y": 36
       },
       "id": 8,
       "options": {
@@ -725,7 +895,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 40
       },
       "id": 9,
       "options": {
@@ -809,7 +979,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 44
       },
       "id": 10,
       "options": {
@@ -863,6 +1033,6 @@
   "timezone": "browser",
   "title": "Planck - Business Metrics",
   "uid": "planck-business-metrics",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
