@@ -219,7 +219,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 
 **Node Health:**
 - 🔴 **Node Down** - Triggers when a node is unreachable for 5+ minutes
-- 🔴 **No New Blocks** - Triggers when no new blocks produced for 3+ minutes
+- 🔴 **No New Blocks** - Fires when no new blocks have been produced for 7+ minutes (rule); first Telegram notification arrives ~10 min after the last block (7 min threshold + 1 min `for:` + ~2 min `group_wait`)
 - 🟡 **Low Peer Count** - Triggers when peer count drops below 3
 
 **System Resources:**
