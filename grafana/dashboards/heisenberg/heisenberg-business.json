@@ -106,7 +106,7 @@
           "refId": "A"
         },
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\"}[10m])) / 1e6",
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) * clamp_min(deriv(max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\"})[10m:]), 0) / 1e6",
           "legendFormat": "Block-rate (10m)",
           "refId": "B"
         }
@@ -167,7 +167,7 @@
           "refId": "A"
         },
         {
-          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) * max by (chain) (deriv(qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\"}[10m])) / 1e6)[$__range:])",
+          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) * clamp_min(deriv(max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"heisenberg\"})[10m:]), 0) / 1e6)[$__range:])",
           "legendFormat": "Block:",
           "refId": "B"
         }
@@ -1038,6 +1038,6 @@
   "timezone": "browser",
   "title": "Heisenberg - Business Metrics",
   "uid": "heisenberg-business-metrics",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
