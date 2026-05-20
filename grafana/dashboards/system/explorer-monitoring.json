@@ -103,7 +103,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_processor_chain_height{job=\"dirac-subsquid\"}",
+          "expr": "sqd_processor_chain_height{job=\"planck-subsquid\"}",
           "refId": "A",
           "legendFormat": "Chain Height"
         },
@@ -112,7 +112,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_processor_last_block{job=\"dirac-subsquid\"}",
+          "expr": "sqd_processor_last_block{job=\"planck-subsquid\"}",
           "refId": "B",
           "legendFormat": "Last Processed Block"
         }
@@ -180,7 +180,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_processor_sync_ratio{job=\"dirac-subsquid\"}",
+          "expr": "sqd_processor_sync_ratio{job=\"planck-subsquid\"}",
           "refId": "A"
         }
       ],
@@ -247,7 +247,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_processor_sync_eta_seconds{job=\"dirac-subsquid\"}",
+          "expr": "sqd_processor_sync_eta_seconds{job=\"planck-subsquid\"}",
           "refId": "A"
         }
       ],
@@ -336,7 +336,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_processor_mapping_blocks_per_second{job=\"dirac-subsquid\"}",
+          "expr": "sqd_processor_mapping_blocks_per_second{job=\"planck-subsquid\"}",
           "refId": "A",
           "legendFormat": "Blocks/sec"
         }
@@ -457,7 +457,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_rpc_request_count{job=\"dirac-subsquid\", kind=\"success\"}",
+          "expr": "sqd_rpc_request_count{job=\"planck-subsquid\", kind=\"success\"}",
           "refId": "A",
           "legendFormat": "Success"
         },
@@ -466,7 +466,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sqd_rpc_request_count{job=\"dirac-subsquid\", kind=\"failure\"}",
+          "expr": "sqd_rpc_request_count{job=\"planck-subsquid\", kind=\"failure\"}",
           "refId": "B",
           "legendFormat": "Failure"
         }
@@ -560,7 +560,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(process_cpu_seconds_total{job=\"dirac-subsquid\"}[5m]) * 100",
+          "expr": "rate(process_cpu_seconds_total{job=\"planck-subsquid\"}[5m]) * 100",
           "refId": "A",
           "legendFormat": "CPU Usage"
         }
@@ -654,7 +654,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "process_resident_memory_bytes{job=\"dirac-subsquid\"}",
+          "expr": "process_resident_memory_bytes{job=\"planck-subsquid\"}",
           "refId": "A",
           "legendFormat": "Resident Memory"
         },
@@ -663,7 +663,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "nodejs_heap_size_used_bytes{job=\"dirac-subsquid\"}",
+          "expr": "nodejs_heap_size_used_bytes{job=\"planck-subsquid\"}",
           "refId": "B",
           "legendFormat": "Heap Used"
         },
@@ -672,7 +672,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "nodejs_heap_size_total_bytes{job=\"dirac-subsquid\"}",
+          "expr": "nodejs_heap_size_total_bytes{job=\"planck-subsquid\"}",
           "refId": "C",
           "legendFormat": "Heap Total"
         }
@@ -762,7 +762,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "nodejs_eventloop_lag_seconds{job=\"dirac-subsquid\"}",
+          "expr": "nodejs_eventloop_lag_seconds{job=\"planck-subsquid\"}",
           "refId": "A",
           "legendFormat": "Event Loop Lag"
         },
@@ -771,7 +771,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "nodejs_eventloop_lag_mean_seconds{job=\"dirac-subsquid\"}",
+          "expr": "nodejs_eventloop_lag_mean_seconds{job=\"planck-subsquid\"}",
           "refId": "B",
           "legendFormat": "Mean Lag"
         },
@@ -780,7 +780,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "nodejs_eventloop_lag_max_seconds{job=\"dirac-subsquid\"}",
+          "expr": "nodejs_eventloop_lag_max_seconds{job=\"planck-subsquid\"}",
           "refId": "C",
           "legendFormat": "Max Lag"
         }
@@ -870,7 +870,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(nodejs_gc_duration_seconds_sum{job=\"dirac-subsquid\"}[5m]) / rate(nodejs_gc_duration_seconds_count{job=\"dirac-subsquid\"}[5m])",
+          "expr": "rate(nodejs_gc_duration_seconds_sum{job=\"planck-subsquid\"}[5m]) / rate(nodejs_gc_duration_seconds_count{job=\"planck-subsquid\"}[5m])",
           "refId": "A",
           "legendFormat": "GC Duration ({{kind}})"
         }
@@ -880,7 +880,7 @@
     }
   ],
   "schemaVersion": 39,
-  "tags": ["explorer", "dirac", "indexer"],
+  "tags": ["explorer", "planck", "indexer"],
   "templating": {
     "list": []
   },
