@@ -880,7 +880,7 @@
     }
   ],
   "schemaVersion": 39,
-  "tags": ["explorer", "dirac", "indexer"],
+  "tags": ["explorer", "planck", "indexer"],
   "templating": {
     "list": []
   },
