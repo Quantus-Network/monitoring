@@ -130,14 +130,16 @@ groups:
           summary: 'Low peer count on {{ index $labels "instance" }}'
         labels:
           severity: warning
-      # Alert when no new blocks for 3+ minutes
+      # Alert when no new blocks for 7+ minutes (rule), notified after ~10 min
+      # Total time-to-Telegram = 7 min (block age threshold) + 1 min (for:)
+      #                       + ~2 min (group_wait in policies.yml) ≈ 10 min
       - uid: no-new-blocks-alert
         title: No New Blocks
         condition: C
         data:
           - refId: A
             relativeTimeRange:
-              from: 600
+              from: 900
               to: 0
             datasourceUid: prometheus
             model:
@@ -167,7 +169,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 3
+                      - 7
                     type: gt
                   operator:
                     type: and
@@ -185,7 +187,7 @@ groups:
         execErrState: Alerting
         for: 1m
         annotations:
-          description: 'Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" $values.B.Value }} minutes ago (threshold: 3 minutes) - check block production'
+          description: 'Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" $values.B.Value }} minutes ago (alert fires after ~10 min without a block) - check block production'
           summary: 'No new blocks on {{ index $labels "chain" }}'
         labels:
           severity: critical
