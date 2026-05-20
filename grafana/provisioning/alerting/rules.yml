@@ -449,6 +449,68 @@ groups:
           summary: 'Telemetry Host is DOWN'
         labels:
           severity: critical
+
+      # Alert when SNT host is down
+      - uid: snt-host-down-alert
+        title: SNT Host Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: up{job="snt"}
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          description: 'SNT Host ({{ index $labels "instance" }}) is down for more than 5 minutes - SNT monitoring unavailable'
+          summary: 'SNT Host is DOWN'
+        labels:
+          severity: critical
       
       # ===============================================
       # FAUCET MONITORING ALERTS (Dirac - Highest Priority)
@@ -529,81 +591,81 @@ groups:
           chain: dirac
           severity: critical
       
-      - uid: faucet_low_balance
-        title: Faucet Low Balance
-        condition: C
-        data:
-          - refId: A
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: prometheus
-            model:
-              expr: faucet_account_balance{job="support-faucet"} / 1e12
-              refId: A
-          - refId: B
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: __expr__
-            model:
-              conditions:
-                - evaluator:
-                    params:
-                      - 0
-                      - 0
-                    type: gt
-                  operator:
-                    type: and
-                  query:
-                    params: []
-                  reducer:
-                    params: []
-                    type: avg
-                  type: query
-              datasource:
-                name: Expression
-                type: __expr__
-                uid: __expr__
-              expression: A
-              hide: false
-              intervalMs: 1000
-              maxDataPoints: 43200
-              reducer: last
-              refId: B
-              type: reduce
-          - refId: C
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: __expr__
-            model:
-              conditions:
-                - evaluator:
-                    params:
-                      - 100000
-                    type: lt
-                  operator:
-                    type: and
-                  query:
-                    params:
-                      - C
-                  reducer:
-                    params: []
-                    type: last
-                  type: query
-              expression: B
-              refId: C
-              type: threshold
-        noDataState: Alerting
-        execErrState: Alerting
-        for: 5m
-        annotations:
-          description: 'Faucet balance is {{ printf "%.0f" $values.B.Value }} QU (threshold: <100,000 QU) - please refill the account'
-          summary: 'Faucet Balance is LOW'
-        labels:
-          chain: dirac
-          severity: warning
+      # - uid: faucet_low_balance
+      #   title: Faucet Low Balance
+      #   condition: C
+      #   data:
+      #     - refId: A
+      #       relativeTimeRange:
+      #         from: 300
+      #         to: 0
+      #       datasourceUid: prometheus
+      #       model:
+      #         expr: faucet_account_balance{job="support-faucet"} / 1e12
+      #         refId: A
+      #     - refId: B
+      #       relativeTimeRange:
+      #         from: 300
+      #         to: 0
+      #       datasourceUid: __expr__
+      #       model:
+      #         conditions:
+      #           - evaluator:
+      #               params:
+      #                 - 0
+      #                 - 0
+      #               type: gt
+      #             operator:
+      #               type: and
+      #             query:
+      #               params: []
+      #             reducer:
+      #               params: []
+      #               type: avg
+      #             type: query
+      #         datasource:
+      #           name: Expression
+      #           type: __expr__
+      #           uid: __expr__
+      #         expression: A
+      #         hide: false
+      #         intervalMs: 1000
+      #         maxDataPoints: 43200
+      #         reducer: last
+      #         refId: B
+      #         type: reduce
+      #     - refId: C
+      #       relativeTimeRange:
+      #         from: 300
+      #         to: 0
+      #       datasourceUid: __expr__
+      #       model:
+      #         conditions:
+      #           - evaluator:
+      #               params:
+      #                 - 100000
+      #               type: lt
+      #             operator:
+      #               type: and
+      #             query:
+      #               params:
+      #                 - C
+      #             reducer:
+      #               params: []
+      #               type: last
+      #             type: query
+      #         expression: B
+      #         refId: C
+      #         type: threshold
+      #   noDataState: Alerting
+      #   execErrState: Alerting
+      #   for: 5m
+      #   annotations:
+      #     description: 'Faucet balance is {{ printf "%.0f" $values.B.Value }} QU (threshold: <100,000 QU) - please refill the account'
+      #     summary: 'Faucet Balance is LOW'
+      #   labels:
+      #     chain: dirac
+      #     severity: warning
       
       - uid: faucet_high_failure_rate
         title: Faucet High Transfer Failure Rate
@@ -770,7 +832,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: up{job="dirac-subsquid"}
+              expr: up{job="planck-subsquid"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -846,7 +908,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: sqd_processor_chain_height{job="dirac-subsquid"} - sqd_processor_last_block{job="dirac-subsquid"}
+              expr: sqd_processor_chain_height{job="planck-subsquid"} - sqd_processor_last_block{job="planck-subsquid"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -922,7 +984,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: (rate(sqd_rpc_request_count{job="dirac-subsquid",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="dirac-subsquid",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="dirac-subsquid",kind="failure"}[5m]) + 0.001)) * 100
+              expr: (rate(sqd_rpc_request_count{job="planck-subsquid",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="planck-subsquid",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="planck-subsquid",kind="failure"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:

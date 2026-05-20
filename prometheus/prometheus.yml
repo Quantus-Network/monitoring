@@ -194,25 +194,6 @@ scrape_configs:
   static_configs:
   - targets:
     - hm-support.quantus.cat
-- job_name: dirac-subsquid
-  honor_timestamps: true
-  track_timestamps_staleness: false
-  scrape_interval: 15s
-  scrape_timeout: 10s
-  scrape_protocols:
-  - PrometheusText0.0.4
-  - OpenMetricsText1.0.0
-  - OpenMetricsText0.0.1
-  - PrometheusText1.0.0
-  metrics_path: /metrics
-  scheme: https
-  enable_compression: true
-  follow_redirects: true
-  enable_http2: true
-  fallback_scrape_protocol: PrometheusText0.0.4
-  static_configs:
-  - targets:
-    - subsquid.quantus.com
 - job_name: planck-subsquid
   honor_timestamps: true
   track_timestamps_staleness: false
