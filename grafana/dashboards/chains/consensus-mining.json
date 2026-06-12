@@ -254,16 +254,21 @@
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
-      "description": "On-chain inter-block wall-clock interval (ms) between consecutive block timestamps. This is not per-miner CPU time — it includes propagation and block execution.",
+      "description": "On-chain inter-block wall-clock interval (ms) between consecutive block timestamps — not per-miner CPU time.",
       "targets": [
         {
-          "expr": "qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})",
+          "legendFormat": "Instantaneous",
           "refId": "A"
+        },
+        {
+          "expr": "avg_over_time(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})[150s:15s])",
+          "legendFormat": "Smoothed (10 samples)",
+          "refId": "B"
         }
       ],
       "title": "Block Interval",
@@ -404,93 +409,6 @@
                 "color": "green"
               }
             ]
-          },
-          "unit": "ms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 38
-      },
-      "id": 5,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "description": "Rolling average of block interval over the last 10 Prometheus samples (150s at 15s scrape).",
-      "targets": [
-        {
-          "expr": "avg_over_time(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})[150s:15s])",
-          "legendFormat": "{{chain}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Block Interval (10-sample avg)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              }
-            ]
           }
         },
         "overrides": []
@@ -499,7 +417,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 46
+        "y": 38
       },
       "id": 6,
       "options": {
