@@ -25,7 +25,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Estimated network hashrate, two methods overlaid:\n- EMA-based: difficulty / block_time_ema (uses on-chain difficulty controller's smoothed block time).\n- Block-rate based: difficulty * d(chain_height)/dt over a 10m window (uses empirically observed block production rate).\nBoth assume QPOW difficulty represents the expected number of hash attempts per block. They should converge over long enough windows; short-term divergence is informative (e.g. EMA lag after a difficulty change, or Poisson noise on the block-rate side).",
+      "description": "Estimated network hashrate, two methods overlaid:\n- Duration-based: difficulty / last_block_duration (uses on-chain observed block time in ms).\n- Block-rate based: difficulty * d(chain_height)/dt over a 10m window (uses empirically observed block production rate).\nBoth assume QPOW difficulty represents the expected number of hash attempts per block. They should converge over long enough windows; short-term divergence is informative (e.g. per-block duration noise, or Poisson noise on the block-rate side).",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -101,8 +101,8 @@
       },
       "targets": [
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) / avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"heisenberg\"} / 1000) / 1e6",
-          "legendFormat": "EMA-based",
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) / clamp_min(avg by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"heisenberg\"}) / 1000, 0.001) / 1e6",
+          "legendFormat": "Duration-based",
           "refId": "A"
         },
         {
@@ -119,7 +119,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Average estimated network hashrate over the dashboard's selected time range. Two methods shown: EMA-based (uses on-chain block_time_ema) and block-rate-based (uses observed chain_height growth). Both should converge over long enough windows.",
+      "description": "Average estimated network hashrate over the dashboard's selected time range. Two methods shown: duration-based (uses on-chain last_block_duration) and block-rate-based (uses observed chain_height growth). Both should converge over long enough windows.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -162,8 +162,8 @@
       "pluginVersion": "10.0.0",
       "targets": [
         {
-          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) / avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"heisenberg\"} / 1000) / 1e6)[$__range:])",
-          "legendFormat": "EMA:",
+          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"heisenberg\"}) / clamp_min(avg by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"heisenberg\"}) / 1000, 0.001) / 1e6)[$__range:])",
+          "legendFormat": "Duration:",
           "refId": "A"
         },
         {
@@ -430,12 +430,12 @@
       },
       "targets": [
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"block_time_ema\", chain=\"heisenberg\"})",
+          "expr": "avg by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"heisenberg\"})",
           "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
-      "title": "Block Time EMA",
+      "title": "Block Time",
       "type": "timeseries"
     },
     {
