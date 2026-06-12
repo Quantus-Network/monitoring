@@ -1,6 +1,19 @@
 {
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
@@ -19,11 +32,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -32,8 +47,9 @@
               "viz": false,
               "legend": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -71,30 +87,109 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "expr": "substrate_block_height{status=\"best\",chain=\"dirac\"}",
-          "legendFormat": "Best Block - {{instance}}",
-          "refId": "A"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_processor_chain_height{job=\"planck-subsquid\"}",
+          "refId": "A",
+          "legendFormat": "Chain Height"
         },
         {
-          "expr": "substrate_block_height{status=\"finalized\",chain=\"dirac\"}",
-          "legendFormat": "Finalized Block - {{instance}}",
-          "refId": "B"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_processor_last_block{job=\"planck-subsquid\"}",
+          "refId": "B",
+          "legendFormat": "Last Processed Block"
         }
       ],
-      "title": "Block Height",
+      "title": "Chain Synchronization Status",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.5
+              },
+              {
+                "color": "green",
+                "value": 0.95
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.3.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_processor_sync_ratio{job=\"planck-subsquid\"}",
+          "refId": "A"
+        }
+      ],
+      "title": "Sync Progress",
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -113,42 +208,57 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 300
+              },
+              {
+                "color": "red",
+                "value": 3600
               }
             ]
           },
-          "unit": "short"
+          "unit": "s"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 6,
+        "x": 18,
         "y": 0
       },
-      "id": 2,
+      "id": 3,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "values": false,
           "calcs": [
             "lastNotNull"
-          ],
-          "fields": ""
+          ]
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.0.0",
+      "pluginVersion": "11.3.1",
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"dirac\"}",
-          "legendFormat": "{{instance}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_processor_sync_eta_seconds{job=\"planck-subsquid\"}",
           "refId": "A"
         }
       ],
-      "title": "Connected Peers",
-      "type": "gauge"
+      "title": "Estimated Sync Time",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -161,11 +271,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -174,8 +286,9 @@
               "viz": false,
               "legend": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -200,7 +313,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "short"
         },
         "overrides": []
       },
@@ -210,27 +323,34 @@
         "x": 0,
         "y": 8
       },
-      "id": 3,
+      "id": 4,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last",
+            "mean"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "expr": "(node_memory_MemTotal_bytes{job=\"dirac-node\"} - node_memory_MemAvailable_bytes{job=\"dirac-node\"})",
-          "legendFormat": "Memory Used - {{instance}}",
-          "refId": "A"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_processor_mapping_blocks_per_second{job=\"planck-subsquid\"}",
+          "refId": "A",
+          "legendFormat": "Blocks/sec"
         }
       ],
-      "title": "Memory Usage",
+      "title": "Processing Performance",
       "type": "timeseries"
     },
     {
@@ -244,11 +364,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -257,8 +379,142 @@
               "viz": false,
               "legend": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Success"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failure"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "last",
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_rpc_request_count{job=\"planck-subsquid\", kind=\"success\"}",
+          "refId": "A",
+          "legendFormat": "Success"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sqd_rpc_request_count{job=\"planck-subsquid\", kind=\"failure\"}",
+          "refId": "B",
+          "legendFormat": "Failure"
+        }
+      ],
+      "title": "RPC Requests (Success vs Failure)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -280,6 +536,10 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
@@ -290,27 +550,35 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 8
+        "x": 0,
+        "y": 16
       },
-      "id": 4,
+      "id": 6,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "expr": "avg(rate(node_cpu_seconds_total{job=\"dirac-node\",mode!=\"idle\"}[5m])) by (instance) * 100",
-          "legendFormat": "CPU Usage - {{instance}}",
-          "refId": "A"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "rate(process_cpu_seconds_total{job=\"planck-subsquid\"}[5m]) * 100",
+          "refId": "A",
+          "legendFormat": "CPU Usage"
         }
       ],
       "title": "CPU Usage",
@@ -327,11 +595,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -340,8 +610,9 @@
               "viz": false,
               "legend": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -363,98 +634,14 @@
               {
                 "color": "green",
                 "value": null
-              }
-            ]
-          },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 16
-      },
-      "id": 5,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",chain=\"dirac\"}[1m])",
-          "legendFormat": "Network IN - {{instance}}",
-          "refId": "A"
-        },
-        {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",chain=\"dirac\"}[1m])",
-          "legendFormat": "Network OUT - {{instance}}",
-          "refId": "B"
-        }
-      ],
-      "title": "Network Traffic",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+              },
               {
-                "color": "green",
-                "value": null
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "unit": "short"
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -464,27 +651,53 @@
         "x": 12,
         "y": 16
       },
-      "id": 6,
+      "id": 7,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
       "targets": [
         {
-          "expr": "rate(substrate_tasks_polling_duration_sum{chain=\"dirac\"}[1m]) / rate(substrate_tasks_polling_duration_count{chain=\"dirac\"}[1m])",
-          "legendFormat": "{{instance}} - {{task_name}}",
-          "refId": "A"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "process_resident_memory_bytes{job=\"planck-subsquid\"}",
+          "refId": "A",
+          "legendFormat": "Resident Memory"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "nodejs_heap_size_used_bytes{job=\"planck-subsquid\"}",
+          "refId": "B",
+          "legendFormat": "Heap Used"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "nodejs_heap_size_total_bytes{job=\"planck-subsquid\"}",
+          "refId": "C",
+          "legendFormat": "Heap Total"
         }
       ],
-      "title": "Task Execution Times (avg)",
+      "title": "Memory Usage",
       "type": "timeseries"
     },
     {
@@ -498,21 +711,23 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
-              "legend": false,
               "tooltip": false,
-              "viz": false
+              "viz": false,
+              "legend": false
             },
             "insertNulls": false,
-            "lineInterpolation": "smooth",
+            "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
@@ -538,7 +753,7 @@
               }
             ]
           },
-          "unit": "MBs"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -546,13 +761,17 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 24
       },
-      "id": 13,
+      "id": 8,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -563,17 +782,34 @@
       },
       "targets": [
         {
-          "expr": "sum(rate(node_network_transmit_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
-          "legendFormat": "Outbound",
-          "refId": "A"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "nodejs_eventloop_lag_seconds{job=\"planck-subsquid\"}",
+          "refId": "A",
+          "legendFormat": "Event Loop Lag"
         },
         {
-          "expr": "sum(rate(node_network_receive_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
-          "legendFormat": "Inbound",
-          "refId": "B"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "nodejs_eventloop_lag_mean_seconds{job=\"planck-subsquid\"}",
+          "refId": "B",
+          "legendFormat": "Mean Lag"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "nodejs_eventloop_lag_max_seconds{job=\"planck-subsquid\"}",
+          "refId": "C",
+          "legendFormat": "Max Lag"
         }
       ],
-      "title": "Network I/O - Total",
+      "title": "Event Loop Lag",
       "type": "timeseries"
     },
     {
@@ -587,21 +823,23 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
-              "legend": false,
               "tooltip": false,
-              "viz": false
+              "viz": false,
+              "legend": false
             },
             "insertNulls": false,
-            "lineInterpolation": "smooth",
+            "lineInterpolation": "linear",
             "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
@@ -627,7 +865,7 @@
               }
             ]
           },
-          "unit": "MBs"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -635,13 +873,16 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 24
       },
-      "id": 14,
+      "id": 9,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last",
+            "mean"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
@@ -652,39 +893,34 @@
       },
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
-          "legendFormat": "{{instance}} - TX",
-          "refId": "A"
-        },
-        {
-          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{job=\"dirac-node\"}[1m])) / 1024 / 1024",
-          "legendFormat": "{{instance}} - RX",
-          "refId": "B"
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "rate(nodejs_gc_duration_seconds_sum{job=\"planck-subsquid\"}[5m]) / rate(nodejs_gc_duration_seconds_count{job=\"planck-subsquid\"}[5m])",
+          "refId": "A",
+          "legendFormat": "GC Duration ({{kind}})"
         }
       ],
-      "title": "Network I/O - Per Instance",
+      "title": "Garbage Collection Duration",
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [
-    "dirac",
-    "node-metrics"
+    "applications",
+    "explorer"
   ],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
-  "title": "Dirac - Node Metrics",
-  "uid": "dirac-node-metrics",
-  "version": 1,
-  "weekStart": ""
+  "timezone": "browser",
+  "title": "Explorer",
+  "uid": "app-explorer",
+  "version": 1
 }
-

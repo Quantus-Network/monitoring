@@ -1,26 +1,25 @@
 {
   "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
+    "list": []
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "links": [],
-  "liveNow": false,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "chains"
+      ],
+      "targetBlank": false,
+      "title": "Chains",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
   "panels": [
     {
       "collapsed": false,
@@ -30,7 +29,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 100,
+      "id": 1,
       "panels": [],
       "title": "Peers Overview",
       "type": "row"
@@ -73,7 +72,7 @@
         "x": 0,
         "y": 1
       },
-      "id": 1,
+      "id": 2,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -93,7 +92,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -158,9 +157,9 @@
         "h": 8,
         "w": 18,
         "x": 6,
-        "y": 1
+        "y": 9
       },
-      "id": 2,
+      "id": 3,
       "options": {
         "legend": {
           "calcs": [],
@@ -180,7 +179,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
           "legendFormat": "Connected Peers - {{instance}}",
           "refId": "A"
         },
@@ -189,7 +188,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\"}",
           "legendFormat": "Discovered Peers - {{instance}}",
           "refId": "B"
         }
@@ -233,9 +232,9 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 9
+        "y": 17
       },
-      "id": 3,
+      "id": 4,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -257,7 +256,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -300,9 +299,9 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 9
+        "y": 21
       },
-      "id": 4,
+      "id": 5,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -324,7 +323,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -367,9 +366,9 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 9
+        "y": 25
       },
-      "id": 5,
+      "id": 6,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -391,7 +390,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_pending_connections{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -426,9 +425,9 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 9
+        "y": 29
       },
-      "id": 6,
+      "id": 7,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -450,7 +449,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sync_peers{chain=\"planck\"}",
+          "expr": "substrate_sync_peers{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -463,9 +462,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 33
       },
-      "id": 200,
+      "id": 8,
       "panels": [],
       "title": "Connection Health",
       "type": "row"
@@ -541,9 +540,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 34
       },
-      "id": 7,
+      "id": 9,
       "options": {
         "legend": {
           "calcs": [],
@@ -563,7 +562,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_connections_opened_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Opened ({{direction}}) - {{instance}}",
           "refId": "A"
         },
@@ -572,7 +571,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_connections_closed_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_connections_closed_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Closed ({{direction}}, {{reason}}) - {{instance}}",
           "refId": "B"
         }
@@ -638,9 +637,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 42
       },
-      "id": 8,
+      "id": 10,
       "options": {
         "legend": {
           "calcs": [],
@@ -660,7 +659,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Handshake Errors ({{reason}}) - {{instance}}",
           "refId": "A"
         },
@@ -669,7 +668,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_pending_connections_errors_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_pending_connections_errors_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Pending Errors ({{reason}}) - {{instance}}",
           "refId": "B"
         }
@@ -702,15 +701,17 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 50
       },
-      "id": 9,
+      "id": 11,
       "options": {
         "legend": {
           "displayMode": "table",
           "placement": "right",
           "showLegend": true,
-          "values": ["value"]
+          "values": [
+            "value"
+          ]
         },
         "pieType": "donut",
         "tooltip": {
@@ -725,7 +726,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum by (reason) (increase(substrate_sub_libp2p_connections_closed_total{chain=\"planck\"}[1h]))",
+          "expr": "sum by (reason) (increase(substrate_sub_libp2p_connections_closed_total{chain=\"$chain\"}[1h]))",
           "legendFormat": "{{reason}}",
           "refId": "A"
         }
@@ -791,9 +792,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 22
+        "y": 58
       },
-      "id": 10,
+      "id": 12,
       "options": {
         "legend": {
           "calcs": [],
@@ -813,7 +814,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_opened_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_opened_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Distinct Peers Opened - {{instance}}",
           "refId": "A"
         },
@@ -822,7 +823,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_closed_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_closed_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Distinct Peers Closed - {{instance}}",
           "refId": "B"
         }
@@ -836,9 +837,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 66
       },
-      "id": 300,
+      "id": 13,
       "panels": [],
       "title": "Network Traffic",
       "type": "row"
@@ -914,12 +915,15 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 31
+        "y": 67
       },
-      "id": 11,
+      "id": 14,
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -936,7 +940,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"planck\",direction=\"in\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"in\"}[5m])",
           "legendFormat": "IN - {{instance}}",
           "refId": "A"
         },
@@ -945,7 +949,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"planck\",direction=\"out\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"out\"}[5m])",
           "legendFormat": "OUT - {{instance}}",
           "refId": "B"
         }
@@ -981,9 +985,9 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 31
+        "y": 75
       },
-      "id": 12,
+      "id": 15,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1005,7 +1009,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"planck\",direction=\"in\"})",
+          "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"in\"})",
           "refId": "A"
         }
       ],
@@ -1040,9 +1044,9 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 31
+        "y": 83
       },
-      "id": 13,
+      "id": 16,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1064,7 +1068,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"planck\",direction=\"out\"})",
+          "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"out\"})",
           "refId": "A"
         }
       ],
@@ -1129,9 +1133,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 39
+        "y": 91
       },
-      "id": 14,
+      "id": 17,
       "options": {
         "legend": {
           "calcs": [],
@@ -1151,7 +1155,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"planck\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"planck\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m])",
           "legendFormat": "Block Announces IN - {{instance}}",
           "refId": "A"
         },
@@ -1160,7 +1164,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"planck\",direction=\"in\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"planck\",direction=\"in\",protocol=~\".*transactions.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m])",
           "legendFormat": "Transactions IN - {{instance}}",
           "refId": "B"
         }
@@ -1226,9 +1230,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 39
+        "y": 99
       },
-      "id": 15,
+      "id": 18,
       "options": {
         "legend": {
           "calcs": [],
@@ -1248,7 +1252,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"planck\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"planck\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m])",
           "legendFormat": "Block Announces OUT - {{instance}}",
           "refId": "A"
         },
@@ -1257,7 +1261,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"planck\",direction=\"out\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"planck\",direction=\"out\",protocol=~\".*transactions.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m])",
           "legendFormat": "Transactions OUT - {{instance}}",
           "refId": "B"
         }
@@ -1271,9 +1275,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 107
       },
-      "id": 400,
+      "id": 19,
       "panels": [],
       "title": "Kademlia DHT",
       "type": "row"
@@ -1306,9 +1310,9 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 48
+        "y": 108
       },
-      "id": 16,
+      "id": 20,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1330,7 +1334,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_kademlia_records_count{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_kademlia_records_count{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -1365,9 +1369,9 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 48
+        "y": 114
       },
-      "id": 17,
+      "id": 21,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1389,7 +1393,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_kademlia_records_sizes_total{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_kademlia_records_sizes_total{chain=\"$chain\"}",
           "refId": "A"
         }
       ],
@@ -1454,9 +1458,9 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 120
       },
-      "id": 18,
+      "id": 22,
       "options": {
         "legend": {
           "calcs": [],
@@ -1476,7 +1480,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_kademlia_random_queries_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_kademlia_random_queries_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Random Queries - {{instance}}",
           "refId": "A"
         }
@@ -1542,12 +1546,15 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 126
       },
-      "id": 19,
+      "id": 23,
       "options": {
         "legend": {
-          "calcs": ["last", "max"],
+          "calcs": [
+            "last",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -1564,7 +1571,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_kbuckets_num_nodes{chain=\"planck\"}",
+          "expr": "substrate_sub_libp2p_kbuckets_num_nodes{chain=\"$chain\"}",
           "legendFormat": "Bucket {{lower_ilog2_bucket_bound}} - {{instance}}",
           "refId": "A"
         }
@@ -1578,9 +1585,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 62
+        "y": 134
       },
-      "id": 500,
+      "id": 24,
       "panels": [],
       "title": "Request Performance",
       "type": "row"
@@ -1643,12 +1650,15 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 63
+        "y": 135
       },
-      "id": 20,
+      "id": 25,
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -1665,7 +1675,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
           "refId": "A"
         },
@@ -1674,7 +1684,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
           "refId": "B"
         },
@@ -1683,7 +1693,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
           "refId": "C"
         }
@@ -1749,12 +1759,15 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 63
+        "y": 143
       },
-      "id": 21,
+      "id": 26,
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -1771,7 +1784,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
           "refId": "A"
         },
@@ -1780,7 +1793,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
           "refId": "B"
         },
@@ -1789,7 +1802,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"planck\"}[5m]))",
+          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
           "refId": "C"
         }
@@ -1855,9 +1868,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 71
+        "y": 151
       },
-      "id": 22,
+      "id": 27,
       "options": {
         "legend": {
           "calcs": [],
@@ -1877,7 +1890,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_requests_in_success_total_count{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_requests_in_success_total_count{chain=\"$chain\"}[5m])",
           "legendFormat": "Incoming - {{instance}}",
           "refId": "A"
         }
@@ -1943,9 +1956,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 71
+        "y": 159
       },
-      "id": 23,
+      "id": 28,
       "options": {
         "legend": {
           "calcs": [],
@@ -1965,7 +1978,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_requests_out_success_total_count{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_requests_out_success_total_count{chain=\"$chain\"}[5m])",
           "legendFormat": "Outgoing - {{instance}}",
           "refId": "A"
         }
@@ -1979,9 +1992,9 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 167
       },
-      "id": 600,
+      "id": 29,
       "panels": [],
       "title": "Troubleshooting",
       "type": "row"
@@ -2043,15 +2056,17 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 168
       },
-      "id": 24,
+      "id": 30,
       "options": {
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": ["sum"],
+          "reducer": [
+            "sum"
+          ],
           "show": false
         },
         "showHeader": true,
@@ -2069,7 +2084,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "topk(10, floor(increase(substrate_sub_libp2p_pending_connections_errors_total{chain=\"planck\"}[1h])))",
+          "expr": "topk(10, floor(increase(substrate_sub_libp2p_pending_connections_errors_total{chain=\"$chain\"}[1h])))",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -2156,9 +2171,9 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 80
+        "y": 176
       },
-      "id": 25,
+      "id": 31,
       "options": {
         "legend": {
           "calcs": [],
@@ -2178,7 +2193,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sync_queued_blocks{chain=\"planck\"}",
+          "expr": "substrate_sync_queued_blocks{chain=\"$chain\"}",
           "legendFormat": "Queued Blocks - {{instance}}",
           "refId": "A"
         },
@@ -2187,7 +2202,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sync_import_queue_blocks_submitted{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sync_import_queue_blocks_submitted{chain=\"$chain\"}[5m])",
           "legendFormat": "Blocks Submitted/s - {{instance}}",
           "refId": "B"
         }
@@ -2266,9 +2281,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 88
+        "y": 184
       },
-      "id": 26,
+      "id": 32,
       "options": {
         "legend": {
           "calcs": [],
@@ -2288,7 +2303,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_streams_opened_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_streams_opened_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Streams Opened ({{protocol}}) - {{instance}}",
           "refId": "A"
         },
@@ -2297,7 +2312,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_streams_closed_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_streams_closed_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Streams Closed ({{protocol}}) - {{instance}}",
           "refId": "B"
         }
@@ -2371,12 +2386,15 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 88
+        "y": 192
       },
-      "id": 27,
+      "id": 33,
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -2393,7 +2411,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "(sum(rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"planck\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_incoming_connections_total{chain=\"planck\"}[$__rate_interval])) by (instance) + 0.001)) * 100",
+          "expr": "(sum(rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"$chain\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_incoming_connections_total{chain=\"$chain\"}[$__rate_interval])) by (instance) + 0.001)) * 100",
           "legendFormat": "Handshake Error Rate - {{instance}}",
           "refId": "A",
           "interval": "1m"
@@ -2464,9 +2482,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 96
+        "y": 200
       },
-      "id": 28,
+      "id": 34,
       "options": {
         "legend": {
           "calcs": [],
@@ -2486,7 +2504,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "rate(substrate_sub_libp2p_listeners_errors_total{chain=\"planck\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_listeners_errors_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Listener Errors - {{instance}}",
           "refId": "A"
         }
@@ -2552,12 +2570,15 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 96
+        "y": 208
       },
-      "id": 29,
+      "id": 35,
       "options": {
         "legend": {
-          "calcs": ["mean", "last"],
+          "calcs": [
+            "mean",
+            "last"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -2574,7 +2595,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "(sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"planck\",direction=\"in\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"planck\"}[$__rate_interval])) by (instance) + 0.001))",
+          "expr": "(sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\",direction=\"in\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\"}[$__rate_interval])) by (instance) + 0.001))",
           "legendFormat": "Incoming Ratio - {{instance}}",
           "refId": "A",
           "interval": "1m"
@@ -2587,7 +2608,11 @@
   "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["planck", "network", "peers"],
+  "tags": [
+    "chains",
+    "network",
+    "peers"
+  ],
   "templating": {
     "list": [
       {
@@ -2603,11 +2628,42 @@
         "name": "DS_PROMETHEUS",
         "options": [],
         "query": "prometheus",
-        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "planck",
+          "value": "planck"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Chain",
+        "multi": false,
+        "name": "chain",
+        "options": [
+          {
+            "selected": true,
+            "text": "planck",
+            "value": "planck"
+          },
+          {
+            "selected": false,
+            "text": "heisenberg",
+            "value": "heisenberg"
+          },
+          {
+            "selected": false,
+            "text": "dirac",
+            "value": "dirac"
+          }
+        ],
+        "query": "planck,heisenberg,dirac",
+        "skipUrlSync": false,
+        "type": "custom"
       }
     ]
   },
@@ -2616,10 +2672,8 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
-  "title": "Planck - Network & Peers",
-  "uid": "planck-peers",
-  "version": 1,
-  "weekStart": ""
+  "timezone": "browser",
+  "title": "Network & Peers",
+  "uid": "chain-network-peers",
+  "version": 1
 }
-

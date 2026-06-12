@@ -1,25 +1,25 @@
 {
   "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
+    "list": []
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 15,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "chains"
+      ],
+      "targetBlank": false,
+      "title": "Chains",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
   "panels": [
     {
       "datasource": {
@@ -105,7 +105,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_submitted_transactions{job=\"heisenberg-chain\"}",
+          "expr": "substrate_sub_txpool_submitted_transactions{job=\"${chain}-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -180,7 +180,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 8
       },
       "id": 2,
       "options": {
@@ -201,7 +201,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_block_transactions_pruned{job=\"heisenberg-chain\"}",
+          "expr": "substrate_sub_txpool_block_transactions_pruned{job=\"${chain}-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -276,7 +276,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 16
       },
       "id": 3,
       "options": {
@@ -297,7 +297,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_block_transactions_resubmitted{job=\"heisenberg-chain\"}",
+          "expr": "substrate_sub_txpool_block_transactions_resubmitted{job=\"${chain}-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -372,7 +372,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 24
       },
       "id": 4,
       "options": {
@@ -393,7 +393,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_validations_scheduled{job=\"heisenberg-chain\"}",
+          "expr": "substrate_sub_txpool_validations_scheduled{job=\"${chain}-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -468,7 +468,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 32
       },
       "id": 5,
       "options": {
@@ -489,7 +489,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_validations_finished{job=\"heisenberg-chain\"}",
+          "expr": "substrate_sub_txpool_validations_finished{job=\"${chain}-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -564,7 +564,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 40
       },
       "id": 6,
       "options": {
@@ -585,7 +585,7 @@
         {
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "substrate_sub_txpool_validations_invalid{job=\"heisenberg-chain\"}",
+          "expr": "substrate_sub_txpool_validations_invalid{job=\"${chain}-chain\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{instance}}",
@@ -596,16 +596,518 @@
       ],
       "title": "TXPool - Validations Invalid",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "expr": "substrate_ready_transactions_number{chain=\"$chain\"}",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Ready Transactions in Queue",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 56
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.1",
+      "targets": [
+        {
+          "expr": "substrate_sync_propagated_transactions{chain=\"$chain\"}",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Propagated Transactions",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 64
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "substrate_rpc_sessions_opened{chain=\"$chain\"} - substrate_rpc_sessions_closed{chain=\"$chain\"}",
+          "legendFormat": "Active Sessions",
+          "refId": "A"
+        }
+      ],
+      "title": "Active RPC Sessions",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 72
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(substrate_rpc_sessions_opened{chain=\"$chain\"}[5m])",
+          "legendFormat": "Opened/s",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(substrate_rpc_sessions_closed{chain=\"$chain\"}[5m])",
+          "legendFormat": "Closed/s",
+          "refId": "B"
+        }
+      ],
+      "title": "RPC Session Open/Close Rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 80
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "expr": "substrate_rpc_sessions_opened{chain=\"$chain\"}",
+          "legendFormat": "Total Opened",
+          "refId": "A"
+        },
+        {
+          "expr": "substrate_rpc_sessions_closed{chain=\"$chain\"}",
+          "legendFormat": "Total Closed",
+          "refId": "B"
+        }
+      ],
+      "title": "RPC Sessions Total (Opened / Closed)",
+      "type": "timeseries"
     }
   ],
-  "preload": false,
-  "schemaVersion": 41,
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
   "tags": [
-    "heisenberg",
-    "txpool"
+    "chains",
+    "transactions",
+    "txpool",
+    "rpc"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "planck",
+          "value": "planck"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Chain",
+        "multi": false,
+        "name": "chain",
+        "options": [
+          {
+            "selected": true,
+            "text": "planck",
+            "value": "planck"
+          },
+          {
+            "selected": false,
+            "text": "heisenberg",
+            "value": "heisenberg"
+          },
+          {
+            "selected": false,
+            "text": "dirac",
+            "value": "dirac"
+          }
+        ],
+        "query": "planck,heisenberg,dirac",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -613,7 +1115,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Heisenberg - TXPool",
-  "uid": "heisenberg-txpool",
-  "version": 7
+  "title": "Transactions",
+  "uid": "chain-transactions",
+  "version": 1
 }
