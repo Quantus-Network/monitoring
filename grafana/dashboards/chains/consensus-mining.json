@@ -26,7 +26,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Estimated network hashrate, two methods overlaid:\n- Duration-based: difficulty / last_block_duration (uses on-chain observed block time in ms).\n- Block-rate based: difficulty * d(chain_height)/dt over a 10m window (uses empirically observed block production rate).\nBoth assume QPOW difficulty represents the expected number of hash attempts per block. They should converge over long enough windows; short-term divergence is informative (e.g. per-block duration noise, or Poisson noise on the block-rate side).",
+      "description": "Both lines are **estimated network hashrate (MH/s)** using `difficulty ÷ block interval`.\n\n- **Instantaneous** — current difficulty divided by the latest on-chain block interval.\n- **Smoothed (10 samples)** — rolling average of the instantaneous estimate over the last 10 Prometheus scrapes (15s interval → 150s window).",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -36,7 +36,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Estimated hashrate",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -102,13 +102,13 @@
       },
       "targets": [
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(avg by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6",
-          "legendFormat": "Duration-based",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6",
+          "legendFormat": "Instantaneous",
           "refId": "A"
         },
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) * clamp_min(deriv(max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"$chain\"})[10m:]), 0) / 1e6",
-          "legendFormat": "Block-rate (10m)",
+          "expr": "avg_over_time((max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6)[150s:15s])",
+          "legendFormat": "Smoothed (10 samples)",
           "refId": "B"
         }
       ],
@@ -120,7 +120,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Average estimated network hashrate over the dashboard's selected time range. Two methods shown: duration-based (uses on-chain last_block_duration) and block-rate-based (uses observed chain_height growth). Both should converge over long enough windows.",
+      "description": "Latest MH/s values from the chart — instantaneous and 10-sample smoothed.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -143,7 +143,7 @@
         "h": 10,
         "w": 8,
         "x": 16,
-        "y": 10
+        "y": 0
       },
       "id": 2,
       "options": {
@@ -163,17 +163,17 @@
       "pluginVersion": "10.0.0",
       "targets": [
         {
-          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(avg by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6)[$__range:])",
-          "legendFormat": "Duration:",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6",
+          "legendFormat": "Instantaneous",
           "refId": "A"
         },
         {
-          "expr": "avg_over_time((avg by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) * clamp_min(deriv(max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"$chain\"})[10m:]), 0) / 1e6)[$__range:])",
-          "legendFormat": "Block:",
+          "expr": "avg_over_time((max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6)[150s:15s])",
+          "legendFormat": "Smoothed (10 samples)",
           "refId": "B"
         }
       ],
-      "title": "Avg Network Hashrate (range)",
+      "title": "Current MH/s",
       "type": "stat"
     },
     {
@@ -258,6 +258,7 @@
           "sort": "none"
         }
       },
+      "description": "On-chain inter-block wall-clock interval (ms) between consecutive block timestamps. This is not per-miner CPU time — it includes propagation and block execution.",
       "targets": [
         {
           "expr": "qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}",
@@ -265,7 +266,7 @@
           "refId": "A"
         }
       ],
-      "title": "Last Block Mining Time",
+      "title": "Block Interval",
       "type": "timeseries"
     },
     {
@@ -429,14 +430,15 @@
           "sort": "none"
         }
       },
+      "description": "Rolling average of block interval over the last 10 Prometheus samples (150s at 15s scrape).",
       "targets": [
         {
-          "expr": "avg by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})",
+          "expr": "avg_over_time(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})[150s:15s])",
           "legendFormat": "{{chain}}",
           "refId": "A"
         }
       ],
-      "title": "Block Time",
+      "title": "Block Interval (10-sample avg)",
       "type": "timeseries"
     },
     {
