@@ -11,9 +11,7 @@
       "icon": "external link",
       "includeVars": true,
       "keepTime": true,
-      "tags": [
-        "chains"
-      ],
+      "tags": ["chains"],
       "targetBlank": false,
       "title": "Chains",
       "type": "dashboards",
@@ -86,11 +84,7 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "mean",
-            "max"
-          ],
+          "calcs": ["lastNotNull", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -153,9 +147,7 @@
         "orientation": "vertical",
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": ""
         },
         "textMode": "value_and_name"
@@ -242,13 +234,7 @@
       "interval": "1s",
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "firstNotNull",
-            "min",
-            "max",
-            "mean"
-          ],
+          "calcs": ["lastNotNull", "firstNotNull", "min", "max", "mean"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -337,9 +323,7 @@
       "id": 4,
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -423,9 +407,7 @@
       "id": 6,
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -450,11 +432,7 @@
   "refresh": "10s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": [
-    "chains",
-    "consensus",
-    "qpow"
-  ],
+  "tags": ["chains", "consensus", "qpow"],
   "templating": {
     "list": [
       {

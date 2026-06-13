@@ -1,36 +1,36 @@
 apiVersion: 1
 
 providers:
-  - name: 'Overview'
+  - name: "Overview"
     orgId: 1
-    folder: 'Overview'
+    folder: "Overview"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: false
     options:
       path: /var/lib/grafana/dashboards/overview
-  - name: 'Chains'
+  - name: "Chains"
     orgId: 1
-    folder: 'Chains'
+    folder: "Chains"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards/chains
-  - name: 'Infrastructure'
+  - name: "Infrastructure"
     orgId: 1
-    folder: 'Infrastructure'
+    folder: "Infrastructure"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards/infrastructure
-  - name: 'Applications'
+  - name: "Applications"
     orgId: 1
-    folder: 'Applications'
+    folder: "Applications"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10

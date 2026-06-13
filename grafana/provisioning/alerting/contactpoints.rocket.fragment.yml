@@ -1,36 +1,36 @@
-  - orgId: 1
-    name: Rocket Notifications
-    receivers:
-      - uid: rocket-contact-point
-        type: slack
-        settings:
-          url: ${ROCKET_WEBHOOK_URL}
-          username: Grafana Monitor
-          text: |
-            {{ range .Alerts -}}
-            🚨 *{{ .Labels.alertname }}* — {{ .Status | toUpper }}
-            {{- if .Labels.severity }}
-            *Severity:* {{ .Labels.severity }}
-            {{- end }}
-            {{- if .Labels.chain }}
-            *Chain:* {{ .Labels.chain }}
-            {{- end }}
-            {{- if .Labels.instance }}
-            *Instance:* {{ .Labels.instance }}
-            {{- end }}
-            {{- if .Annotations.summary }}
+- orgId: 1
+  name: Rocket Notifications
+  receivers:
+    - uid: rocket-contact-point
+      type: slack
+      settings:
+        url: ${ROCKET_WEBHOOK_URL}
+        username: Grafana Monitor
+        text: |
+          {{ range .Alerts -}}
+          🚨 *{{ .Labels.alertname }}* — {{ .Status | toUpper }}
+          {{- if .Labels.severity }}
+          *Severity:* {{ .Labels.severity }}
+          {{- end }}
+          {{- if .Labels.chain }}
+          *Chain:* {{ .Labels.chain }}
+          {{- end }}
+          {{- if .Labels.instance }}
+          *Instance:* {{ .Labels.instance }}
+          {{- end }}
+          {{- if .Annotations.summary }}
 
-            📋 {{ .Annotations.summary }}
-            {{- end }}
-            {{- if .Annotations.description }}
-            {{ .Annotations.description }}
-            {{- end }}
-            {{- if .GeneratorURL }}
+          📋 {{ .Annotations.summary }}
+          {{- end }}
+          {{- if .Annotations.description }}
+          {{ .Annotations.description }}
+          {{- end }}
+          {{- if .GeneratorURL }}
 
-            🔗 [View in Grafana]({{ .GeneratorURL }}){{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
-            {{- else if .SilenceURL }}
+          🔗 [View in Grafana]({{ .GeneratorURL }}){{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
+          {{- else if .SilenceURL }}
 
-            🔗 [Silence]({{ .SilenceURL }})
-            {{- end }}
-            {{ end -}}
-        disableResolveMessage: false
+          🔗 [Silence]({{ .SilenceURL }})
+          {{- end }}
+          {{ end -}}
+      disableResolveMessage: false

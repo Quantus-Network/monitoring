@@ -10,4 +10,3 @@ datasources:
     editable: true
     jsonData:
       timeInterval: 15s
-

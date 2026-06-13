@@ -2,8 +2,8 @@ apiVersion: 1
 
 policies:
   - orgId: 1
-    receiver: Email Notifications  # Default receiver
-    group_by: ['alertname', 'grafana_folder', 'instance']
+    receiver: Email Notifications # Default receiver
+    group_by: ["alertname", "grafana_folder", "instance"]
     group_wait: 30s
     group_interval: 5m
     repeat_interval: 4h
@@ -15,31 +15,31 @@ policies:
           - chain = dirac
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']  # Group by alert name only, ignore instance
-        group_wait: 2m         # First notification after 2 minutes
-        repeat_interval: 30m   # Repeat every 30 minutes
-        continue: true         # Continue to email
-      
+        group_by: ["alertname", "chain"] # Group by alert name only, ignore instance
+        group_wait: 2m # First notification after 2 minutes
+        repeat_interval: 30m # Repeat every 30 minutes
+        continue: true # Continue to email
+
       - receiver: Email Notifications
         matchers:
           - chain = dirac
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']
+        group_by: ["alertname", "chain"]
         group_wait: 2m
         repeat_interval: 30m
         continue: true
-      
+
       - receiver: Telegram Notifications
         matchers:
           - chain = dirac
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']
+        group_by: ["alertname", "chain"]
         group_wait: 2m
         repeat_interval: 30m
         continue: false
-      
+
       # Infrastructure critical alerts (Node Down, Low Peers, etc.) → Rocket + Email, per instance
       - receiver: Rocket Notifications
         matchers:
@@ -48,7 +48,7 @@ policies:
         group_wait: 2m
         repeat_interval: 30m
         continue: true
-      
+
       # All other Dirac alerts → Email
       - receiver: Email Notifications
         matchers:
@@ -56,38 +56,38 @@ policies:
         group_wait: 2m
         repeat_interval: 30m
         continue: false
-      
+
       # 🔵 PLANCK - same routing as Dirac
       - receiver: Rocket Notifications
         matchers:
           - chain = planck
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']
+        group_by: ["alertname", "chain"]
         group_wait: 2m
         repeat_interval: 30m
         continue: true
-      
+
       - receiver: Email Notifications
         matchers:
           - chain = planck
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']
+        group_by: ["alertname", "chain"]
         group_wait: 2m
         repeat_interval: 30m
         continue: true
-      
+
       - receiver: Telegram Notifications
         matchers:
           - chain = planck
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname', 'chain']
+        group_by: ["alertname", "chain"]
         group_wait: 2m
         repeat_interval: 30m
         continue: false
-      
+
       - receiver: Rocket Notifications
         matchers:
           - chain = planck
@@ -95,67 +95,67 @@ policies:
         group_wait: 2m
         repeat_interval: 30m
         continue: true
-      
+
       - receiver: Email Notifications
         matchers:
           - chain = planck
         group_wait: 2m
         repeat_interval: 30m
         continue: false
-      
+
       # 🟡 HEISENBERG - MEDIUM PRIORITY
       # All alerts → Email only
       - receiver: Email Notifications
         matchers:
           - chain = heisenberg
-        group_wait: 10m        # First notification after 10 minutes
-        repeat_interval: 2h    # Repeat every 2 hours
+        group_wait: 10m # First notification after 10 minutes
+        repeat_interval: 2h # Repeat every 2 hours
         continue: false
-      
+
       # GENERIC ALERTS (no chain label)
       # Business critical alerts (No New Blocks) → Rocket + Email, grouped
       - receiver: Rocket Notifications
         matchers:
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname']  # Group by alert name only, ignore instance
+        group_by: ["alertname"] # Group by alert name only, ignore instance
         group_wait: 10s
         repeat_interval: 1h
         continue: true
-      
+
       - receiver: Email Notifications
         matchers:
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname']
+        group_by: ["alertname"]
         group_wait: 10s
         repeat_interval: 1h
         continue: true
-      
+
       - receiver: Telegram Notifications
         matchers:
           - severity = critical
           - alertname = "No New Blocks"
-        group_by: ['alertname']
+        group_by: ["alertname"]
         group_wait: 10s
         repeat_interval: 1h
         continue: false
-      
+
       # Infrastructure critical alerts (Node Down, Disk Full, etc.) → Rocket + Email, per instance
       - receiver: Rocket Notifications
         matchers:
           - severity = critical
         group_wait: 10s
         repeat_interval: 1h
-        continue: true         # Continue to email
-      
+        continue: true # Continue to email
+
       - receiver: Email Notifications
         matchers:
           - severity = critical
         group_wait: 10s
         repeat_interval: 1h
         continue: true
-      
+
       # Warnings (Low Peers, High CPU, etc.) → Email only
       - receiver: Email Notifications
         matchers:

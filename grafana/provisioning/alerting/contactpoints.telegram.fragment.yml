@@ -1,37 +1,37 @@
-  - orgId: 1
-    name: Telegram Notifications
-    receivers:
-      - uid: telegram-contact-point
-        type: telegram
-        settings:
-          bottoken: ${TELEGRAM_BOT_TOKEN}
-          chatid: "${TELEGRAM_CHAT_ID}"
-          message: |
-            {{ range .Alerts -}}
-            🚨 *{{ .Labels.alertname }}* — {{ .Status | toUpper }}
-            {{- if .Labels.severity }}
-            *Severity:* {{ .Labels.severity }}
-            {{- end }}
-            {{- if .Labels.chain }}
-            *Chain:* {{ .Labels.chain }}
-            {{- end }}
-            {{- if .Labels.instance }}
-            *Instance:* {{ .Labels.instance }}
-            {{- end }}
-            {{- if .Annotations.summary }}
+- orgId: 1
+  name: Telegram Notifications
+  receivers:
+    - uid: telegram-contact-point
+      type: telegram
+      settings:
+        bottoken: ${TELEGRAM_BOT_TOKEN}
+        chatid: "${TELEGRAM_CHAT_ID}"
+        message: |
+          {{ range .Alerts -}}
+          🚨 *{{ .Labels.alertname }}* — {{ .Status | toUpper }}
+          {{- if .Labels.severity }}
+          *Severity:* {{ .Labels.severity }}
+          {{- end }}
+          {{- if .Labels.chain }}
+          *Chain:* {{ .Labels.chain }}
+          {{- end }}
+          {{- if .Labels.instance }}
+          *Instance:* {{ .Labels.instance }}
+          {{- end }}
+          {{- if .Annotations.summary }}
 
-            📋 {{ .Annotations.summary }}
-            {{- end }}
-            {{- if .Annotations.description }}
-            {{ .Annotations.description }}
-            {{- end }}
-            {{- if .GeneratorURL }}
+          📋 {{ .Annotations.summary }}
+          {{- end }}
+          {{- if .Annotations.description }}
+          {{ .Annotations.description }}
+          {{- end }}
+          {{- if .GeneratorURL }}
 
-            🔗 [View in Grafana]({{ .GeneratorURL }}){{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
-            {{- else if .SilenceURL }}
+          🔗 [View in Grafana]({{ .GeneratorURL }}){{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
+          {{- else if .SilenceURL }}
 
-            🔗 [Silence]({{ .SilenceURL }})
-            {{- end }}
-            {{ end -}}
-          parse_mode: Markdown
-        disableResolveMessage: false
+          🔗 [Silence]({{ .SilenceURL }})
+          {{- end }}
+          {{ end -}}
+        parse_mode: Markdown
+      disableResolveMessage: false

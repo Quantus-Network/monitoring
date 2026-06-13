@@ -8,13 +8,13 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=60d'
-      - '--storage.tsdb.retention.size=30GB'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=60d"
+      - "--storage.tsdb.retention.size=30GB"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.enable-lifecycle"
     restart: unless-stopped
     networks:
       - monitoring
@@ -56,7 +56,7 @@ services:
   grafana:
     # Using custom Grafana image with Quantus branding
     # Based on 11.3.0 instead of latest (12.x) due to datasource provisioning bug
-    # Issue: Grafana 12.x fails with "Datasource provisioning error: data source not found" 
+    # Issue: Grafana 12.x fails with "Datasource provisioning error: data source not found"
     # on some platforms (Fedora/RHEL) while working on macOS - race condition in provisioning
     build:
       context: ./grafana
@@ -128,10 +128,10 @@ services:
     ports:
       - "127.0.0.1:9100:9100"
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/host'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/host"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -148,4 +148,3 @@ volumes:
   prometheus-data:
   grafana-data:
   postgres-data:
-

@@ -87,9 +87,7 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -169,9 +167,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "showThresholdLabels": false,
         "showThresholdMarkers": true,
@@ -238,9 +234,7 @@
         "percentChangeColorMode": "standard",
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -326,10 +320,7 @@
       "id": 4,
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "mean"
-          ],
+          "calcs": ["last", "mean"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -450,10 +441,7 @@
       "id": 5,
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "sum"
-          ],
+          "calcs": ["last", "sum"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -556,11 +544,7 @@
       "id": 6,
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "mean",
-            "max"
-          ],
+          "calcs": ["last", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -654,11 +638,7 @@
       "id": 7,
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "mean",
-            "max"
-          ],
+          "calcs": ["last", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -766,11 +746,7 @@
       "id": 8,
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "mean",
-            "max"
-          ],
+          "calcs": ["last", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -878,10 +854,7 @@
       "id": 9,
       "options": {
         "legend": {
-          "calcs": [
-            "last",
-            "mean"
-          ],
+          "calcs": ["last", "mean"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -907,10 +880,7 @@
     }
   ],
   "schemaVersion": 39,
-  "tags": [
-    "applications",
-    "explorer"
-  ],
+  "tags": ["applications", "explorer"],
   "templating": {
     "list": []
   },
