@@ -229,7 +229,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 0,
         "y": 17
@@ -238,7 +238,7 @@
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -247,7 +247,11 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "text": {
+          "titleSize": 13,
+          "valueSize": 28
+        },
+        "textMode": "value_and_name"
       },
       "pluginVersion": "10.2.2",
       "targets": [
@@ -256,8 +260,18 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\", instance=~\"a1.*\"}",
+          "legendFormat": "a1",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\", instance=~\"a2.*\"}",
+          "legendFormat": "a2",
+          "refId": "B"
         }
       ],
       "title": "Discovered Peers",
@@ -296,16 +310,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 6,
-        "y": 21
+        "y": 17
       },
       "id": 5,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -314,7 +328,11 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "text": {
+          "titleSize": 13,
+          "valueSize": 28
+        },
+        "textMode": "value_and_name"
       },
       "pluginVersion": "10.2.2",
       "targets": [
@@ -323,8 +341,18 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\", instance=~\"a1.*\"}",
+          "legendFormat": "a1",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\", instance=~\"a2.*\"}",
+          "legendFormat": "a2",
+          "refId": "B"
         }
       ],
       "title": "Banned Peers",
@@ -363,16 +391,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 12,
-        "y": 25
+        "y": 17
       },
       "id": 6,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -381,7 +409,11 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "text": {
+          "titleSize": 13,
+          "valueSize": 28
+        },
+        "textMode": "value_and_name"
       },
       "pluginVersion": "10.2.2",
       "targets": [
@@ -390,8 +422,18 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\", instance=~\"a1.*\"}",
+          "legendFormat": "a1",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\", instance=~\"a2.*\"}",
+          "legendFormat": "a2",
+          "refId": "B"
         }
       ],
       "title": "Pending Connections",
@@ -422,16 +464,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 18,
-        "y": 29
+        "y": 17
       },
       "id": 7,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -440,7 +482,11 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "text": {
+          "titleSize": 13,
+          "valueSize": 28
+        },
+        "textMode": "value_and_name"
       },
       "pluginVersion": "10.2.2",
       "targets": [
@@ -449,8 +495,18 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "substrate_sync_peers{chain=\"$chain\"}",
+          "expr": "substrate_sync_peers{chain=\"$chain\", instance=~\"a1.*\"}",
+          "legendFormat": "a1",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "substrate_sync_peers{chain=\"$chain\", instance=~\"a2.*\"}",
+          "legendFormat": "a2",
+          "refId": "B"
         }
       ],
       "title": "Sync Peers",
@@ -462,7 +518,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 22
       },
       "id": 8,
       "panels": [],
