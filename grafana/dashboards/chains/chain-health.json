@@ -73,6 +73,7 @@
     {
       "type": "stat",
       "title": "Last Block Age",
+      "description": "Seconds since the timestamp of the most recently imported block. Rising values may indicate stalled block production or a syncing node lagging behind.",
       "id": 2,
       "gridPos": {
         "h": 5,
@@ -188,6 +189,7 @@
     {
       "type": "stat",
       "title": "Major Syncing",
+      "description": "Whether any scraped node is in **major sync** (downloading historical blocks). While syncing, transaction gossip is paused and some metrics may look stale.",
       "id": 4,
       "gridPos": {
         "h": 5,
@@ -265,6 +267,7 @@
     {
       "type": "stat",
       "title": "Difficulty",
+      "description": "Current network difficulty from on-chain QPoW metrics (lowest 64 bits of the runtime U512 value).",
       "id": 5,
       "gridPos": {
         "h": 5,

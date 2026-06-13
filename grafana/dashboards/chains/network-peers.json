@@ -194,6 +194,7 @@
         }
       ],
       "title": "Peers Timeline",
+      "description": "Connected peers (live P2P sessions) vs discovered peers (addresses in the peer store) over time. The gap between the two lines is normal — nodes know many more peers than they connect to.",
       "type": "timeseries"
     },
     {
@@ -275,6 +276,7 @@
         }
       ],
       "title": "Discovered Peers",
+      "description": "Total peer addresses stored in each node's peer store (bootnodes + DHT + gossip). This is **not** live connections — a node can know many more peers than it is connected to.",
       "type": "stat"
     },
     {
@@ -437,6 +439,7 @@
         }
       ],
       "title": "Pending Connections",
+      "description": "P2P handshakes currently in progress per node. Brief spikes are normal; sustained high values may indicate connection churn or network issues.",
       "type": "stat"
     },
     {
@@ -510,6 +513,7 @@
         }
       ],
       "title": "Sync Peers",
+      "description": "Peers actively used for block synchronization. Distinct from total connected peers — only a subset of connections participate in chain sync.",
       "type": "stat"
     },
     {
@@ -788,6 +792,7 @@
         }
       ],
       "title": "Connection Close Reasons (Last 1h)",
+      "description": "Why P2P connections closed in the last hour, grouped by reason label. Useful for diagnosing resets, timeouts, and policy-driven disconnects.",
       "type": "piechart"
     },
     {
@@ -885,6 +890,7 @@
         }
       ],
       "title": "Distinct Peers Connection Rate",
+      "description": "Rate of new connections opened/closed to **unique** peer IDs (not duplicate reconnects to the same peer). Measures network churn at the peer level.",
       "type": "timeseries"
     },
     {
@@ -1226,6 +1232,7 @@
         }
       ],
       "title": "Avg Notification Size - Incoming",
+      "description": "Average payload size of incoming gossip notifications by protocol (block announces vs transactions). Large transaction notifications may indicate batch gossip or large extrinsics.",
       "type": "timeseries"
     },
     {
@@ -1323,6 +1330,7 @@
         }
       ],
       "title": "Avg Notification Size - Outgoing",
+      "description": "Average payload size of outgoing gossip notifications by protocol. Useful for spotting unusually large block or transaction propagations.",
       "type": "timeseries"
     },
     {
@@ -1395,6 +1403,7 @@
         }
       ],
       "title": "DHT Records Count",
+      "description": "Number of peer records stored in the Kademlia DHT routing table. Reflects how much of the network topology each node has learned.",
       "type": "stat"
     },
     {
@@ -1542,6 +1551,7 @@
         }
       ],
       "title": "Kademlia Random Queries Rate",
+      "description": "Rate of random DHT lookups performed for peer discovery. Low activity is normal on stable networks; drops to zero may indicate DHT issues.",
       "type": "timeseries"
     },
     {
@@ -1633,6 +1643,7 @@
         }
       ],
       "title": "K-Buckets Distribution",
+      "description": "How many peers sit in each Kademlia k-bucket (by bucket index). A healthy node typically has entries spread across multiple buckets.",
       "type": "timeseries"
     },
     {
@@ -1755,6 +1766,7 @@
         }
       ],
       "title": "Incoming Request Latency",
+      "description": "Latency of successful incoming libp2p requests (p50 / p95 / p99). High p95/p99 on block or state requests can slow sync for peers calling this node.",
       "type": "timeseries"
     },
     {
@@ -1864,6 +1876,7 @@
         }
       ],
       "title": "Outgoing Request Latency",
+      "description": "Latency of successful outgoing libp2p requests (p50 / p95 / p99). Rising values may mean slow or overloaded upstream peers.",
       "type": "timeseries"
     },
     {
@@ -2264,6 +2277,7 @@
         }
       ],
       "title": "Sync Queue Status",
+      "description": "Block sync queue depth and download/import pipeline state. Growing queues while the node is not in major sync may indicate the node is falling behind.",
       "type": "timeseries"
     },
     {
@@ -2474,6 +2488,7 @@
         }
       ],
       "title": "Connection Error Rate %",
+      "description": "Percentage of connection attempts that fail (handshake errors, timeouts). Sustained elevation suggests network or firewall problems.",
       "type": "timeseries"
     },
     {
@@ -2658,6 +2673,7 @@
         }
       ],
       "title": "Incoming vs Outgoing Connections Ratio",
+      "description": "Ratio of inbound to outbound P2P connections. Large imbalance may indicate NAT, firewall, or bootnode reachability asymmetry.",
       "type": "timeseries"
     }
   ],

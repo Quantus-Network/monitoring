@@ -498,6 +498,7 @@
         }
       ],
       "title": "Task Execution Times (avg)",
+      "description": "Average time each Substrate async task spends per poll cycle (seconds). High values on tasks like `basic-authorship-proposer` or `libp2p-node` can indicate node load or network pressure.",
       "type": "timeseries"
     },
     {
@@ -773,6 +774,7 @@
         }
       ],
       "title": "Block Construction Time",
+      "description": "Time for the block author to construct a block (p50 / p95 / p99 percentiles, 5m window). Aggregated across scraped nodes. p50 is typical; p95/p99 capture slow outliers.",
       "type": "timeseries"
     },
     {
@@ -858,6 +860,7 @@
         }
       ],
       "title": "Transactions per Block",
+      "description": "Average number of extrinsics included per authored block. Only non-zero on nodes that produce blocks.",
       "type": "timeseries"
     },
     {
@@ -929,6 +932,7 @@
         }
       ],
       "title": "Major Syncing",
+      "description": "Per-node flag: 1 while the node is performing a major sync (catching up on block history). Transaction gossip and propagation are disabled during major sync.",
       "type": "stat"
     },
     {
@@ -990,6 +994,7 @@
         }
       ],
       "title": "Chain Leaves (Forks)",
+      "description": "Number of block leaves (non-finalized fork tips) tracked in the node's blockchain tree. Values above 1 may indicate forks or parallel branches being tracked.",
       "type": "stat"
     },
     {
@@ -1075,6 +1080,7 @@
         }
       ],
       "title": "Chain Leaves Over Time",
+      "description": "Historical view of fork leaves per node. Spikes often correlate with reorgs or nodes temporarily tracking divergent heads.",
       "type": "timeseries"
     },
     {
@@ -1172,6 +1178,7 @@
         }
       ],
       "title": "Block Verification & Import Time",
+      "description": "End-to-end time to verify and import an incoming block (p50 / p95 / p99, 5m window). Includes header checks, extrinsic execution, and DB write. Aggregated across scraped nodes.",
       "type": "timeseries"
     },
     {
@@ -1277,6 +1284,7 @@
         }
       ],
       "title": "Shared Trie Cache - Hit Ratio",
+      "description": "Cache hit ratio for the shared trie cache (node vs value lookups). Higher is better — low ratios suggest more state DB reads and slower block processing.",
       "type": "timeseries"
     },
     {
@@ -1369,6 +1377,7 @@
         }
       ],
       "title": "Local Trie Cache - Hit Ratio",
+      "description": "Hit ratio for each node's local trie cache layer. Complements the shared cache — tracks per-instance memory cache effectiveness.",
       "type": "timeseries"
     },
     {
@@ -1547,6 +1556,7 @@
         }
       ],
       "title": "Shared Cache Update Duration (avg)",
+      "description": "Average time to update the shared trie cache after state changes. Sustained increases may indicate heavier blocks or storage pressure.",
       "type": "timeseries"
     },
     {
@@ -1888,6 +1898,7 @@
         }
       ],
       "title": "Unbounded Channel Queue Size (non-zero)",
+      "description": "Internal async channels with a non-zero backlog. Persistent queues here can signal a bottleneck — the node is producing work faster than a task consumes it.",
       "type": "timeseries"
     }
   ],

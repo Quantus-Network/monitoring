@@ -357,6 +357,7 @@
         }
       ],
       "title": "Chain Height",
+      "description": "Latest block height from on-chain QPoW metrics (`qpow_metrics`). Shows the max value across scraped chain nodes for the selected network.",
       "type": "timeseries"
     },
     {
@@ -442,6 +443,7 @@
         }
       ],
       "title": "Difficulty",
+      "description": "Network mining difficulty from on-chain QPoW metrics. Exported as the lowest 64 bits of the runtime U512 value — accurate at current difficulty levels.",
       "type": "timeseries"
     }
   ],

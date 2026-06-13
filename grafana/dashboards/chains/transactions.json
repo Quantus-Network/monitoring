@@ -115,6 +115,7 @@
         }
       ],
       "title": "TXPool - Submitted Transactions",
+      "description": "Lifetime count of successful transaction pool submissions per node. This is a **cumulative counter** — use the slope (or `rate()`) for activity, not the absolute value. Duplicate gossip imports are not counted after the txpool patch.",
       "type": "timeseries"
     },
     {
@@ -211,6 +212,7 @@
         }
       ],
       "title": "TXPool - Block Transactions Pruned",
+      "description": "Cumulative count of transactions removed from the pool because they were included in an imported block. Increases on each block import.",
       "type": "timeseries"
     },
     {
@@ -307,6 +309,7 @@
         }
       ],
       "title": "TXPool - Block Transactions Resubmitted",
+      "description": "Cumulative count of transactions re-queued after a chain reorg or block retraction. Non-zero values indicate fork recovery activity.",
       "type": "timeseries"
     },
     {
@@ -403,6 +406,7 @@
         }
       ],
       "title": "TXPool - Validations Scheduled",
+      "description": "Cumulative count of transactions scheduled for runtime validation. Better indicator of real tx activity than the submitted counter — each new tx typically schedules one validation.",
       "type": "timeseries"
     },
     {
@@ -499,6 +503,7 @@
         }
       ],
       "title": "TXPool - Validations Finished",
+      "description": "Cumulative count of completed transaction validations. Should track closely with validations scheduled unless the pool is backlogged.",
       "type": "timeseries"
     },
     {
@@ -595,6 +600,7 @@
         }
       ],
       "title": "TXPool - Validations Invalid",
+      "description": "Cumulative count of transactions rejected as invalid and removed from the pool. Spikes may indicate malformed or failing extrinsics on the network.",
       "type": "timeseries"
     },
     {
@@ -685,6 +691,7 @@
         }
       ],
       "title": "Ready Transactions in Queue",
+      "description": "Current number of transactions in the **ready** queue (validated and waiting for block inclusion). This is a live gauge — the best panel for real-time mempool size.",
       "type": "timeseries"
     },
     {
@@ -775,6 +782,7 @@
         }
       ],
       "title": "Propagated Transactions",
+      "description": "Cumulative count of transactions this node has gossiped to at least one peer. Reflects outbound tx propagation activity, not submissions received.",
       "type": "timeseries"
     },
     {
@@ -867,6 +875,7 @@
         }
       ],
       "title": "Active RPC Sessions",
+      "description": "Current open RPC sessions (`opened − closed`). A live count of active JSON-RPC/WebSocket clients connected to each node.",
       "type": "timeseries"
     },
     {
@@ -964,6 +973,7 @@
         }
       ],
       "title": "RPC Session Open/Close Rate",
+      "description": "Rate of new RPC sessions opened and closed per second. Useful for spotting connection storms or client reconnect loops.",
       "type": "timeseries"
     },
     {
@@ -1061,6 +1071,7 @@
         }
       ],
       "title": "RPC Sessions Total (Opened / Closed)",
+      "description": "Lifetime cumulative RPC session open and close counts. The gap between opened and closed lines reflects total sessions ever created.",
       "type": "timeseries"
     }
   ],
