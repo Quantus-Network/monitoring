@@ -66,6 +66,9 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     environment:
+      # Defaults below (admin/admin, prometheus, grafana) are for local dev only.
+      # For any production/internet-exposed deploy, set GRAFANA_ADMIN_PASSWORD and
+      # POSTGRES_PASSWORD in .env (see README "Production deployment").
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GF_SECURITY_FORCE_DEFAULT_ADMIN_PASSWORD_CHANGE=false

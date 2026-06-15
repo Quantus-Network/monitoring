@@ -35,7 +35,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -86,7 +86,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
           "refId": "A"
@@ -98,7 +98,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -173,7 +173,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
           "legendFormat": "Connected Peers - {{instance}}",
@@ -182,7 +182,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\"}",
           "legendFormat": "Discovered Peers - {{instance}}",
@@ -196,7 +196,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -253,7 +253,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\", instance=~\"a1.*\"}",
           "legendFormat": "a1",
@@ -262,7 +262,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\", instance=~\"a2.*\"}",
           "legendFormat": "a2",
@@ -276,7 +276,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -333,7 +333,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\", instance=~\"a1.*\"}",
           "legendFormat": "a1",
@@ -342,7 +342,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\", instance=~\"a2.*\"}",
           "legendFormat": "a2",
@@ -355,7 +355,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -412,7 +412,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\", instance=~\"a1.*\"}",
           "legendFormat": "a1",
@@ -421,7 +421,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\", instance=~\"a2.*\"}",
           "legendFormat": "a2",
@@ -435,7 +435,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -484,7 +484,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sync_peers{chain=\"$chain\", instance=~\"a1.*\"}",
           "legendFormat": "a1",
@@ -493,7 +493,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sync_peers{chain=\"$chain\", instance=~\"a2.*\"}",
           "legendFormat": "a2",
@@ -520,7 +520,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -608,7 +608,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Opened ({{direction}}) - {{instance}}",
@@ -617,7 +617,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_connections_closed_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Closed ({{direction}}, {{reason}}) - {{instance}}",
@@ -630,7 +630,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -705,7 +705,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Handshake Errors ({{reason}}) - {{instance}}",
@@ -714,7 +714,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_pending_connections_errors_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Pending Errors ({{reason}}) - {{instance}}",
@@ -727,7 +727,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -770,7 +770,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "sum by (reason) (increase(substrate_sub_libp2p_connections_closed_total{chain=\"$chain\"}[1h]))",
           "legendFormat": "{{reason}}",
@@ -784,7 +784,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -859,7 +859,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_opened_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Distinct Peers Opened - {{instance}}",
@@ -868,7 +868,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_closed_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Distinct Peers Closed - {{instance}}",
@@ -895,7 +895,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -983,7 +983,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"in\"}[5m])",
           "legendFormat": "IN - {{instance}}",
@@ -992,7 +992,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"out\"}[5m])",
           "legendFormat": "OUT - {{instance}}",
@@ -1005,7 +1005,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1050,7 +1050,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"in\"})",
           "refId": "A"
@@ -1062,7 +1062,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1107,7 +1107,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"out\"})",
           "refId": "A"
@@ -1119,7 +1119,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1194,7 +1194,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m])",
           "legendFormat": "Block Announces IN - {{instance}}",
@@ -1203,7 +1203,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m])",
           "legendFormat": "Transactions IN - {{instance}}",
@@ -1217,7 +1217,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1292,7 +1292,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m])",
           "legendFormat": "Block Announces OUT - {{instance}}",
@@ -1301,7 +1301,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m])",
           "legendFormat": "Transactions OUT - {{instance}}",
@@ -1328,7 +1328,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1373,7 +1373,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_kademlia_records_count{chain=\"$chain\"}",
           "refId": "A"
@@ -1386,7 +1386,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1431,7 +1431,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_kademlia_records_sizes_total{chain=\"$chain\"}",
           "refId": "A"
@@ -1443,7 +1443,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1518,7 +1518,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_kademlia_random_queries_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Random Queries - {{instance}}",
@@ -1532,7 +1532,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1607,7 +1607,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sub_libp2p_kbuckets_num_nodes{chain=\"$chain\"}",
           "legendFormat": "Bucket {{lower_ilog2_bucket_bound}} - {{instance}}",
@@ -1634,7 +1634,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1709,7 +1709,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
@@ -1718,7 +1718,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
@@ -1727,7 +1727,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
@@ -1741,7 +1741,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1816,7 +1816,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
@@ -1825,7 +1825,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
@@ -1834,7 +1834,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
@@ -1848,7 +1848,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1923,7 +1923,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_requests_in_success_total_count{chain=\"$chain\"}[5m])",
           "legendFormat": "Incoming - {{instance}}",
@@ -1936,7 +1936,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2011,7 +2011,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_requests_out_success_total_count{chain=\"$chain\"}[5m])",
           "legendFormat": "Outgoing - {{instance}}",
@@ -2037,7 +2037,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2115,7 +2115,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "topk(10, floor(increase(substrate_sub_libp2p_pending_connections_errors_total{chain=\"$chain\"}[1h])))",
           "format": "table",
@@ -2149,7 +2149,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2224,7 +2224,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "substrate_sync_queued_blocks{chain=\"$chain\"}",
           "legendFormat": "Queued Blocks - {{instance}}",
@@ -2233,7 +2233,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sync_import_queue_blocks_submitted{chain=\"$chain\"}[5m])",
           "legendFormat": "Blocks Submitted/s - {{instance}}",
@@ -2247,7 +2247,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2335,7 +2335,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_notifications_streams_opened_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Streams Opened ({{protocol}}) - {{instance}}",
@@ -2344,7 +2344,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_notifications_streams_closed_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Streams Closed ({{protocol}}) - {{instance}}",
@@ -2357,7 +2357,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2440,7 +2440,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "(sum(rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"$chain\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_incoming_connections_total{chain=\"$chain\"}[$__rate_interval])) by (instance) + 0.001)) * 100",
           "legendFormat": "Handshake Error Rate - {{instance}}",
@@ -2455,7 +2455,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2534,7 +2534,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "rate(substrate_sub_libp2p_listeners_errors_total{chain=\"$chain\"}[5m])",
           "legendFormat": "Listener Errors - {{instance}}",
@@ -2547,7 +2547,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2622,7 +2622,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "prometheus"
           },
           "expr": "(sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\",direction=\"in\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\"}[$__rate_interval])) by (instance) + 0.001))",
           "legendFormat": "Incoming Ratio - {{instance}}",
@@ -2641,24 +2641,6 @@
   "tags": ["chains", "network", "peers"],
   "templating": {
     "list": [
-      {
-        "current": {
-          "selected": false,
-          "text": "Prometheus",
-          "value": "Prometheus"
-        },
-        "hide": 2,
-        "includeAll": false,
-        "label": "Datasource",
-        "multi": false,
-        "name": "DS_PROMETHEUS",
-        "options": [],
-        "query": "prometheus",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "type": "datasource"
-      },
       {
         "current": {
           "selected": true,

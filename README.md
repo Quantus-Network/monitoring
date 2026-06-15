@@ -618,8 +618,10 @@ This stack includes built-in security (Nginx + Basic Auth + Rate Limiting). For 
 ### Security Checklist:
 1. ✅ **Prometheus Basic Auth** - Already configured (change credentials in `.env`)
 2. ✅ **Rate Limiting** - 30 req/sec, prevents bruteforce attacks
-3. ⚠️ **Strong Credentials** - Generate secure passwords:
+3. ⚠️ **Strong Credentials** - The compose defaults (`admin`/`admin` for Grafana, `prometheus` and `grafana` fallbacks) are for local dev only. Override them in `.env` before any production/internet-exposed deploy:
    ```bash
+   GRAFANA_ADMIN_PASSWORD=$(openssl rand -base64 32)
+   POSTGRES_PASSWORD=$(openssl rand -base64 32)
    PROMETHEUS_USER=monitoring_$(openssl rand -hex 8)
    PROMETHEUS_PASSWORD=$(openssl rand -base64 32)
    ```
