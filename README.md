@@ -474,11 +474,11 @@ monitoring/
 │   ├── Dockerfile                  # Custom nginx image with htpasswd
 │   └── docker-entrypoint.sh        # Auth generation script
 ├── grafana/
-│   ├── dashboards/                 # Pre-loaded dashboards (by network)
-│   │   ├── general/                # Welcome/overview dashboard
-│   │   ├── system/                 # System monitoring dashboards
-│   │   ├── heisenberg/
-│   │   └── dirac/
+│   ├── dashboards/                 # Pre-loaded dashboards (by concern)
+│   │   ├── overview/               # Home / multi-chain summary
+│   │   ├── chains/                 # Chain dashboards (chain selector)
+│   │   ├── infrastructure/         # Hosts & telemetry
+│   │   └── applications/           # Faucet, explorer, quests
 │   ├── branding/                   # Quantus branding assets
 │   │   ├── logo.svg                # Sidebar logo (SVG)
 │   │   ├── logo.png                # Apple touch icon
@@ -498,58 +498,43 @@ monitoring/
 
 ## Included Dashboards
 
-The stack comes with pre-configured dashboards organized by network:
+Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (planck / heisenberg / dirac).
 
-### Quantus Network Overview (Home Dashboard)
+### Overview (home)
 
-**Welcome Dashboard** - First page you see when opening Grafana:
-- Chain Height for all 3 networks
-- Last Block Time (in seconds, color-coded)
-- 30-day Uptime percentage (color-coded)
-- **Support Services Status** - Quick status of telemetry infrastructure
-  - Telemetry Host availability
-  - Connected nodes count
-- Visible without login
-- Auto-refreshes every 10 seconds
+**Quantus Network Overview** — first page when opening Grafana:
+- Chain height, last block age, and uptime for Planck, Heisenberg, and Dirac
+- Telemetry host status and connected nodes
+- Public (no login required), refreshes every 10 seconds
 
-Color indicators:
-- 🔵 Blue = Healthy
-- 🩷 Pink = Warning
-- 💛 Yellow = Critical
+### Chains
 
-### System Monitoring Dashboards
+All chain dashboards share a chain selector and link to each other via the **Chains** dropdown:
 
-Located in the **System** folder:
+| Dashboard | What it covers |
+|-----------|----------------|
+| **Chain Health** | Height, block age, peers, syncing, difficulty, uptime |
+| **Consensus & Mining** | Hashrate, difficulty, block time, mining duration (QPoW) |
+| **Node Operations** | CPU/memory, block pipeline, trie cache, runtime performance |
+| **Network & Peers** | P2P connections, bandwidth, Kademlia, sync peers |
+| **Transactions** | TXPool activity and RPC sessions |
 
-**Localhost Monitoring** - Docker host system metrics:
-- CPU Usage (current & over time)
-- Memory Usage (current & over time)
-- Disk Usage
-- System Load (1m, 5m, 15m averages)
-- Network I/O (receive/transmit)
-- Disk I/O (read/write)
-- System Uptime
+### Infrastructure
 
-**Telemetry Monitoring** - Telemetry infrastructure monitoring:
-- **Host Metrics (VPS)**: CPU, memory, disk usage, network I/O, system load
-- **Backend Metrics**: Connected feeds/nodes/shards, message rates, dropped messages
-- Real-time status of telemetry collection infrastructure
+| Dashboard | What it covers |
+|-----------|----------------|
+| **Monitoring Stack** | Docker host running Prometheus/Grafana |
+| **Telemetry** | Telemetry VPS host + backend message feeds |
+| **Support Host** | Support server system metrics |
+| **SNT Host** | SNT server system metrics |
 
-Both use Quantus color scheme with dynamic thresholds.
+### Applications
 
-### Per Network (Heisenberg, Dirac):
-- **Node Metrics** - System resources, peers, network I/O
-- **TXPool** - Transaction pool statistics
-- **Business Metrics** - Block times, difficulty, chain height
-
-Each dashboard shows:
-- Block height (best & finalized)
-- Connected peers
-- Memory & CPU usage
-- Network traffic
-- Mining/validation metrics
-
-Perfect for monitoring Substrate-based validators and full nodes.
+| Dashboard | What it covers |
+|-----------|----------------|
+| **Faucet** | Request rates, transfers, balance, rejections |
+| **Explorer** | Subsquid sync, RPC, Node.js performance |
+| **Quests** | HTTP request rates, errors, latency |
 
 ## Customization
 
@@ -633,8 +618,10 @@ This stack includes built-in security (Nginx + Basic Auth + Rate Limiting). For 
 ### Security Checklist:
 1. ✅ **Prometheus Basic Auth** - Already configured (change credentials in `.env`)
 2. ✅ **Rate Limiting** - 30 req/sec, prevents bruteforce attacks
-3. ⚠️ **Strong Credentials** - Generate secure passwords:
+3. ⚠️ **Strong Credentials** - The compose defaults (`admin`/`admin` for Grafana, `prometheus` and `grafana` fallbacks) are for local dev only. Override them in `.env` before any production/internet-exposed deploy:
    ```bash
+   GRAFANA_ADMIN_PASSWORD=$(openssl rand -base64 32)
+   POSTGRES_PASSWORD=$(openssl rand -base64 32)
    PROMETHEUS_USER=monitoring_$(openssl rand -hex 8)
    PROMETHEUS_PASSWORD=$(openssl rand -base64 32)
    ```

@@ -8,13 +8,13 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=60d'
-      - '--storage.tsdb.retention.size=30GB'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=60d"
+      - "--storage.tsdb.retention.size=30GB"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.enable-lifecycle"
     restart: unless-stopped
     networks:
       - monitoring
@@ -56,7 +56,7 @@ services:
   grafana:
     # Using custom Grafana image with Quantus branding
     # Based on 11.3.0 instead of latest (12.x) due to datasource provisioning bug
-    # Issue: Grafana 12.x fails with "Datasource provisioning error: data source not found" 
+    # Issue: Grafana 12.x fails with "Datasource provisioning error: data source not found"
     # on some platforms (Fedora/RHEL) while working on macOS - race condition in provisioning
     build:
       context: ./grafana
@@ -66,6 +66,9 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     environment:
+      # Defaults below (admin/admin, prometheus, grafana) are for local dev only.
+      # For any production/internet-exposed deploy, set GRAFANA_ADMIN_PASSWORD and
+      # POSTGRES_PASSWORD in .env (see README "Production deployment").
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GF_SECURITY_FORCE_DEFAULT_ADMIN_PASSWORD_CHANGE=false
@@ -81,7 +84,7 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
       # Set Welcome dashboard as home page
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/general/welcome.json
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/overview/welcome.json
       # PostgreSQL Database Configuration
       - GF_DATABASE_TYPE=postgres
       - GF_DATABASE_HOST=postgres:5432
@@ -92,17 +95,17 @@ services:
       # SMTP Configuration
       - GF_SMTP_ENABLED=${SMTP_ENABLED:-false}
       - GF_SMTP_HOST=${SMTP_HOST:-smtp.example.com:587}
-      - GF_SMTP_USER=${SMTP_USER}
-      - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
-      - GF_SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS}
+      - GF_SMTP_USER=${SMTP_USER:-}
+      - GF_SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - GF_SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS:-}
       - GF_SMTP_FROM_NAME=${SMTP_FROM_NAME:-Grafana Monitoring}
       - GF_SMTP_STARTTLS_POLICY=${SMTP_STARTTLS_POLICY:-MandatoryStartTLS}
       # Alert email addresses (comma-separated)
       - ALERT_EMAIL_ADDRESSES=${ALERT_EMAIL_ADDRESSES:-admin@example.com}
       # Telegram Configuration
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
-      - ROCKET_WEBHOOK_URL=${ROCKET_WEBHOOK_URL}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
+      - ROCKET_WEBHOOK_URL=${ROCKET_WEBHOOK_URL:-}
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
@@ -128,10 +131,10 @@ services:
     ports:
       - "127.0.0.1:9100:9100"
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/host'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/host"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -148,4 +151,3 @@ volumes:
   prometheus-data:
   grafana-data:
   postgres-data:
-

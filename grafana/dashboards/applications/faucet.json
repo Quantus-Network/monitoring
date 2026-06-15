@@ -1,7 +1,7 @@
 {
-  "title": "Support Host Monitoring",
-  "uid": "support-host-monitoring",
-  "tags": ["support", "system", "node-exporter"],
+  "title": "Faucet",
+  "uid": "app-faucet",
+  "tags": ["applications", "faucet"],
   "timezone": "browser",
   "schemaVersion": 38,
   "refresh": "10s",
@@ -18,22 +18,22 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🖥️ Support Host System Metrics\n\nReal-time monitoring of the support infrastructure host (hm-support.quantus.cat)"
+        "content": "# \ud83d\udca7 Faucet Metrics\n\nReal-time monitoring of faucet operations and token distribution"
       }
     },
     {
       "type": "stat",
-      "title": "CPU Usage",
+      "title": "Total Requests",
       "gridPos": {
-        "h": 8,
-        "w": 8,
+        "h": 6,
+        "w": 6,
         "x": 0,
         "y": 3
       },
       "id": 2,
       "targets": [
         {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"support-host\"}[5m])) * 100)",
+          "expr": "faucet_total_requests{job=\"support-faucet\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -47,55 +47,37 @@
           "calcs": ["lastNotNull"]
         },
         "text": {
-          "titleSize": 16,
-          "valueSize": 48
+          "titleSize": 14,
+          "valueSize": 32
         },
-        "colorMode": "background",
+        "colorMode": "value",
         "graphMode": "area",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "min": 0,
-          "max": 100,
+          "unit": "short",
+          "decimals": 0,
           "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "green"
-              },
-              {
-                "value": 60,
-                "color": "yellow"
-              },
-              {
-                "value": 80,
-                "color": "red"
-              }
-            ]
+            "mode": "fixed",
+            "fixedColor": "blue"
           }
         }
       }
     },
     {
       "type": "stat",
-      "title": "Memory Usage",
+      "title": "Successful Transfers",
       "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
+        "h": 6,
+        "w": 6,
+        "x": 6,
         "y": 3
       },
       "id": 3,
       "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=\"support-host\"} - node_memory_MemAvailable_bytes{job=\"support-host\"}) / node_memory_MemTotal_bytes{job=\"support-host\"}) * 100",
+          "expr": "faucet_successful_transfers{job=\"support-faucet\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -109,11 +91,99 @@
           "calcs": ["lastNotNull"]
         },
         "text": {
-          "titleSize": 16,
-          "valueSize": 48
+          "titleSize": 14,
+          "valueSize": 32
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "green"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Failed Transfers",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 4,
+      "targets": [
+        {
+          "expr": "faucet_failed_transfers{job=\"support-faucet\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 32
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "red"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Success Rate",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 5,
+      "targets": [
+        {
+          "expr": "(faucet_successful_transfers{job=\"support-faucet\"} / (faucet_total_requests{job=\"support-faucet\"} > 0)) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 32
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -130,15 +200,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "green"
+                "color": "red"
               },
               {
-                "value": 75,
+                "value": 80,
                 "color": "yellow"
               },
               {
-                "value": 90,
-                "color": "red"
+                "value": 95,
+                "color": "green"
               }
             ]
           }
@@ -147,17 +217,17 @@
     },
     {
       "type": "stat",
-      "title": "Disk Usage",
+      "title": "Faucet Account Balance",
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 3
+        "w": 12,
+        "x": 0,
+        "y": 9
       },
-      "id": 4,
+      "id": 6,
       "targets": [
         {
-          "expr": "((node_filesystem_size_bytes{job=\"support-host\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=\"support-host\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=\"support-host\", mountpoint=\"/\"}) * 100",
+          "expr": "faucet_account_balance{job=\"support-faucet\"} / 1e12",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -180,10 +250,8 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "min": 0,
-          "max": 100,
+          "unit": "short",
+          "decimals": 2,
           "color": {
             "mode": "thresholds"
           },
@@ -192,15 +260,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "green"
+                "color": "red"
               },
               {
-                "value": 75,
+                "value": 100,
                 "color": "yellow"
               },
               {
-                "value": 85,
-                "color": "red"
+                "value": 1000,
+                "color": "green"
               }
             ]
           }
@@ -208,183 +276,126 @@
       }
     },
     {
-      "type": "timeseries",
-      "title": "CPU Usage Over Time",
+      "type": "stat",
+      "title": "Active Users",
       "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 11
-      },
-      "id": 5,
-      "targets": [
-        {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"support-host\"}[5m])) * 100)",
-          "refId": "A",
-          "legendFormat": "CPU Usage",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "legend": {
-          "calcs": ["lastNotNull", "mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "min": 0,
-          "max": 100,
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "Memory Usage Over Time",
-      "gridPos": {
-        "h": 10,
-        "w": 12,
+        "h": 8,
+        "w": 6,
         "x": 12,
-        "y": 11
-      },
-      "id": 6,
-      "targets": [
-        {
-          "expr": "((node_memory_MemTotal_bytes{job=\"support-host\"} - node_memory_MemAvailable_bytes{job=\"support-host\"}) / node_memory_MemTotal_bytes{job=\"support-host\"}) * 100",
-          "refId": "A",
-          "legendFormat": "Memory Usage",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "legend": {
-          "calcs": ["lastNotNull", "mean", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "min": 0,
-          "max": 100,
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          }
-        }
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "Network Traffic",
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 21
+        "y": 9
       },
       "id": 7,
       "targets": [
         {
-          "expr": "rate(node_network_receive_bytes_total{job=\"support-host\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "expr": "faucet_active_users{job=\"support-faucet\"}",
           "refId": "A",
-          "legendFormat": "{{device}} - RX",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 48
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "purple"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Balance Queries",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 9
+      },
+      "id": 8,
+      "targets": [
+        {
+          "expr": "faucet_balance_queries{job=\"support-faucet\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 48
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Rate (per minute)",
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 9,
+      "targets": [
+        {
+          "expr": "rate(faucet_total_requests{job=\"support-faucet\"}[1m]) * 60",
+          "refId": "A",
+          "legendFormat": "Total Requests",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
           }
         },
         {
-          "expr": "rate(node_network_transmit_bytes_total{job=\"support-host\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "expr": "rate(faucet_successful_transfers{job=\"support-faucet\"}[1m]) * 60",
           "refId": "B",
-          "legendFormat": "{{device}} - TX",
+          "legendFormat": "Successful",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "rate(faucet_failed_transfers{job=\"support-faucet\"}[1m]) * 60",
+          "refId": "C",
+          "legendFormat": "Failed",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
@@ -405,7 +416,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "Bps",
+          "unit": "reqpm",
           "decimals": 2,
           "color": {
             "mode": "palette-classic"
@@ -447,37 +458,19 @@
     },
     {
       "type": "timeseries",
-      "title": "Load Average",
+      "title": "Faucet Balance Over Time",
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
-        "x": 0,
-        "y": 31
+        "x": 12,
+        "y": 17
       },
-      "id": 8,
+      "id": 10,
       "targets": [
         {
-          "expr": "node_load1{job=\"support-host\"}",
+          "expr": "faucet_account_balance{job=\"support-faucet\"} / 1e18",
           "refId": "A",
-          "legendFormat": "1m",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "node_load5{job=\"support-host\"}",
-          "refId": "B",
-          "legendFormat": "5m",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "node_load15{job=\"support-host\"}",
-          "refId": "C",
-          "legendFormat": "15m",
+          "legendFormat": "Balance (tokens)",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
@@ -486,13 +479,13 @@
       ],
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
-          "displayMode": "list",
+          "calcs": ["lastNotNull", "min", "max"],
+          "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "multi",
+          "mode": "single",
           "sort": "none"
         }
       },
@@ -539,18 +532,177 @@
       }
     },
     {
-      "type": "stat",
-      "title": "System Uptime",
+      "type": "timeseries",
+      "title": "Rejection Reasons",
       "gridPos": {
-        "h": 8,
+        "h": 10,
         "w": 12,
-        "x": 12,
-        "y": 31
+        "x": 0,
+        "y": 27
       },
-      "id": 9,
+      "id": 11,
       "targets": [
         {
-          "expr": "node_time_seconds{job=\"support-host\"} - node_boot_time_seconds{job=\"support-host\"}",
+          "expr": "rate(faucet_rate_limited_requests{job=\"support-faucet\"}[5m]) * 60",
+          "refId": "A",
+          "legendFormat": "Rate Limited",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "rate(faucet_max_balance_rejections{job=\"support-faucet\"}[5m]) * 60",
+          "refId": "B",
+          "legendFormat": "Max Balance Exceeded",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull", "mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqpm",
+          "decimals": 2,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Active Users Over Time",
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "id": 12,
+      "targets": [
+        {
+          "expr": "faucet_active_users{job=\"support-faucet\"}",
+          "refId": "A",
+          "legendFormat": "Active Users",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "legend": {
+          "calcs": ["lastNotNull", "mean", "max"],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Rate Limited Requests",
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 37
+      },
+      "id": 13,
+      "targets": [
+        {
+          "expr": "faucet_rate_limited_requests{job=\"support-faucet\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -564,16 +716,104 @@
           "calcs": ["lastNotNull"]
         },
         "text": {
-          "titleSize": 16,
-          "valueSize": 32
+          "titleSize": 14,
+          "valueSize": 28
         },
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "s",
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "orange"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Max Balance Rejections",
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 37
+      },
+      "id": 14,
+      "targets": [
+        {
+          "expr": "faucet_max_balance_rejections{job=\"support-faucet\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 28
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "yellow"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Total Balance Queries",
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 37
+      },
+      "id": 15,
+      "targets": [
+        {
+          "expr": "faucet_balance_queries{job=\"support-faucet\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 28
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -592,4 +832,3 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "7d", "30d"]
   }
 }
-

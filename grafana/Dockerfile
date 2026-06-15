@@ -16,6 +16,11 @@ COPY branding/quantus_login_dark.svg /usr/share/grafana/public/img/g8_login_dark
 COPY branding/quantus_login_light.svg /usr/share/grafana/public/img/g8_login_light.svg
 
 COPY provisioning/alerting /etc/grafana/provisioning/alerting
+COPY provisioning/alerting/contactpoints.base.yml /etc/grafana/alerting-templates/contactpoints.base.yml
+COPY provisioning/alerting/contactpoints.telegram.fragment.yml /etc/grafana/alerting-templates/contactpoints.telegram.fragment.yml
+COPY provisioning/alerting/contactpoints.rocket.fragment.yml /etc/grafana/alerting-templates/contactpoints.rocket.fragment.yml
+COPY provisioning/alerting/policies.local.yml /etc/grafana/alerting-templates/policies.local.yml
+COPY provisioning/alerting/policies.production.yml /etc/grafana/alerting-templates/policies.production.yml
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh

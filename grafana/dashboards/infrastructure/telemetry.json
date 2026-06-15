@@ -1,7 +1,7 @@
 {
-  "title": "Localhost Monitoring",
-  "uid": "localhost-monitoring",
-  "tags": ["localhost", "system", "node-exporter"],
+  "title": "Telemetry",
+  "uid": "infra-telemetry",
+  "tags": ["infrastructure", "telemetry"],
   "timezone": "browser",
   "schemaVersion": 38,
   "refresh": "10s",
@@ -18,7 +18,21 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 💻 Localhost System Metrics\n\nReal-time monitoring of the Docker host running the Quantus monitoring stack"
+        "content": "# \ud83d\udce1 Telemetry System Monitoring\n\nReal-time monitoring of the Telemetry VPS host and backend service metrics"
+      }
+    },
+    {
+      "type": "text",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 2,
+      "options": {
+        "mode": "markdown",
+        "content": "## \ud83d\udda5\ufe0f Host Metrics (VPS)"
       }
     },
     {
@@ -28,12 +42,12 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 3
+        "y": 5
       },
-      "id": 2,
+      "id": 3,
       "targets": [
         {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"node-exporter\"}[5m])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"telemetry-host\"}[5m])) * 100)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -90,12 +104,12 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 3
+        "y": 5
       },
-      "id": 3,
+      "id": 4,
       "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=\"node-exporter\"} - node_memory_MemAvailable_bytes{job=\"node-exporter\"}) / node_memory_MemTotal_bytes{job=\"node-exporter\"}) * 100",
+          "expr": "((node_memory_MemTotal_bytes{job=\"telemetry-host\"} - node_memory_MemAvailable_bytes{job=\"telemetry-host\"}) / node_memory_MemTotal_bytes{job=\"telemetry-host\"}) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -152,12 +166,12 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 3
+        "y": 5
       },
-      "id": 4,
+      "id": 5,
       "targets": [
         {
-          "expr": "max((node_filesystem_size_bytes{job=\"node-exporter\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|overlay\"} - node_filesystem_avail_bytes{job=\"node-exporter\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|overlay\"}) / node_filesystem_size_bytes{job=\"node-exporter\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|overlay\"}) * 100",
+          "expr": "max((node_filesystem_size_bytes{job=\"telemetry-host\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|overlay\"} - node_filesystem_avail_bytes{job=\"telemetry-host\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|overlay\"}) / node_filesystem_size_bytes{job=\"telemetry-host\", fstype!~\"tmpfs|fuse.lxcfs|squashfs|vfat|overlay\"}) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -209,105 +223,27 @@
     },
     {
       "type": "timeseries",
-      "title": "CPU Usage Over Time",
+      "title": "CPU & Memory Over Time",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 13
       },
-      "id": 5,
+      "id": 6,
       "targets": [
         {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"node-exporter\"}[5m])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"telemetry-host\"}[5m])) * 100)",
           "refId": "A",
           "legendFormat": "CPU Usage",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
           }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "min": 0,
-          "max": 100,
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 20,
-            "gradientMode": "opacity",
-            "spanNulls": false,
-            "showPoints": "never",
-            "pointSize": 5,
-            "stacking": {
-              "mode": "none",
-              "group": "A"
-            },
-            "axisPlacement": "auto",
-            "axisLabel": "",
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "color": {
-            "mode": "palette-classic"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#1f1fa3"
-              },
-              {
-                "value": 60,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 80,
-                "color": "#ffe91f"
-              }
-            ]
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
         },
-        "legend": {
-          "showLegend": true,
-          "displayMode": "list",
-          "placement": "bottom"
-        }
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "Memory Usage Over Time",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "id": 6,
-      "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=\"node-exporter\"} - node_memory_MemAvailable_bytes{job=\"node-exporter\"}) / node_memory_MemTotal_bytes{job=\"node-exporter\"}) * 100",
-          "refId": "A",
+          "expr": "((node_memory_MemTotal_bytes{job=\"telemetry-host\"} - node_memory_MemAvailable_bytes{job=\"telemetry-host\"}) / node_memory_MemTotal_bytes{job=\"telemetry-host\"}) * 100",
+          "refId": "B",
           "legendFormat": "Memory Usage",
           "datasource": {
             "type": "prometheus",
@@ -349,6 +285,157 @@
           },
           "color": {
             "mode": "palette-classic"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Network I/O",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "id": 7,
+      "targets": [
+        {
+          "expr": "rate(node_network_receive_bytes_total{job=\"telemetry-host\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "refId": "A",
+          "legendFormat": "RX - {{device}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "rate(node_network_transmit_bytes_total{job=\"telemetry-host\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "refId": "B",
+          "legendFormat": "TX - {{device}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "System Load (1m/5m/15m)",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 8,
+      "targets": [
+        {
+          "expr": "node_load1{job=\"telemetry-host\"}",
+          "refId": "A",
+          "legendFormat": "1m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "node_load5{job=\"telemetry-host\"}",
+          "refId": "B",
+          "legendFormat": "5m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "node_load15{job=\"telemetry-host\"}",
+          "refId": "C",
+          "legendFormat": "15m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 24
+        },
+        "colorMode": "value",
+        "graphMode": "area",
+        "textMode": "value_and_name",
+        "orientation": "horizontal"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
           },
           "thresholds": {
             "mode": "absolute",
@@ -358,14 +445,493 @@
                 "color": "#1f1fa3"
               },
               {
-                "value": 70,
+                "value": 2,
                 "color": "#ed4cce"
               },
               {
-                "value": 90,
+                "value": 4,
                 "color": "#ffe91f"
               }
             ]
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 11,
+      "options": {
+        "mode": "markdown",
+        "content": "## \ud83d\udcca Telemetry Backend Metrics"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Connected Feeds",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 0,
+        "y": 29
+      },
+      "id": 12,
+      "targets": [
+        {
+          "expr": "telemetry_core_connected_feeds{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Connected Nodes",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 4,
+        "y": 29
+      },
+      "id": 13,
+      "targets": [
+        {
+          "expr": "telemetry_core_connected_nodes{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Connected Shards",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 8,
+        "y": 29
+      },
+      "id": 14,
+      "targets": [
+        {
+          "expr": "telemetry_core_connected_shards{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Chains Subscribed",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 29
+      },
+      "id": 15,
+      "targets": [
+        {
+          "expr": "telemetry_core_chains_subscribed_to{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Subscribed Feeds",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 16,
+        "y": 29
+      },
+      "id": 16,
+      "targets": [
+        {
+          "expr": "telemetry_core_subscribed_feeds{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 1,
+                "color": "#1f1fa3"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Current Messages",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 29
+      },
+      "id": 17,
+      "targets": [
+        {
+          "expr": "telemetry_core_current_messages_to_aggregator{job=\"telemetry-backend\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#1f1fa3"
+              },
+              {
+                "value": 100,
+                "color": "#ed4cce"
+              },
+              {
+                "value": 1000,
+                "color": "#ffe91f"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Total Messages to Aggregator",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 35
+      },
+      "id": 18,
+      "targets": [
+        {
+          "expr": "rate(telemetry_core_total_messages_to_aggregator{job=\"telemetry-backend\"}[5m])",
+          "refId": "A",
+          "legendFormat": "Message Rate",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "options": {
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Total Messages to Feeds",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 35
+      },
+      "id": 19,
+      "targets": [
+        {
+          "expr": "rate(telemetry_core_total_messages_to_feeds{job=\"telemetry-backend\"}[5m])",
+          "refId": "A",
+          "legendFormat": "Message Rate",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "color": {
+            "mode": "palette-classic"
           }
         }
       },
@@ -383,17 +949,17 @@
     },
     {
       "type": "stat",
-      "title": "System Load (1m)",
+      "title": "Dropped Messages (Total)",
       "gridPos": {
         "h": 6,
-        "w": 6,
+        "w": 12,
         "x": 0,
-        "y": 19
+        "y": 43
       },
-      "id": 7,
+      "id": 20,
       "targets": [
         {
-          "expr": "node_load1{job=\"node-exporter\"}",
+          "expr": "telemetry_core_dropped_messages_to_aggregator{job=\"telemetry-backend\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -407,196 +973,16 @@
           "calcs": ["lastNotNull"]
         },
         "text": {
-          "titleSize": 14,
-          "valueSize": 32
+          "titleSize": 16,
+          "valueSize": 48
         },
-        "colorMode": "value",
-        "graphMode": "none",
+        "colorMode": "background",
+        "graphMode": "area",
         "textMode": "value"
       },
       "fieldConfig": {
         "defaults": {
           "unit": "short",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#1f1fa3"
-              },
-              {
-                "value": 2,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 4,
-                "color": "#ffe91f"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "System Load (5m)",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 6,
-        "y": 19
-      },
-      "id": 8,
-      "targets": [
-        {
-          "expr": "node_load5{job=\"node-exporter\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#1f1fa3"
-              },
-              {
-                "value": 2,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 4,
-                "color": "#ffe91f"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "System Load (15m)",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 12,
-        "y": 19
-      },
-      "id": 9,
-      "targets": [
-        {
-          "expr": "node_load15{job=\"node-exporter\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#1f1fa3"
-              },
-              {
-                "value": 2,
-                "color": "#ed4cce"
-              },
-              {
-                "value": 4,
-                "color": "#ffe91f"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "System Uptime",
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 18,
-        "y": 19
-      },
-      "id": 10,
-      "targets": [
-        {
-          "expr": "node_time_seconds{job=\"node-exporter\"} - node_boot_time_seconds{job=\"node-exporter\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 14,
-          "valueSize": 24
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -606,7 +992,15 @@
             "steps": [
               {
                 "value": null,
-                "color": "#0000ff"
+                "color": "#1f1fa3"
+              },
+              {
+                "value": 1,
+                "color": "#ffe91f"
+              },
+              {
+                "value": 100,
+                "color": "#ed4cce"
               }
             ]
           }
@@ -615,105 +1009,19 @@
     },
     {
       "type": "timeseries",
-      "title": "Network I/O",
+      "title": "Dropped Messages Rate",
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 25
-      },
-      "id": 11,
-      "targets": [
-        {
-          "expr": "rate(node_network_receive_bytes_total{job=\"node-exporter\", device!~\"lo|docker.*|veth.*\"}[5m])",
-          "refId": "A",
-          "legendFormat": "Received - {{device}}",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "rate(node_network_transmit_bytes_total{job=\"node-exporter\", device!~\"lo|docker.*|veth.*\"}[5m])",
-          "refId": "B",
-          "legendFormat": "Transmitted - {{device}}",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "Bps",
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 20,
-            "gradientMode": "opacity",
-            "spanNulls": false,
-            "showPoints": "never",
-            "pointSize": 5,
-            "stacking": {
-              "mode": "none",
-              "group": "A"
-            },
-            "axisPlacement": "auto",
-            "axisLabel": "",
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "color": {
-            "mode": "palette-classic"
-          }
-        }
-      },
-      "options": {
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        },
-        "legend": {
-          "showLegend": true,
-          "displayMode": "list",
-          "placement": "bottom"
-        }
-      }
-    },
-    {
-      "type": "timeseries",
-      "title": "Disk I/O",
-      "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 43
       },
-      "id": 12,
+      "id": 21,
       "targets": [
         {
-          "expr": "rate(node_disk_read_bytes_total{job=\"node-exporter\"}[5m])",
+          "expr": "rate(telemetry_core_dropped_messages_to_aggregator{job=\"telemetry-backend\"}[5m])",
           "refId": "A",
-          "legendFormat": "Read - {{device}}",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "rate(node_disk_written_bytes_total{job=\"node-exporter\"}[5m])",
-          "refId": "B",
-          "legendFormat": "Write - {{device}}",
+          "legendFormat": "Drop Rate",
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
@@ -722,7 +1030,7 @@
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "Bps",
+          "unit": "reqps",
           "custom": {
             "drawStyle": "line",
             "lineInterpolation": "smooth",
@@ -752,12 +1060,21 @@
           },
           "color": {
             "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#1f1fa3"
+              }
+            ]
           }
         }
       },
       "options": {
         "tooltip": {
-          "mode": "multi",
+          "mode": "single",
           "sort": "none"
         },
         "legend": {
@@ -777,4 +1094,3 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   }
 }
-

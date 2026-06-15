@@ -1,7 +1,7 @@
 {
-  "title": "SNT Host Monitoring",
-  "uid": "snt-monitoring",
-  "tags": ["snt", "system", "node-exporter"],
+  "title": "Support Host",
+  "uid": "infra-support-host",
+  "tags": ["infrastructure", "support"],
   "timezone": "browser",
   "schemaVersion": 38,
   "refresh": "10s",
@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# 🖥️ SNT Host System Metrics\n\nReal-time monitoring of the SNT host (snt.quantus.com)"
+        "content": "# \ud83d\udda5\ufe0f Support Host System Metrics\n\nReal-time monitoring of the support infrastructure host (hm-support.quantus.cat)"
       }
     },
     {
@@ -33,7 +33,7 @@
       "id": 2,
       "targets": [
         {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"snt\"}[5m])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"support-host\"}[5m])) * 100)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -95,7 +95,7 @@
       "id": 3,
       "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=\"snt\"} - node_memory_MemAvailable_bytes{job=\"snt\"}) / node_memory_MemTotal_bytes{job=\"snt\"}) * 100",
+          "expr": "((node_memory_MemTotal_bytes{job=\"support-host\"} - node_memory_MemAvailable_bytes{job=\"support-host\"}) / node_memory_MemTotal_bytes{job=\"support-host\"}) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -157,7 +157,7 @@
       "id": 4,
       "targets": [
         {
-          "expr": "((node_filesystem_size_bytes{job=\"snt\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=\"snt\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=\"snt\", mountpoint=\"/\"}) * 100",
+          "expr": "((node_filesystem_size_bytes{job=\"support-host\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=\"support-host\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=\"support-host\", mountpoint=\"/\"}) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -219,7 +219,7 @@
       "id": 5,
       "targets": [
         {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"snt\"}[5m])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=\"support-host\"}[5m])) * 100)",
           "refId": "A",
           "legendFormat": "CPU Usage",
           "datasource": {
@@ -296,7 +296,7 @@
       "id": 6,
       "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=\"snt\"} - node_memory_MemAvailable_bytes{job=\"snt\"}) / node_memory_MemTotal_bytes{job=\"snt\"}) * 100",
+          "expr": "((node_memory_MemTotal_bytes{job=\"support-host\"} - node_memory_MemAvailable_bytes{job=\"support-host\"}) / node_memory_MemTotal_bytes{job=\"support-host\"}) * 100",
           "refId": "A",
           "legendFormat": "Memory Usage",
           "datasource": {
@@ -373,7 +373,7 @@
       "id": 7,
       "targets": [
         {
-          "expr": "rate(node_network_receive_bytes_total{job=\"snt\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "expr": "rate(node_network_receive_bytes_total{job=\"support-host\", device!~\"lo|docker.*|veth.*\"}[5m])",
           "refId": "A",
           "legendFormat": "{{device}} - RX",
           "datasource": {
@@ -382,7 +382,7 @@
           }
         },
         {
-          "expr": "rate(node_network_transmit_bytes_total{job=\"snt\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "expr": "rate(node_network_transmit_bytes_total{job=\"support-host\", device!~\"lo|docker.*|veth.*\"}[5m])",
           "refId": "B",
           "legendFormat": "{{device}} - TX",
           "datasource": {
@@ -457,7 +457,7 @@
       "id": 8,
       "targets": [
         {
-          "expr": "node_load1{job=\"snt\"}",
+          "expr": "node_load1{job=\"support-host\"}",
           "refId": "A",
           "legendFormat": "1m",
           "datasource": {
@@ -466,7 +466,7 @@
           }
         },
         {
-          "expr": "node_load5{job=\"snt\"}",
+          "expr": "node_load5{job=\"support-host\"}",
           "refId": "B",
           "legendFormat": "5m",
           "datasource": {
@@ -475,7 +475,7 @@
           }
         },
         {
-          "expr": "node_load15{job=\"snt\"}",
+          "expr": "node_load15{job=\"support-host\"}",
           "refId": "C",
           "legendFormat": "15m",
           "datasource": {
@@ -550,7 +550,7 @@
       "id": 9,
       "targets": [
         {
-          "expr": "node_time_seconds{job=\"snt\"} - node_boot_time_seconds{job=\"snt\"}",
+          "expr": "node_time_seconds{job=\"support-host\"} - node_boot_time_seconds{job=\"support-host\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -592,4 +592,3 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "7d", "30d"]
   }
 }
-

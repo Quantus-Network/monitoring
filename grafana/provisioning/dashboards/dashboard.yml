@@ -1,49 +1,39 @@
 apiVersion: 1
 
 providers:
-  - name: 'General'
+  - name: "Overview"
     orgId: 1
-    folder: ''
+    folder: "Overview"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: false
     options:
-      path: /var/lib/grafana/dashboards/general
-  - name: 'System'
+      path: /var/lib/grafana/dashboards/overview
+  - name: "Chains"
     orgId: 1
-    folder: 'System'
+    folder: "Chains"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards/system
-  - name: 'Heisenberg'
+      path: /var/lib/grafana/dashboards/chains
+  - name: "Infrastructure"
     orgId: 1
-    folder: 'Heisenberg'
+    folder: "Infrastructure"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards/heisenberg
-  - name: 'Dirac'
+      path: /var/lib/grafana/dashboards/infrastructure
+  - name: "Applications"
     orgId: 1
-    folder: 'Dirac'
+    folder: "Applications"
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards/dirac
-  - name: 'Planck'
-    orgId: 1
-    folder: 'Planck'
-    type: file
-    disableDeletion: false
-    updateIntervalSeconds: 10
-    allowUiUpdates: true
-    options:
-      path: /var/lib/grafana/dashboards/planck
-
+      path: /var/lib/grafana/dashboards/applications

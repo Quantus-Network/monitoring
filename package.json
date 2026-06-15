@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml",
+    "format:check": "prettier --check \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}

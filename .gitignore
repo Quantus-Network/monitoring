@@ -37,6 +37,13 @@ Thumbs.db
 *.swo
 *~
 
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+
 # IDE files
 .vscode/
 .idea/
@@ -58,4 +65,6 @@ temp/
 *local.yml
 *local.yaml
 config.local.*
+# Exception: this is a committed alerting policy required by the Grafana image build
+!grafana/provisioning/alerting/policies.local.yml
 

@@ -68,7 +68,7 @@ groups:
           summary: 'Node {{ index $labels "instance" }} is DOWN'
         labels:
           severity: critical
-      
+
       # Alert when peer count is low
       - uid: low-peer-count-alert
         title: Low Peer Count
@@ -259,7 +259,7 @@ groups:
           summary: 'High CPU usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
-      
+
       # Alert when memory usage is high
       - uid: high-memory-alert
         title: High Memory Usage
@@ -321,7 +321,7 @@ groups:
           summary: 'High memory usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
-      
+
       # Alert when disk space is low
       - uid: low-disk-space-alert
         title: Low Disk Space
@@ -448,7 +448,7 @@ groups:
         for: 5m
         annotations:
           description: 'Telemetry Host ({{ index $labels "instance" }}) is down for more than 5 minutes - telemetry monitoring unavailable'
-          summary: 'Telemetry Host is DOWN'
+          summary: "Telemetry Host is DOWN"
         labels:
           severity: critical
 
@@ -510,10 +510,10 @@ groups:
         for: 5m
         annotations:
           description: 'SNT Host ({{ index $labels "instance" }}) is down for more than 5 minutes - SNT monitoring unavailable'
-          summary: 'SNT Host is DOWN'
+          summary: "SNT Host is DOWN"
         labels:
           severity: critical
-      
+
       # ===============================================
       # FAUCET MONITORING ALERTS (Planck - Highest Priority)
       # ===============================================
@@ -588,11 +588,11 @@ groups:
         for: 2m
         annotations:
           description: 'Faucet service ({{ index $labels "instance" }}) is not responding - users cannot request tokens'
-          summary: 'Faucet Service is DOWN'
+          summary: "Faucet Service is DOWN"
         labels:
           chain: planck
           severity: critical
-      
+
       # - uid: faucet_low_balance
       #   title: Faucet Low Balance
       #   condition: C
@@ -668,7 +668,7 @@ groups:
       #   labels:
       #     chain: planck
       #     severity: warning
-      
+
       - uid: faucet_high_failure_rate
         title: Faucet High Transfer Failure Rate
         condition: C
@@ -735,16 +735,16 @@ groups:
               expression: B
               refId: C
               type: threshold
-        noDataState: OK 
+        noDataState: OK
         execErrState: Alerting
         for: 5m
         annotations:
           description: 'Faucet transfer failure rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >20%) - check logs and chain connection'
-          summary: 'High Transfer Failure Rate'
+          summary: "High Transfer Failure Rate"
         labels:
           chain: planck
           severity: warning
-      
+
       - uid: faucet_high_rejection_rate
         title: Faucet High Rejection Rate
         condition: C
@@ -816,11 +816,11 @@ groups:
         for: 10m
         annotations:
           description: 'Faucet rejection rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >50%) - possible spam or validation issues'
-          summary: 'High Request Rejection Rate'
+          summary: "High Request Rejection Rate"
         labels:
           chain: planck
           severity: warning
-      
+
       # ===============================================
       # EXPLORER MONITORING ALERTS (Planck - Highest Priority)
       # ===============================================
@@ -895,11 +895,11 @@ groups:
         for: 3m
         annotations:
           description: 'Explorer service ({{ index $labels "instance" }}) is not responding - blockchain data indexing unavailable'
-          summary: 'Explorer Service is DOWN'
+          summary: "Explorer Service is DOWN"
         labels:
           chain: planck
           severity: critical
-      
+
       - uid: explorer_sync_lag
         title: Explorer Sync Lag
         condition: C
@@ -971,11 +971,11 @@ groups:
         for: 10m
         annotations:
           description: 'Explorer is {{ printf "%.0f" $values.B.Value }} blocks behind chain height (threshold: >100 blocks) - check processing performance'
-          summary: 'Explorer Synchronization Lag'
+          summary: "Explorer Synchronization Lag"
         labels:
           chain: planck
           severity: warning
-      
+
       - uid: explorer_high_rpc_failure_rate
         title: Explorer High RPC Failure Rate
         condition: C
@@ -1047,11 +1047,11 @@ groups:
         for: 5m
         annotations:
           description: 'Explorer RPC failure rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}'
-          summary: 'High RPC Failure Rate'
+          summary: "High RPC Failure Rate"
         labels:
           chain: planck
           severity: warning
-      
+
       # ===============================================
       # TASK MASTER MONITORING ALERTS (Planck - Highest Priority)
       # ===============================================
@@ -1126,11 +1126,11 @@ groups:
         for: 3m
         annotations:
           description: 'Task Master service ({{ index $labels "instance" }}) is not responding - quest system unavailable'
-          summary: 'Task Master Service is DOWN'
+          summary: "Task Master Service is DOWN"
         labels:
           chain: planck
           severity: critical
-      
+
       - uid: task_master_high_error_rate
         title: Task Master High Error Rate
         condition: C
@@ -1202,8 +1202,7 @@ groups:
         for: 5m
         annotations:
           description: 'Task Master error rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >20%) - check application logs and dependencies'
-          summary: 'High Error Rate on Task Master'
+          summary: "High Error Rate on Task Master"
         labels:
           chain: planck
           severity: warning
-

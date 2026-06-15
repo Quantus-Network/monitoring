@@ -18,15 +18,15 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Quantus Network Overview\n\nReal-time monitoring across Planck and Heisenberg — [quantus.com](https://www.quantus.com/)"
+        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck**, **Heisenberg**, and **Dirac**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
       }
     },
     {
       "type": "stat",
       "title": "Planck - Chain Height",
       "gridPos": {
-        "h": 6,
-        "w": 12,
+        "h": 4,
+        "w": 8,
         "x": 0,
         "y": 3
       },
@@ -67,11 +67,55 @@
     },
     {
       "type": "stat",
+      "title": "Dirac - Chain Height",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 3
+      },
+      "id": 63,
+      "targets": [
+        {
+          "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"dirac\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 32
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#FF6B35"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
       "title": "Heisenberg - Chain Height",
       "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
+        "h": 4,
+        "w": 8,
+        "x": 8,
         "y": 3
       },
       "id": 4,
@@ -111,12 +155,72 @@
     },
     {
       "type": "stat",
+      "title": "Dirac - Last Block",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 7
+      },
+      "id": 64,
+      "targets": [
+        {
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", chain=\"dirac\"}) / 1000)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#252525"
+              },
+              {
+                "value": 180,
+                "color": "#CC5528"
+              },
+              {
+                "value": 600,
+                "color": "#FF6B35"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
       "title": "Planck - Last Block",
       "gridPos": {
-        "h": 6,
-        "w": 12,
+        "h": 4,
+        "w": 8,
         "x": 0,
-        "y": 9
+        "y": 7
       },
       "id": 51,
       "targets": [
@@ -173,10 +277,10 @@
       "type": "stat",
       "title": "Heisenberg - Last Block",
       "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 9
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 7
       },
       "id": 7,
       "targets": [
@@ -233,10 +337,10 @@
       "type": "stat",
       "title": "Planck - Uptime",
       "gridPos": {
-        "h": 6,
-        "w": 12,
+        "h": 4,
+        "w": 8,
         "x": 0,
-        "y": 15
+        "y": 11
       },
       "id": 52,
       "targets": [
@@ -295,10 +399,10 @@
       "type": "stat",
       "title": "Heisenberg - Uptime",
       "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 15
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 11
       },
       "id": 10,
       "targets": [
@@ -357,12 +461,12 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 15
       },
       "id": 60,
       "options": {
         "mode": "markdown",
-        "content": "## 🔧 Support Services Status"
+        "content": "## \ud83d\udd27 Support Services Status"
       }
     },
     {
@@ -372,7 +476,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 16
       },
       "id": 61,
       "targets": [
@@ -441,7 +545,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 16
       },
       "id": 62,
       "targets": [
