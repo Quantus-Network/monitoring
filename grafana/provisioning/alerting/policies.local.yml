@@ -6,4 +6,5 @@ policies:
     group_by: ["alertname", "grafana_folder", "instance"]
     group_wait: 30s
     group_interval: 5m
-    repeat_interval: 4h
+    # Effectively notify once until resolved; re-notify only after resolve → fire again
+    repeat_interval: 8736h

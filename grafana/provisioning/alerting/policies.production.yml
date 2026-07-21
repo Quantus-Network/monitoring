@@ -6,7 +6,8 @@ policies:
     group_by: ["alertname", "grafana_folder", "instance"]
     group_wait: 30s
     group_interval: 5m
-    repeat_interval: 4h
+    # Effectively notify once until resolved; re-notify only after resolve → fire again
+    repeat_interval: 8736h
     routes:
       # 🔴 DIRAC - HIGHEST PRIORITY
       # Business critical alerts (No New Blocks) → Rocket + Email, grouped by alert only
@@ -17,7 +18,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"] # Group by alert name only, ignore instance
         group_wait: 2m # First notification after 2 minutes
-        repeat_interval: 30m # Repeat every 30 minutes
+        repeat_interval: 8736h
         continue: true # Continue to email
 
       - receiver: Email Notifications
@@ -27,7 +28,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: true
 
       - receiver: Telegram Notifications
@@ -37,7 +38,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: false
 
       # Infrastructure critical alerts (Node Down, Low Peers, etc.) → Rocket + Email, per instance
@@ -46,7 +47,7 @@ policies:
           - chain = dirac
           - severity = critical
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: true
 
       # All other Dirac alerts → Email
@@ -54,7 +55,7 @@ policies:
         matchers:
           - chain = dirac
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: false
 
       # 🔵 PLANCK - same routing as Dirac
@@ -65,7 +66,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: true
 
       - receiver: Email Notifications
@@ -75,7 +76,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: true
 
       - receiver: Telegram Notifications
@@ -85,7 +86,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: false
 
       - receiver: Rocket Notifications
@@ -93,14 +94,14 @@ policies:
           - chain = planck
           - severity = critical
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: true
 
       - receiver: Email Notifications
         matchers:
           - chain = planck
         group_wait: 2m
-        repeat_interval: 30m
+        repeat_interval: 8736h
         continue: false
 
       # 🟡 HEISENBERG - MEDIUM PRIORITY
@@ -109,7 +110,7 @@ policies:
         matchers:
           - chain = heisenberg
         group_wait: 10m # First notification after 10 minutes
-        repeat_interval: 2h # Repeat every 2 hours
+        repeat_interval: 8736h
         continue: false
 
       # GENERIC ALERTS (no chain label)
@@ -120,7 +121,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname"] # Group by alert name only, ignore instance
         group_wait: 10s
-        repeat_interval: 1h
+        repeat_interval: 8736h
         continue: true
 
       - receiver: Email Notifications
@@ -129,7 +130,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname"]
         group_wait: 10s
-        repeat_interval: 1h
+        repeat_interval: 8736h
         continue: true
 
       - receiver: Telegram Notifications
@@ -138,7 +139,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname"]
         group_wait: 10s
-        repeat_interval: 1h
+        repeat_interval: 8736h
         continue: false
 
       # Infrastructure critical alerts (Node Down, Disk Full, etc.) → Rocket + Email, per instance
@@ -146,14 +147,14 @@ policies:
         matchers:
           - severity = critical
         group_wait: 10s
-        repeat_interval: 1h
+        repeat_interval: 8736h
         continue: true # Continue to email
 
       - receiver: Email Notifications
         matchers:
           - severity = critical
         group_wait: 10s
-        repeat_interval: 1h
+        repeat_interval: 8736h
         continue: true
 
       # Warnings (Low Peers, High CPU, etc.) → Email only
@@ -161,5 +162,5 @@ policies:
         matchers:
           - severity = warning
         group_wait: 30s
-        repeat_interval: 4h
+        repeat_interval: 8736h
         continue: false
