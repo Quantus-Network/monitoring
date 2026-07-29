@@ -88,6 +88,34 @@ Reload Prometheus:
 curl -u admin:prometheus -X POST http://localhost:9091/-/reload
 ```
 
+### Scraping metrics behind Cloudflare Access
+
+`CF_ACCESS_CLIENT_ID` and `CF_ACCESS_CLIENT_SECRET` are **required** — `docker compose` will fail if either is missing or empty. Set them in `.env`:
+
+```bash
+CF_ACCESS_CLIENT_ID=your_client_id
+CF_ACCESS_CLIENT_SECRET=your_client_secret
+```
+
+On start, Prometheus writes these into `/etc/prometheus/secrets/`. For any scrape job protected by Access, add the same `http_headers` block used on `telemetry-host` in `prometheus/prometheus.yml`:
+
+```yaml
+http_headers:
+  CF-Access-Client-Id:
+    files:
+      - /etc/prometheus/secrets/cf_access_client_id
+  CF-Access-Client-Secret:
+    files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+```
+
+Then recreate Prometheus (so secrets are rewritten) and reload if you only changed the YAML:
+
+```bash
+docker compose up -d prometheus
+curl -u admin:prometheus -X POST http://localhost:9091/-/reload
+```
+
 ## Configuration
 
 ### Environment Variables
@@ -102,6 +130,10 @@ GRAFANA_ADMIN_PASSWORD=admin
 # Credentials are generated at nginx container startup
 PROMETHEUS_USER=admin
 PROMETHEUS_PASSWORD=prometheus
+
+# Cloudflare Access service token (protected /metrics scrapes)
+CF_ACCESS_CLIENT_ID=
+CF_ACCESS_CLIENT_SECRET=
 ```
 
 **Security Tip**: For production, use strong credentials:
