@@ -758,7 +758,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: up{job="planck-subsquid"}
+              expr: up{job="planck-subsquid-proc-1"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -834,7 +834,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: sqd_processor_chain_height{job="planck-subsquid"} - sqd_processor_last_block{job="planck-subsquid"}
+              expr: sqd_processor_chain_height{job="planck-subsquid-proc-1"} - sqd_processor_last_block{job="planck-subsquid-proc-1"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -910,7 +910,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: (rate(sqd_rpc_request_count{job="planck-subsquid",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="planck-subsquid",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="planck-subsquid",kind="failure"}[5m]) + 0.001)) * 100
+              expr: (rate(sqd_rpc_request_count{job="planck-subsquid-proc-1",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="planck-subsquid-proc-1",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="planck-subsquid-proc-1",kind="failure"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -972,6 +972,237 @@ groups:
         annotations:
           description: 'Explorer RPC failure rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}'
           summary: "High RPC Failure Rate"
+        labels:
+          chain: planck
+          severity: warning
+
+      # ===============================================
+      # SUBSQUID FLEET ALERTS (Planck — app, chain, db)
+      # ===============================================
+      - uid: planck_subsquid_app_chain_down
+        title: Planck Subsquid App/Chain Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: up{job=~"planck-subsquid-(app|chain).*"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: 'Planck Subsquid {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
+          summary: 'Planck Subsquid {{ index $labels "job" }} is DOWN'
+        labels:
+          chain: planck
+          severity: critical
+
+      - uid: planck_subsquid_db_both_down
+        title: Planck Subsquid DB Both Colors Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: max(up{job=~"planck-subsquid-db-(blue|green)-1"})
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: 'Both Planck Subsquid DB colors (blue and green) are down - no active database available'
+          summary: 'Planck Subsquid DB both colors DOWN'
+        labels:
+          chain: planck
+          severity: critical
+
+      - uid: planck_subsquid_storage_warn
+        title: Planck Subsquid Low Disk Space
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: (1 - (node_filesystem_avail_bytes{job=~"planck-subsquid-(app|chain|db).*", mountpoint="/"} / node_filesystem_size_bytes{job=~"planck-subsquid-(app|chain|db).*", mountpoint="/"})) * 100
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 85
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 5m
+        annotations:
+          description: 'Disk space on {{ index $labels "job" }} ({{ index $labels "instance" }}) has exceeded 85% usage (current: {{ printf "%.1f" $values.B.Value }}%)'
+          summary: 'Low disk space on {{ index $labels "job" }}'
         labels:
           chain: planck
           severity: warning

@@ -194,7 +194,7 @@ scrape_configs:
   static_configs:
   - targets:
     - hm-support.quantus.cat
-- job_name: planck-subsquid
+- job_name: planck-subsquid-proc-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -210,9 +210,158 @@ scrape_configs:
   follow_redirects: true
   enable_http2: true
   fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
   static_configs:
   - targets:
-    - sub2.quantus.com
+    - subsquid-proc-1.quantus.com
+    labels:
+      chain: planck
+- job_name: planck-subsquid-app-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-app-1.quantus.com
+    labels:
+      chain: planck
+- job_name: planck-subsquid-app-2
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-app-2.quantus.com
+    labels:
+      chain: planck
+- job_name: planck-subsquid-db-blue-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-db-blue-1.quantus.com
+    labels:
+      chain: planck
+- job_name: planck-subsquid-db-green-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-db-green-1.quantus.com
+    labels:
+      chain: planck
+- job_name: planck-subsquid-chain-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-chain-1.quantus.com
+    labels:
+      chain: planck
 - job_name: planck-chain
   honor_timestamps: true
   track_timestamps_staleness: false
