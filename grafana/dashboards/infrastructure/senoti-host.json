@@ -33,7 +33,7 @@
       "id": 10,
       "targets": [
         {
-          "expr": "up{job=\"senoti-app-1\"}",
+          "expr": "up{job=\"planck-senoti-app-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -113,7 +113,7 @@
       "id": 11,
       "targets": [
         {
-          "expr": "up{job=\"senoti-db-1\"}",
+          "expr": "up{job=\"planck-senoti-db-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -178,7 +178,7 @@
       "id": 12,
       "targets": [
         {
-          "expr": "up{job=\"senoti-mq-1\"}",
+          "expr": "up{job=\"planck-senoti-mq-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -243,7 +243,7 @@
       "id": 13,
       "targets": [
         {
-          "expr": "up{job=\"senoti-watcher-1\"}",
+          "expr": "up{job=\"planck-senoti-watcher-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -308,7 +308,7 @@
       "id": 14,
       "targets": [
         {
-          "expr": "up{job=\"senoti-core-1\"}",
+          "expr": "up{job=\"planck-senoti-core-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -1014,7 +1014,7 @@
         },
         "hide": 0,
         "includeAll": true,
-        "allValue": "senoti-(app|db|mq|watcher|core)-1",
+        "allValue": "planck-senoti-(app|db|mq|watcher|core)-1",
         "label": "Host",
         "multi": true,
         "name": "job",
@@ -1026,31 +1026,31 @@
           },
           {
             "selected": false,
-            "text": "senoti-app-1",
-            "value": "senoti-app-1"
+            "text": "planck-senoti-app-1",
+            "value": "planck-senoti-app-1"
           },
           {
             "selected": false,
-            "text": "senoti-db-1",
-            "value": "senoti-db-1"
+            "text": "planck-senoti-db-1",
+            "value": "planck-senoti-db-1"
           },
           {
             "selected": false,
-            "text": "senoti-mq-1",
-            "value": "senoti-mq-1"
+            "text": "planck-senoti-mq-1",
+            "value": "planck-senoti-mq-1"
           },
           {
             "selected": false,
-            "text": "senoti-watcher-1",
-            "value": "senoti-watcher-1"
+            "text": "planck-senoti-watcher-1",
+            "value": "planck-senoti-watcher-1"
           },
           {
             "selected": false,
-            "text": "senoti-core-1",
-            "value": "senoti-core-1"
+            "text": "planck-senoti-core-1",
+            "value": "planck-senoti-core-1"
           }
         ],
-        "query": "senoti-app-1,senoti-db-1,senoti-mq-1,senoti-watcher-1,senoti-core-1",
+        "query": "planck-senoti-app-1,planck-senoti-db-1,planck-senoti-mq-1,planck-senoti-watcher-1,planck-senoti-core-1",
         "skipUrlSync": false,
         "type": "custom"
       }

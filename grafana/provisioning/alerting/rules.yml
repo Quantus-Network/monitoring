@@ -1070,10 +1070,10 @@ groups:
           severity: critical
 
       # ===============================================
-      # SENOTI FLEET ALERTS (app, db, mq, watcher, core)
+      # SENOTI FLEET ALERTS (Planck — app, db, mq, watcher, core)
       # ===============================================
-      - uid: senoti_host_down
-        title: Senoti Host Down
+      - uid: planck_senoti_host_down
+        title: Planck Senoti Host Down
         condition: C
         data:
           - refId: A
@@ -1082,7 +1082,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: up{job=~"senoti-(app|db|mq|watcher|core).*"}
+              expr: up{job=~"planck-senoti-(app|db|mq|watcher|core).*"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1142,8 +1142,8 @@ groups:
         execErrState: Alerting
         for: 3m
         annotations:
-          description: 'Senoti {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
-          summary: 'Senoti {{ index $labels "job" }} is DOWN'
+          description: 'Planck Senoti {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
+          summary: 'Planck Senoti {{ index $labels "job" }} is DOWN'
         labels:
           service: senoti
           severity: critical

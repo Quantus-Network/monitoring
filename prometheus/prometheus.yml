@@ -362,7 +362,7 @@ scrape_configs:
     - subsquid-chain-1.quantus.com
     labels:
       chain: planck
-- job_name: senoti-app-1
+- job_name: planck-senoti-app-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -390,7 +390,7 @@ scrape_configs:
     - senoti-app-1.quantus.com
     labels:
       service: senoti
-- job_name: senoti-db-1
+- job_name: planck-senoti-db-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -418,7 +418,7 @@ scrape_configs:
     - senoti-db-1.quantus.com
     labels:
       service: senoti
-- job_name: senoti-mq-1
+- job_name: planck-senoti-mq-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -446,7 +446,7 @@ scrape_configs:
     - senoti-mq-1.quantus.com
     labels:
       service: senoti
-- job_name: senoti-watcher-1
+- job_name: planck-senoti-watcher-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -474,7 +474,7 @@ scrape_configs:
     - senoti-watcher-1.quantus.com
     labels:
       service: senoti
-- job_name: senoti-core-1
+- job_name: planck-senoti-core-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
