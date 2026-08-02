@@ -452,12 +452,6 @@ def move_infrastructure_and_apps() -> None:
             "infra-support-host",
             ["infrastructure", "support"],
         ),
-        DASHBOARDS / "system" / "snt-monitoring.json": (
-            DASHBOARDS / "infrastructure" / "snt-host.json",
-            "SNT Host",
-            "infra-snt-host",
-            ["infrastructure", "snt"],
-        ),
         DASHBOARDS / "system" / "faucet-monitoring.json": (
             DASHBOARDS / "applications" / "faucet.json",
             "Faucet",

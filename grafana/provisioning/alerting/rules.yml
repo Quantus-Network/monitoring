@@ -452,68 +452,6 @@ groups:
         labels:
           severity: critical
 
-      # Alert when SNT host is down
-      - uid: snt-host-down-alert
-        title: SNT Host Down
-        condition: C
-        data:
-          - refId: A
-            relativeTimeRange:
-              from: 300
-              to: 0
-            datasourceUid: prometheus
-            model:
-              datasource:
-                type: prometheus
-                uid: prometheus
-              expr: up{job="snt"}
-              refId: A
-              intervalMs: 1000
-              maxDataPoints: 43200
-              instant: false
-              range: true
-          - refId: B
-            datasourceUid: __expr__
-            model:
-              datasource:
-                type: __expr__
-                uid: __expr__
-              expression: A
-              reducer: last
-              refId: B
-              type: reduce
-          - refId: C
-            datasourceUid: __expr__
-            model:
-              datasource:
-                type: __expr__
-                uid: __expr__
-              conditions:
-                - evaluator:
-                    params:
-                      - 1
-                    type: lt
-                  operator:
-                    type: and
-                  query:
-                    params:
-                      - C
-                  reducer:
-                    params: []
-                    type: last
-                  type: query
-              expression: B
-              refId: C
-              type: threshold
-        noDataState: Alerting
-        execErrState: Alerting
-        for: 5m
-        annotations:
-          description: 'SNT Host ({{ index $labels "instance" }}) is down for more than 5 minutes - SNT monitoring unavailable'
-          summary: "SNT Host is DOWN"
-        labels:
-          severity: critical
-
       # ===============================================
       # FAUCET MONITORING ALERTS (Planck - Highest Priority)
       # ===============================================
@@ -1131,8 +1069,11 @@ groups:
           chain: planck
           severity: critical
 
-      - uid: planck_subsquid_storage_warn
-        title: Planck Subsquid Low Disk Space
+      # ===============================================
+      # SENOTI FLEET ALERTS (app, db, mq, watcher, core)
+      # ===============================================
+      - uid: senoti_host_down
+        title: Senoti Host Down
         condition: C
         data:
           - refId: A
@@ -1141,7 +1082,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: (1 - (node_filesystem_avail_bytes{job=~"planck-subsquid-(app|chain|db).*", mountpoint="/"} / node_filesystem_size_bytes{job=~"planck-subsquid-(app|chain|db).*", mountpoint="/"})) * 100
+              expr: up{job=~"senoti-(app|db|mq|watcher|core).*"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1183,8 +1124,8 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 85
-                    type: gt
+                      - 1
+                    type: lt
                   operator:
                     type: and
                   query:
@@ -1197,15 +1138,15 @@ groups:
               expression: B
               refId: C
               type: threshold
-        noDataState: NoData
-        execErrState: Error
-        for: 5m
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
         annotations:
-          description: 'Disk space on {{ index $labels "job" }} ({{ index $labels "instance" }}) has exceeded 85% usage (current: {{ printf "%.1f" $values.B.Value }}%)'
-          summary: 'Low disk space on {{ index $labels "job" }}'
+          description: 'Senoti {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
+          summary: 'Senoti {{ index $labels "job" }} is DOWN'
         labels:
-          chain: planck
-          severity: warning
+          service: senoti
+          severity: critical
 
       # ===============================================
       # TASK MASTER MONITORING ALERTS (Planck - High Priority)

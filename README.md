@@ -558,7 +558,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 | **Monitoring Stack** | Docker host running Prometheus/Grafana |
 | **Telemetry** | Telemetry VPS host + backend message feeds |
 | **Support Host** | Support server system metrics |
-| **SNT Host** | SNT server system metrics |
+| **Senoti Host** | Senoti fleet system metrics |
 
 ### Applications
 
