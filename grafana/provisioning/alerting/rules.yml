@@ -1145,7 +1145,7 @@ groups:
           description: 'Planck Senoti {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
           summary: 'Planck Senoti {{ index $labels "job" }} is DOWN'
         labels:
-          service: senoti
+          chain: planck
           severity: critical
 
       # ===============================================
