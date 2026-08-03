@@ -4,17 +4,33 @@ services:
     container_name: prometheus
     ports:
       - "127.0.0.1:9090:9090"
+    environment:
+      - CF_ACCESS_CLIENT_ID=${CF_ACCESS_CLIENT_ID:?CF_ACCESS_CLIENT_ID is required}
+      - CF_ACCESS_CLIENT_SECRET=${CF_ACCESS_CLIENT_SECRET:?CF_ACCESS_CLIENT_SECRET is required}
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
+      - type: tmpfs
+        target: /etc/prometheus/secrets
+        tmpfs:
+          mode: 01777
+    entrypoint: ["/bin/sh", "-c"]
     command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--storage.tsdb.retention.time=60d"
-      - "--storage.tsdb.retention.size=30GB"
-      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-      - "--web.console.templates=/usr/share/prometheus/consoles"
-      - "--web.enable-lifecycle"
+      - |
+        if [ -z "$$CF_ACCESS_CLIENT_ID" ] || [ -z "$$CF_ACCESS_CLIENT_SECRET" ]; then
+          echo "error: CF_ACCESS_CLIENT_ID and CF_ACCESS_CLIENT_SECRET must be set" >&2
+          exit 1
+        fi
+        printf '%s' "$$CF_ACCESS_CLIENT_ID" > /etc/prometheus/secrets/cf_access_client_id
+        printf '%s' "$$CF_ACCESS_CLIENT_SECRET" > /etc/prometheus/secrets/cf_access_client_secret
+        exec /bin/prometheus \
+          --config.file=/etc/prometheus/prometheus.yml \
+          --storage.tsdb.path=/prometheus \
+          --storage.tsdb.retention.time=60d \
+          --storage.tsdb.retention.size=30GB \
+          --web.console.libraries=/usr/share/prometheus/console_libraries \
+          --web.console.templates=/usr/share/prometheus/consoles \
+          --web.enable-lifecycle
     restart: unless-stopped
     networks:
       - monitoring
