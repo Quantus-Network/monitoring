@@ -1149,6 +1149,84 @@ groups:
           severity: critical
 
       # ===============================================
+      # QUERSI HOST ALERTS (wallet remote config — no chain)
+      # ===============================================
+      - uid: quersi_host_down
+        title: Quersi Host Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: up{job="quersi-1"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: 'Quersi host ({{ index $labels "instance" }}) is down for more than 3 minutes — wallet remote config unavailable'
+          summary: 'Quersi Host is DOWN'
+        labels:
+          severity: critical
+
+      # ===============================================
       # TASK MASTER MONITORING ALERTS (Planck - High Priority)
       # ===============================================
       - uid: task_master_down

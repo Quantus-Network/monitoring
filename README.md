@@ -560,6 +560,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 | **Support Host** | Support server system metrics |
 | **Senoti Host** | Senoti fleet system metrics |
 | **Subsquid Host** | Subsquid fleet system metrics |
+| **Quersi Host** | Quersi wallet remote-config system metrics |
 
 ### Applications
 
