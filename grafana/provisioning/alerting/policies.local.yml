@@ -5,6 +5,6 @@ policies:
     receiver: Email Notifications
     group_by: ["alertname", "grafana_folder", "instance"]
     group_wait: 30s
-    group_interval: 5m
-    # Effectively notify once until resolved; re-notify only after resolve → fire again
+    # Notify once per incident: no update/repeat storms while still firing
+    group_interval: 8736h
     repeat_interval: 8736h

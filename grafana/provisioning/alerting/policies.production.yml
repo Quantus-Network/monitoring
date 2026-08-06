@@ -5,8 +5,9 @@ policies:
     receiver: Rocket Notifications # Default: non-critical → Rocket
     group_by: ["alertname", "grafana_folder", "instance"]
     group_wait: 30s
-    group_interval: 5m
-    # Effectively notify once until resolved; re-notify only after resolve → fire again
+    # Notify once per incident: no update/repeat storms while still firing.
+    # No New Blocks routes below override group_interval so multi-instance joins still notify.
+    group_interval: 8736h
     repeat_interval: 8736h
     routes:
       # 🔴 CRITICAL — Email only (server/service down, disk full, etc.)
@@ -20,6 +21,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: true
 
@@ -30,6 +32,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -39,6 +42,7 @@ policies:
           - chain = dirac
           - severity = critical
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -47,6 +51,7 @@ policies:
         matchers:
           - chain = dirac
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -58,6 +63,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: true
 
@@ -68,6 +74,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname", "chain"]
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -77,6 +84,7 @@ policies:
           - chain = planck
           - severity = critical
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -85,6 +93,7 @@ policies:
         matchers:
           - chain = planck
         group_wait: 2m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -94,6 +103,7 @@ policies:
           - chain = heisenberg
           - severity = critical
         group_wait: 10m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -101,6 +111,7 @@ policies:
         matchers:
           - chain = heisenberg
         group_wait: 10m
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
@@ -112,6 +123,7 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname"]
         group_wait: 10s
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: true
 
@@ -121,21 +133,24 @@ policies:
           - alertname = "No New Blocks"
         group_by: ["alertname"]
         group_wait: 10s
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
-      # Other critical → Email only
+      # Other critical → Email only (Disk, Node Down, etc.)
       - receiver: Email Notifications
         matchers:
           - severity = critical
         group_wait: 10s
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
 
-      # Warnings / non-critical → Rocket
+      # Warnings / non-critical → Rocket (CPU, Memory, etc.)
       - receiver: Rocket Notifications
         matchers:
           - severity = warning
         group_wait: 30s
+        group_interval: 8736h
         repeat_interval: 8736h
         continue: false
