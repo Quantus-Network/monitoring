@@ -2937,7 +2937,7 @@
       "id": 43,
       "targets": [
         {
-          "expr": "max(avg_over_time(up{job=~\"planck-subsquid-db-(blue|green)-1\"}[30d])) * 100",
+          "expr": "avg_over_time((max(up{job=~\"planck-subsquid-db-(blue|green)-1\"}))[30d:1m]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
