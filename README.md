@@ -27,19 +27,19 @@ nano .env  # Set passwords, SMTP, TELEGRAM_*, ROCKET_WEBHOOK_URL, ALERT_EMAIL_AD
 docker compose up -d
 
 # 4. Access services
-open http://localhost:3000       # Grafana (public dashboards, login: admin / admin)
+open http://localhost:3000       # Grafana (login: admin / admin)
 open http://localhost:9091       # Prometheus (admin / prometheus)
 ```
 
 That's it! 🎉
 
 **Notes**:
-- **Grafana**: Dashboards are publicly visible, but editing requires login (`admin` / `admin`)
+- **Grafana**: Login required (`admin` / `admin` by default). Anonymous access is disabled.
 - **Prometheus**: Secured with Basic Auth (`admin` / `prometheus`)
 
 ## Access URLs
 
-- **Grafana**: http://localhost:3000 (dashboards visible to everyone, editing requires login)
+- **Grafana**: http://localhost:3000 (login required)
 - **Prometheus**: http://localhost:9091 (Basic Auth: `admin` / `prometheus`)
 - **Node Exporter**: http://localhost:9100/metrics (metrics endpoint)
 
@@ -578,10 +578,10 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 ### Overview (home)
 
-**Quantus Network Overview** — first page when opening Grafana:
+**Quantus Network Overview** — first page after login:
 - Chain height, last block age, and uptime for Planck, Heisenberg, and Dirac
 - Telemetry host status and connected nodes
-- Public (no login required), refreshes every 10 seconds
+- Refreshes every 10 seconds
 
 ### Chains
 
@@ -694,17 +694,18 @@ volumes:
 This stack includes built-in security (Nginx + Basic Auth + Rate Limiting). For production:
 
 ### Security Checklist:
-1. ✅ **Prometheus Basic Auth** - Already configured (change credentials in `.env`)
-2. ✅ **Rate Limiting** - 30 req/sec, prevents bruteforce attacks
-3. ⚠️ **Strong Credentials** - The compose defaults (`admin`/`admin` for Grafana, `prometheus` and `grafana` fallbacks) are for local dev only. Override them in `.env` before any production/internet-exposed deploy:
+1. ✅ **Grafana login required** - Anonymous access is disabled; dashboards, Explore, and alerting need credentials
+2. ✅ **Prometheus Basic Auth** - Already configured (change credentials in `.env`)
+3. ✅ **Rate Limiting** - 30 req/sec, prevents bruteforce attacks
+4. ⚠️ **Strong Credentials** - The compose defaults (`admin`/`admin` for Grafana, `prometheus` and `grafana` fallbacks) are for local dev only. Override them in `.env` before any production/internet-exposed deploy:
    ```bash
    GRAFANA_ADMIN_PASSWORD=$(openssl rand -base64 32)
    POSTGRES_PASSWORD=$(openssl rand -base64 32)
    PROMETHEUS_USER=monitoring_$(openssl rand -hex 8)
    PROMETHEUS_PASSWORD=$(openssl rand -base64 32)
    ```
-4. ⚠️ **SSL/TLS** - Use Cloudflare Tunnel or reverse proxy (Caddy, Traefik)
-5. ⚠️ **Firewall** - Restrict ports or use VPN
+5. ⚠️ **SSL/TLS** - Use Cloudflare Tunnel or reverse proxy (Caddy, Traefik)
+6. ⚠️ **Firewall** - Restrict ports or use VPN
 
 ### Recommended Setup with Cloudflare Tunnel:
 ```bash
