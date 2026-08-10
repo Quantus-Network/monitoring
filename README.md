@@ -19,9 +19,9 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials, SMTP, Telegram & alert emails
+# 2. (Optional) Customize credentials, SMTP, Telegram, Rocket & alert emails
 cp env.example .env
-nano .env  # Set passwords, SMTP settings, Telegram, and ALERT_EMAIL_ADDRESSES
+nano .env  # Set passwords, SMTP, TELEGRAM_*, ROCKET_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
 
 # 3. Start the stack
 docker compose up -d
@@ -120,7 +120,13 @@ curl -u admin:prometheus -X POST http://localhost:9091/-/reload
 
 ### Environment Variables
 
-Optional - create `.env` from `.env.example`:
+Optional - create `.env` from `env.example` (same template as `.env.example`):
+
+```bash
+cp env.example .env
+```
+
+Key variables (see `env.example` for the full list, including SMTP, Telegram, and Rocket):
 
 ```bash
 # Grafana Configuration
@@ -134,6 +140,11 @@ PROMETHEUS_PASSWORD=prometheus
 # Cloudflare Access service token (protected /metrics scrapes)
 CF_ACCESS_CLIENT_ID=
 CF_ACCESS_CLIENT_SECRET=
+
+# Production alert routing (see Alert Routing below)
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+ROCKET_WEBHOOK_URL=
 ```
 
 **Security Tip**: For production, use strong credentials:
@@ -180,7 +191,7 @@ To test email notifications:
 
 ### Telegram Notifications
 
-Grafana has **built-in Telegram support** for instant mobile alerts. Critical alerts are automatically sent to both Telegram and Email.
+Grafana has **built-in Telegram support** for the highest-priority business alert: **No New Blocks** (critical). Other critical alerts go to Email only; warnings go to Rocket.Chat.
 
 **Setup Steps:**
 
@@ -215,23 +226,17 @@ TELEGRAM_CHAT_ID=123456789
 docker compose restart grafana
 ```
 
-**Alert Routing (Already Configured):**
-- 🔴 **Critical Alerts** → Telegram + Email
-- 🟡 **Warning Alerts** → Email only
-- **Dirac network** → Highest priority (2min wait, 30min repeat)
-- **Heisenberg network** → Medium priority (10min wait, 2h repeat)
-
 **Message Format:**
 ```
-🚨 Node Down
+🚨 No New Blocks
 
 Status: firing
 Severity: critical
 Chain: dirac
 Instance: a1-qm-dirac.quantus.cat
 
-📋 Node a1-qm-dirac.quantus.cat is DOWN
-Node is down for more than 5 minutes - check immediately
+📋 No new blocks on dirac for 7+ minutes
+Check block production immediately
 
 🔗 View in Grafana
 ```
@@ -241,7 +246,43 @@ Node is down for more than 5 minutes - check immediately
 2. Find "Telegram Notifications"
 3. Click "Test" to send a test message
 
-**Note:** If you don't configure Telegram (leave variables empty), only Email notifications will be used.
+### Rocket.Chat Notifications
+
+Non-critical alerts (warnings and chain-matched non-critical routes) go to **Rocket.Chat** via an Incoming Webhook. Grafana uses a generic webhook contact point (not Slack) so Rocket’s `{"success":true}` response is not treated as a failure.
+
+**Setup Steps:**
+
+1. In Rocket.Chat, create an **Incoming Webhook** integration and copy the full URL.
+2. Add it to your `.env` file:
+
+```bash
+# Rocket.Chat Incoming Webhook
+ROCKET_WEBHOOK_URL=https://rocket.example.com/hooks/xxxx/yyyy
+```
+
+3. Restart Grafana:
+
+```bash
+docker compose restart grafana
+```
+
+**To test:**
+1. Go to Grafana → Alerting → Contact points
+2. Find "Rocket Notifications"
+3. Click "Test" to send a test message
+
+### Alert Routing
+
+When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `ROCKET_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
+
+- 🔴 **No New Blocks** (critical) → Email + Telegram
+- 🔴 **Other critical** → Email only
+- 🟡 **Warnings / non-critical** → Rocket.Chat
+- Default receiver → Rocket.Chat
+- **Dirac / Planck** → 2 min `group_wait`
+- **Heisenberg** → 10 min `group_wait`
+
+If either Telegram or Rocket is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
 ### Alert Configuration (Provisioning)
 
@@ -340,22 +381,21 @@ Edit `grafana/provisioning/alerting/rules.yml`. Use the `reduce` + `threshold` p
     summary: 'Alert summary'
   labels:
     severity: warning  # or critical
-  notification_settings:
-    receiver: Email Notifications
+  # Omit notification_settings so production/local notification policies choose the receiver
 ```
 
 **Alert Notification Policies:**
 
-Policies are configured in `grafana/provisioning/alerting/policies.yml` with different priorities for each network:
+Policies are assembled at container start from `policies.production.yml` or `policies.local.yml` (see Alert Routing above). Production priorities:
 
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
-| **Dirac** 🔴 | Highest | 2 minutes | every 30 min |
-| **Heisenberg** 🟡 | Medium | 10 minutes | every 2h |
+| **Dirac / Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **Heisenberg** 🟡 | Medium | 10 minutes | once until resolved (`8736h`) |
 
 Fallback by severity (if no chain label):
-- **Critical alerts** (severity=critical): 10s wait, repeat every 1h
-- **Warning alerts** (severity=warning): 30s wait, repeat every 4h
+- **Critical alerts** (severity=critical): 10s wait, once until resolved
+- **Warning alerts** (severity=warning): 30s wait → Rocket.Chat, once until resolved
 
 After changing alert configuration, restart Grafana:
 ```bash
@@ -519,11 +559,15 @@ monitoring/
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
-│       └── alerting/               # Alert configuration (provisioning)
+│       └── alerting/               # Alert templates (assembled at container start)
 │           ├── rules.yml           # Alert rules
-│           ├── contactpoints.yml   # Contact points (email, etc.)
-│           └── policies.yml        # Notification policies
-├── .env.example                    # Environment variables template
+│           ├── contactpoints.base.yml
+│           ├── contactpoints.telegram.fragment.yml
+│           ├── contactpoints.rocket.fragment.yml
+│           ├── policies.local.yml      # Email-only (local/testing)
+│           └── policies.production.yml # Email / Telegram / Rocket routing
+├── env.example                     # Environment variables template
+├── .env.example                    # Same template (dotfile alias)
 ├── .gitignore
 └── README.md
 ```
