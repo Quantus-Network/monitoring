@@ -608,8 +608,8 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 - Refreshes every 10 seconds
 
 **Service Status** — public-safe status for non-chain services (intended for Grafana Public Dashboard sharing):
-- Quersi, Senoti, Explorer (indexer / API / DB / sync), Faucet, Quests, Telemetry
-- UP/DOWN and coarse availability or success/error rates only — no host capacity, balances, or internal topology
+- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB Blue–Green / Chain + sync); Faucet; Quests; Telemetry
+- Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains
 
