@@ -607,7 +607,8 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 - Telemetry host status and connected nodes
 - Refreshes every 10 seconds
 
-**Service Status** — public-safe status for non-chain services (intended for Grafana Public Dashboard sharing):
+**Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
+- Chains: Planck / Heisenberg / Dirac (Chain 1–2 + Node 1–2 each)
 - Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB Blue–Green / Chain + sync); Faucet; Quests; Telemetry
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
