@@ -1149,7 +1149,7 @@
       "id": 9,
       "targets": [
         {
-          "expr": "node_time_seconds{job=~\"$job\"} - node_boot_time_seconds{job=~\"$job\"}",
+          "expr": "time() - process_start_time_seconds{job=~\"$job\"}",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {

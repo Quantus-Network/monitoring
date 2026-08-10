@@ -630,7 +630,7 @@
       "id": 9,
       "targets": [
         {
-          "expr": "node_time_seconds{job=\"quersi-1\"} - node_boot_time_seconds{job=\"quersi-1\"}",
+          "expr": "time() - process_start_time_seconds{job=\"quersi-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",

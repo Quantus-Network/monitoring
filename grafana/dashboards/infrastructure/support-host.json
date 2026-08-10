@@ -550,7 +550,7 @@
       "id": 9,
       "targets": [
         {
-          "expr": "node_time_seconds{job=\"support-host\"} - node_boot_time_seconds{job=\"support-host\"}",
+          "expr": "max(sum by (cpu) (node_cpu_seconds_total{job=\"support-host\"}))",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
