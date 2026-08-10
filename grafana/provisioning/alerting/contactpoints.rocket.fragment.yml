@@ -2,35 +2,33 @@
     name: Rocket Notifications
     receivers:
       - uid: rocket-contact-point
-        type: slack
+        # Use webhook (not slack): Rocket returns {"success":true}, which Grafana's
+        # Slack notifier treats as failure and retries every group_interval.
+        type: webhook
         settings:
           url: ${ROCKET_WEBHOOK_URL}
-          username: Grafana Monitor
-          text: |
+          httpMethod: POST
+          title: |
+            {{ if eq .Status "firing" }}🚨{{ else }}✅{{ end }} {{ .CommonLabels.alertname }} — {{ .Status | toUpper }}
+          message: |
             {{ range .Alerts -}}
-            🚨 *{{ .Labels.alertname }}* — {{ .Status | toUpper }}
-            {{- if .Labels.severity }}
-            *Severity:* {{ .Labels.severity }}
-            {{- end }}
-            {{- if .Labels.chain }}
-            *Chain:* {{ .Labels.chain }}
-            {{- end }}
-            {{- if .Labels.instance }}
-            *Instance:* {{ .Labels.instance }}
-            {{- end }}
+            {{- if .Labels.severity }}*Severity:* {{ .Labels.severity }}
+            {{ end -}}
+            {{- if .Labels.chain }}*Chain:* {{ .Labels.chain }}
+            {{ end -}}
+            {{- if .Labels.instance }}*Instance:* {{ .Labels.instance }}
+            {{ end -}}
             {{- if .Annotations.summary }}
-
             📋 {{ .Annotations.summary }}
-            {{- end }}
+            {{ end -}}
             {{- if .Annotations.description }}
             {{ .Annotations.description }}
-            {{- end }}
+            {{ end -}}
             {{- if .GeneratorURL }}
-
             🔗 [View in Grafana]({{ .GeneratorURL }}){{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
             {{- else if .SilenceURL }}
-
             🔗 [Silence]({{ .SilenceURL }})
             {{- end }}
+
             {{ end -}}
         disableResolveMessage: false

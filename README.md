@@ -19,29 +19,53 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials, SMTP, Telegram & alert emails
-cp env.example .env
-nano .env  # Set passwords, SMTP settings, Telegram, and ALERT_EMAIL_ADDRESSES
+# 2. (Optional) Customize credentials, SMTP, Telegram, Rocket & alert emails
+cp .env.example .env
+nano .env  # Set passwords, SMTP, TELEGRAM_*, ROCKET_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
 
 # 3. Start the stack
 docker compose up -d
 
 # 4. Access services
-open http://localhost:3000       # Grafana (public dashboards, login: admin / admin)
+open http://localhost:3000       # Grafana (login: admin / admin)
 open http://localhost:9091       # Prometheus (admin / prometheus)
 ```
 
 That's it! 🎉
 
 **Notes**:
-- **Grafana**: Dashboards are publicly visible, but editing requires login (`admin` / `admin`)
+- **Grafana**: Login required (`admin` / `admin` by default). Anonymous access is disabled.
+- **Public dashboards**: Use Grafana’s built-in Public Dashboard share for selected boards only (see [Public Dashboards](#public-dashboards)). Explore, alerting, and other dashboards stay private.
 - **Prometheus**: Secured with Basic Auth (`admin` / `prometheus`)
 
 ## Access URLs
 
-- **Grafana**: http://localhost:3000 (dashboards visible to everyone, editing requires login)
+- **Grafana**: http://localhost:3000 (login required)
 - **Prometheus**: http://localhost:9091 (Basic Auth: `admin` / `prometheus`)
 - **Node Exporter**: http://localhost:9100/metrics (metrics endpoint)
+
+## Public Dashboards
+
+Grafana stays login-only (`GF_AUTH_ANONYMOUS_ENABLED=false`). To share a view without giving out credentials, use Grafana’s **Public dashboard** feature on the same instance (same host / Cloudflare Tunnel URL).
+
+### Share a dashboard
+
+1. Log in to Grafana and open the dashboard (e.g. **Overview → Service Status**).
+2. Click **Share** → **Public dashboard**.
+3. Enable the public link and copy the URL (`/public-dashboards/<accessToken>`).
+4. Share that URL. Visitors can view that dashboard only — they cannot open Explore, alerting, or other dashboards without logging in.
+
+Public share state is stored in Grafana’s database (not in the provisioned JSON). Enabling it once is enough; the token persists across restarts.
+
+### What is safe to publish
+
+| Safe to public-share | Keep private |
+|----------------------|--------------|
+| **Service Status** (uptime / operational status only) | Infrastructure host boards (CPU, mem, disk, network, hostnames) |
+| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer, Quests full boards) |
+| | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
+
+Do **not** public-share Quersi Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
 
 ## What's Being Monitored?
 
@@ -123,6 +147,12 @@ curl -u admin:prometheus -X POST http://localhost:9091/-/reload
 Optional - create `.env` from `.env.example`:
 
 ```bash
+cp .env.example .env
+```
+
+Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Rocket):
+
+```bash
 # Grafana Configuration
 GRAFANA_ADMIN_PASSWORD=admin
 
@@ -134,6 +164,11 @@ PROMETHEUS_PASSWORD=prometheus
 # Cloudflare Access service token (protected /metrics scrapes)
 CF_ACCESS_CLIENT_ID=
 CF_ACCESS_CLIENT_SECRET=
+
+# Production alert routing (see Alert Routing below)
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+ROCKET_WEBHOOK_URL=
 ```
 
 **Security Tip**: For production, use strong credentials:
@@ -160,15 +195,15 @@ SMTP_STARTTLS_POLICY=MandatoryStartTLS
 ALERT_EMAIL_ADDRESSES=admin@example.com, alerts@example.com
 ```
 
-**Note**: Copy `env.example` to `.env` and update with your SMTP credentials and alert email addresses:
+**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials and alert email addresses:
 ```bash
-cp env.example .env
+cp .env.example .env
 nano .env  # Edit SMTP settings and ALERT_EMAIL_ADDRESSES
 ```
 
-After configuring SMTP, restart Grafana:
+After configuring SMTP, recreate Grafana so it picks up the new env:
 ```bash
-docker compose restart grafana
+docker compose up -d grafana
 ```
 
 To test email notifications:
@@ -180,7 +215,7 @@ To test email notifications:
 
 ### Telegram Notifications
 
-Grafana has **built-in Telegram support** for instant mobile alerts. Critical alerts are automatically sent to both Telegram and Email.
+Grafana has **built-in Telegram support** for the highest-priority business alert: **No New Blocks** (critical). Other critical alerts go to Email only; warnings go to Rocket.Chat.
 
 **Setup Steps:**
 
@@ -210,28 +245,22 @@ TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
 TELEGRAM_CHAT_ID=123456789
 ```
 
-**4. Restart Grafana:**
+**4. Recreate Grafana** (reloads `.env`; use `--build` if you also changed contact-point files):
 ```bash
-docker compose restart grafana
+docker compose up -d --build grafana
 ```
-
-**Alert Routing (Already Configured):**
-- 🔴 **Critical Alerts** → Telegram + Email
-- 🟡 **Warning Alerts** → Email only
-- **Dirac network** → Highest priority (2min wait, 30min repeat)
-- **Heisenberg network** → Medium priority (10min wait, 2h repeat)
 
 **Message Format:**
 ```
-🚨 Node Down
+🚨 No New Blocks
 
 Status: firing
 Severity: critical
 Chain: dirac
 Instance: a1-qm-dirac.quantus.cat
 
-📋 Node a1-qm-dirac.quantus.cat is DOWN
-Node is down for more than 5 minutes - check immediately
+📋 No new blocks on dirac for 7+ minutes
+Check block production immediately
 
 🔗 View in Grafana
 ```
@@ -241,7 +270,63 @@ Node is down for more than 5 minutes - check immediately
 2. Find "Telegram Notifications"
 3. Click "Test" to send a test message
 
-**Note:** If you don't configure Telegram (leave variables empty), only Email notifications will be used.
+### Rocket.Chat Notifications
+
+Non-critical alerts (warnings and chain-matched non-critical routes) go to **Rocket.Chat** via an Incoming Webhook. Grafana uses a generic webhook contact point (not Slack) so Rocket’s `{"success":true}` response is not treated as a failure.
+
+Grafana 11.3 posts a fixed JSON envelope (`version`, `title`, `message`, `state`, …). A script-less Rocket Incoming Webhook only builds chat content from `text` / `msg`, so you **must** enable a Rocket-side script that maps Grafana’s `title` and `message` into a Rocket attachment. Without that script you can get an empty channel message while Grafana still records HTTP 2xx success (and the long `repeat_interval` suppresses another send).
+
+**Setup Steps:**
+
+1. In Rocket.Chat: **Administration → Workspace → Integrations → Incoming Webhook**.
+2. Set **Post to Channel** / **Post as** as needed.
+3. Turn **Script Enabled** **on**.
+4. Paste the contents of [`grafana/rocket-incoming-webhook.script.js`](grafana/rocket-incoming-webhook.script.js) into the **Script** field and save.
+5. Copy the webhook URL into your `.env` file:
+
+```bash
+# Rocket.Chat Incoming Webhook
+ROCKET_WEBHOOK_URL=https://rocket.example.com/hooks/xxxx/yyyy
+```
+
+6. Recreate Grafana so it picks up the new env and baked-in contact-point config:
+
+```bash
+docker compose up -d --build grafana
+```
+
+**Message Format** (attachment: title = Grafana `title`, body = Grafana `message`):
+```
+🚨 High CPU Usage — FIRING
+Severity: warning
+Chain: planck
+Instance: example-host
+
+📋 CPU usage high
+…
+🔗 [View in Grafana](…)
+```
+
+Resolved alerts use a green attachment (`state: ok`); firing uses red (`state: alerting`).
+
+**To test:**
+1. Go to Grafana → Alerting → Contact points
+2. Find "Rocket Notifications"
+3. Click "Test" and confirm a non-empty message appears in the Rocket channel
+4. Optionally resolve a real warning alert and confirm the green resolved attachment
+
+### Alert Routing
+
+When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `ROCKET_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
+
+- 🔴 **No New Blocks** (critical) → Email + Telegram
+- 🔴 **Other critical** → Email only
+- 🟡 **Warnings / non-critical** → Rocket.Chat
+- Default receiver → Rocket.Chat
+- **Dirac / Planck** → 2 min `group_wait`
+- **Heisenberg** → 10 min `group_wait`
+
+If either Telegram or Rocket is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
 ### Alert Configuration (Provisioning)
 
@@ -340,26 +425,25 @@ Edit `grafana/provisioning/alerting/rules.yml`. Use the `reduce` + `threshold` p
     summary: 'Alert summary'
   labels:
     severity: warning  # or critical
-  notification_settings:
-    receiver: Email Notifications
+  # Omit notification_settings so production/local notification policies choose the receiver
 ```
 
 **Alert Notification Policies:**
 
-Policies are configured in `grafana/provisioning/alerting/policies.yml` with different priorities for each network:
+Policies are assembled at container start from `policies.production.yml` or `policies.local.yml` (see Alert Routing above). Production priorities:
 
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
-| **Dirac** 🔴 | Highest | 2 minutes | every 30 min |
-| **Heisenberg** 🟡 | Medium | 10 minutes | every 2h |
+| **Dirac / Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **Heisenberg** 🟡 | Medium | 10 minutes | once until resolved (`8736h`) |
 
 Fallback by severity (if no chain label):
-- **Critical alerts** (severity=critical): 10s wait, repeat every 1h
-- **Warning alerts** (severity=warning): 30s wait, repeat every 4h
+- **Critical alerts** (severity=critical): 10s wait, once until resolved
+- **Warning alerts** (severity=warning): 30s wait → Rocket.Chat, once until resolved
 
-After changing alert configuration, restart Grafana:
+After changing alert configuration (rules, contact points, or policies under `grafana/provisioning/alerting/`), rebuild and recreate Grafana so the image picks up the files:
 ```bash
-docker compose restart grafana
+docker compose up -d --build grafana
 ```
 
 **Troubleshooting Alert Provisioning:**
@@ -516,13 +600,17 @@ monitoring/
 │   │   ├── logo.png                # Apple touch icon
 │   │   ├── favicon.ico             # Favicon
 │   │   └── fav32.png               # 32×32 favicon PNG
+│   ├── rocket-incoming-webhook.script.js  # Paste into Rocket Incoming Webhook (Script Enabled)
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
-│       └── alerting/               # Alert configuration (provisioning)
+│       └── alerting/               # Alert templates (assembled at container start)
 │           ├── rules.yml           # Alert rules
-│           ├── contactpoints.yml   # Contact points (email, etc.)
-│           └── policies.yml        # Notification policies
+│           ├── contactpoints.base.yml
+│           ├── contactpoints.telegram.fragment.yml
+│           ├── contactpoints.rocket.fragment.yml
+│           ├── policies.local.yml      # Email-only (local/testing)
+│           └── policies.production.yml # Email / Telegram / Rocket routing
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
@@ -534,10 +622,16 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 ### Overview (home)
 
-**Quantus Network Overview** — first page when opening Grafana:
+**Quantus Network Overview** — first page after login:
 - Chain height, last block age, and uptime for Planck, Heisenberg, and Dirac
 - Telemetry host status and connected nodes
-- Public (no login required), refreshes every 10 seconds
+- Refreshes every 10 seconds
+
+**Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
+- Chains: Planck / Heisenberg / Dirac (Chain 1–2 + Node 1–2 each)
+- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Quests; Telemetry
+- Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
+- Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains
 
@@ -650,17 +744,18 @@ volumes:
 This stack includes built-in security (Nginx + Basic Auth + Rate Limiting). For production:
 
 ### Security Checklist:
-1. ✅ **Prometheus Basic Auth** - Already configured (change credentials in `.env`)
-2. ✅ **Rate Limiting** - 30 req/sec, prevents bruteforce attacks
-3. ⚠️ **Strong Credentials** - The compose defaults (`admin`/`admin` for Grafana, `prometheus` and `grafana` fallbacks) are for local dev only. Override them in `.env` before any production/internet-exposed deploy:
+1. ✅ **Grafana login required** - Anonymous access is disabled; dashboards, Explore, and alerting need credentials
+2. ✅ **Prometheus Basic Auth** - Already configured (change credentials in `.env`)
+3. ✅ **Rate Limiting** - 30 req/sec, prevents bruteforce attacks
+4. ⚠️ **Strong Credentials** - The compose defaults (`admin`/`admin` for Grafana, `prometheus` and `grafana` fallbacks) are for local dev only. Override them in `.env` before any production/internet-exposed deploy:
    ```bash
    GRAFANA_ADMIN_PASSWORD=$(openssl rand -base64 32)
    POSTGRES_PASSWORD=$(openssl rand -base64 32)
    PROMETHEUS_USER=monitoring_$(openssl rand -hex 8)
    PROMETHEUS_PASSWORD=$(openssl rand -base64 32)
    ```
-4. ⚠️ **SSL/TLS** - Use Cloudflare Tunnel or reverse proxy (Caddy, Traefik)
-5. ⚠️ **Firewall** - Restrict ports or use VPN
+5. ⚠️ **SSL/TLS** - Use Cloudflare Tunnel or reverse proxy (Caddy, Traefik)
+6. ⚠️ **Firewall** - Restrict ports or use VPN
 
 ### Recommended Setup with Cloudflare Tunnel:
 ```bash

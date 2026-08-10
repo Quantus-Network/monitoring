@@ -95,10 +95,9 @@ services:
       - GF_ANALYTICS_REPORTING_ENABLED=false
       - GF_ANALYTICS_CHECK_FOR_UPDATES=false
       - GF_USERS_DEFAULT_THEME=dark
-      # Anonymous access - view dashboards without login, edit requires login
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      # Login required — disable anonymous Viewer so dashboards, Explore, and
+      # alerting (incl. contact-point secrets) are not publicly readable.
+      - GF_AUTH_ANONYMOUS_ENABLED=false
       # Set Welcome dashboard as home page
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/overview/welcome.json
       # PostgreSQL Database Configuration

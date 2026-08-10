@@ -540,7 +540,7 @@
     },
     {
       "type": "stat",
-      "title": "System Uptime",
+      "title": "Service Uptime",
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -550,7 +550,7 @@
       "id": 9,
       "targets": [
         {
-          "expr": "node_time_seconds{job=\"support-host\"} - node_boot_time_seconds{job=\"support-host\"}",
+          "expr": "time() - process_start_time_seconds{job=\"support-host\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
