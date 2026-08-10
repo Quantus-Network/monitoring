@@ -339,7 +339,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -350,7 +352,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -397,7 +399,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -408,7 +412,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -455,7 +459,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -466,7 +472,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -513,7 +519,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -524,7 +532,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -853,7 +861,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -864,7 +874,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -911,7 +921,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -922,7 +934,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -969,7 +981,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -980,7 +994,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -1027,7 +1041,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -1038,7 +1054,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -1367,7 +1383,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -1378,7 +1396,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -1425,7 +1443,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -1436,7 +1456,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -1483,7 +1503,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -1494,7 +1516,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -1541,7 +1563,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -1552,7 +1576,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -1680,7 +1704,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -1691,7 +1717,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2087,7 +2113,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2098,7 +2126,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2145,7 +2173,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2156,7 +2186,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2203,7 +2233,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2214,7 +2246,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2261,7 +2293,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2272,7 +2306,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2319,7 +2353,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2330,7 +2366,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2726,7 +2762,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2737,7 +2775,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2784,7 +2822,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2795,7 +2835,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2842,7 +2882,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2853,7 +2895,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2900,7 +2942,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2911,7 +2955,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -2958,7 +3002,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -2969,7 +3015,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -3155,7 +3201,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -3166,7 +3214,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -3352,7 +3400,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -3363,7 +3413,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -3549,7 +3599,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -3560,7 +3612,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
@@ -3674,7 +3726,9 @@
           "datasource": {
             "type": "prometheus",
             "uid": "prometheus"
-          }
+          },
+          "instant": true,
+          "range": false
         }
       ],
       "options": {
@@ -3685,7 +3739,7 @@
           ]
         },
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "textMode": "value"
       },
       "fieldConfig": {
