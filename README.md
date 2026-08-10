@@ -35,6 +35,7 @@ That's it! 🎉
 
 **Notes**:
 - **Grafana**: Login required (`admin` / `admin` by default). Anonymous access is disabled.
+- **Public dashboards**: Use Grafana’s built-in Public Dashboard share for selected boards only (see [Public Dashboards](#public-dashboards)). Explore, alerting, and other dashboards stay private.
 - **Prometheus**: Secured with Basic Auth (`admin` / `prometheus`)
 
 ## Access URLs
@@ -42,6 +43,29 @@ That's it! 🎉
 - **Grafana**: http://localhost:3000 (login required)
 - **Prometheus**: http://localhost:9091 (Basic Auth: `admin` / `prometheus`)
 - **Node Exporter**: http://localhost:9100/metrics (metrics endpoint)
+
+## Public Dashboards
+
+Grafana stays login-only (`GF_AUTH_ANONYMOUS_ENABLED=false`). To share a view without giving out credentials, use Grafana’s **Public dashboard** feature on the same instance (same host / Cloudflare Tunnel URL).
+
+### Share a dashboard
+
+1. Log in to Grafana and open the dashboard (e.g. **Overview → Service Status**).
+2. Click **Share** → **Public dashboard**.
+3. Enable the public link and copy the URL (`/public-dashboards/<accessToken>`).
+4. Share that URL. Visitors can view that dashboard only — they cannot open Explore, alerting, or other dashboards without logging in.
+
+Public share state is stored in Grafana’s database (not in the provisioned JSON). Enabling it once is enough; the token persists across restarts.
+
+### What is safe to publish
+
+| Safe to public-share | Keep private |
+|----------------------|--------------|
+| **Service Status** (uptime / operational status only) | Infrastructure host boards (CPU, mem, disk, network, hostnames) |
+| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer, Quests full boards) |
+| | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
+
+Do **not** public-share Quersi Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
 
 ## What's Being Monitored?
 
@@ -582,6 +606,10 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 - Chain height, last block age, and uptime for Planck, Heisenberg, and Dirac
 - Telemetry host status and connected nodes
 - Refreshes every 10 seconds
+
+**Service Status** — public-safe status for non-chain services (intended for Grafana Public Dashboard sharing):
+- Quersi, Senoti, Explorer (indexer / API / DB / sync), Faucet, Quests, Telemetry
+- UP/DOWN and coarse availability or success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains
 
