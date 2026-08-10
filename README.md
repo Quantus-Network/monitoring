@@ -201,9 +201,9 @@ cp .env.example .env
 nano .env  # Edit SMTP settings and ALERT_EMAIL_ADDRESSES
 ```
 
-After configuring SMTP, restart Grafana:
+After configuring SMTP, recreate Grafana so it picks up the new env:
 ```bash
-docker compose restart grafana
+docker compose up -d grafana
 ```
 
 To test email notifications:
@@ -245,9 +245,9 @@ TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
 TELEGRAM_CHAT_ID=123456789
 ```
 
-**4. Restart Grafana:**
+**4. Recreate Grafana** (reloads `.env`; use `--build` if you also changed contact-point files):
 ```bash
-docker compose restart grafana
+docker compose up -d --build grafana
 ```
 
 **Message Format:**
@@ -274,26 +274,46 @@ Check block production immediately
 
 Non-critical alerts (warnings and chain-matched non-critical routes) go to **Rocket.Chat** via an Incoming Webhook. Grafana uses a generic webhook contact point (not Slack) so Rocket’s `{"success":true}` response is not treated as a failure.
 
+Grafana 11.3 posts a fixed JSON envelope (`version`, `title`, `message`, `state`, …). A script-less Rocket Incoming Webhook only builds chat content from `text` / `msg`, so you **must** enable a Rocket-side script that maps Grafana’s `title` and `message` into a Rocket attachment. Without that script you can get an empty channel message while Grafana still records HTTP 2xx success (and the long `repeat_interval` suppresses another send).
+
 **Setup Steps:**
 
-1. In Rocket.Chat, create an **Incoming Webhook** integration and copy the full URL.
-2. Add it to your `.env` file:
+1. In Rocket.Chat: **Administration → Workspace → Integrations → Incoming Webhook**.
+2. Set **Post to Channel** / **Post as** as needed.
+3. Turn **Script Enabled** **on**.
+4. Paste the contents of [`grafana/rocket-incoming-webhook.script.js`](grafana/rocket-incoming-webhook.script.js) into the **Script** field and save.
+5. Copy the webhook URL into your `.env` file:
 
 ```bash
 # Rocket.Chat Incoming Webhook
 ROCKET_WEBHOOK_URL=https://rocket.example.com/hooks/xxxx/yyyy
 ```
 
-3. Restart Grafana:
+6. Recreate Grafana so it picks up the new env and baked-in contact-point config:
 
 ```bash
-docker compose restart grafana
+docker compose up -d --build grafana
 ```
+
+**Message Format** (attachment: title = Grafana `title`, body = Grafana `message`):
+```
+🚨 High CPU Usage — FIRING
+Severity: warning
+Chain: planck
+Instance: example-host
+
+📋 CPU usage high
+…
+🔗 [View in Grafana](…)
+```
+
+Resolved alerts use a green attachment (`state: ok`); firing uses red (`state: alerting`).
 
 **To test:**
 1. Go to Grafana → Alerting → Contact points
 2. Find "Rocket Notifications"
-3. Click "Test" to send a test message
+3. Click "Test" and confirm a non-empty message appears in the Rocket channel
+4. Optionally resolve a real warning alert and confirm the green resolved attachment
 
 ### Alert Routing
 
@@ -421,9 +441,9 @@ Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, once until resolved
 - **Warning alerts** (severity=warning): 30s wait → Rocket.Chat, once until resolved
 
-After changing alert configuration, restart Grafana:
+After changing alert configuration (rules, contact points, or policies under `grafana/provisioning/alerting/`), rebuild and recreate Grafana so the image picks up the files:
 ```bash
-docker compose restart grafana
+docker compose up -d --build grafana
 ```
 
 **Troubleshooting Alert Provisioning:**
@@ -580,6 +600,7 @@ monitoring/
 │   │   ├── logo.png                # Apple touch icon
 │   │   ├── favicon.ico             # Favicon
 │   │   └── fav32.png               # 32×32 favicon PNG
+│   ├── rocket-incoming-webhook.script.js  # Paste into Rocket Incoming Webhook (Script Enabled)
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
