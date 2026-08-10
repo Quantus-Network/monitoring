@@ -1139,7 +1139,7 @@
     },
     {
       "type": "stat",
-      "title": "System Uptime",
+      "title": "Service Uptime",
       "gridPos": {
         "h": 8,
         "w": 12,
