@@ -20,7 +20,7 @@ git clone <your-repo-url>
 cd monitoring
 
 # 2. (Optional) Customize credentials, SMTP, Telegram, Rocket & alert emails
-cp env.example .env
+cp .env.example .env
 nano .env  # Set passwords, SMTP, TELEGRAM_*, ROCKET_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
 
 # 3. Start the stack
@@ -144,13 +144,13 @@ curl -u admin:prometheus -X POST http://localhost:9091/-/reload
 
 ### Environment Variables
 
-Optional - create `.env` from `env.example` (same template as `.env.example`):
+Optional - create `.env` from `.env.example`:
 
 ```bash
-cp env.example .env
+cp .env.example .env
 ```
 
-Key variables (see `env.example` for the full list, including SMTP, Telegram, and Rocket):
+Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Rocket):
 
 ```bash
 # Grafana Configuration
@@ -195,9 +195,9 @@ SMTP_STARTTLS_POLICY=MandatoryStartTLS
 ALERT_EMAIL_ADDRESSES=admin@example.com, alerts@example.com
 ```
 
-**Note**: Copy `env.example` to `.env` and update with your SMTP credentials and alert email addresses:
+**Note**: Copy `.env.example` to `.env` and update with your SMTP credentials and alert email addresses:
 ```bash
-cp env.example .env
+cp .env.example .env
 nano .env  # Edit SMTP settings and ALERT_EMAIL_ADDRESSES
 ```
 
@@ -590,8 +590,7 @@ monitoring/
 │           ├── contactpoints.rocket.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
 │           └── policies.production.yml # Email / Telegram / Rocket routing
-├── env.example                     # Environment variables template
-├── .env.example                    # Same template (dotfile alias)
+├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
 ```
@@ -609,7 +608,8 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg / Dirac (Chain 1–2 + Node 1–2 each)
-- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB Blue–Green / Chain + sync); Faucet; Quests; Telemetry
+- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Quests; Telemetry
+- Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains

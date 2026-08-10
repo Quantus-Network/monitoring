@@ -2379,7 +2379,7 @@
       "title": "Indexer",
       "gridPos": {
         "h": 4,
-        "w": 4,
+        "w": 5,
         "x": 0,
         "y": 53
       },
@@ -2446,8 +2446,8 @@
       "title": "API 1",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 4,
+        "w": 5,
+        "x": 5,
         "y": 53
       },
       "id": 31,
@@ -2513,8 +2513,8 @@
       "title": "API 2",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 8,
+        "w": 5,
+        "x": 10,
         "y": 53
       },
       "id": 32,
@@ -2577,84 +2577,17 @@
     },
     {
       "type": "stat",
-      "title": "DB Blue",
+      "title": "DB",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 12,
+        "w": 5,
+        "x": 15,
         "y": 53
       },
       "id": 33,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-db-blue-1\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "DB Green",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 53
-      },
-      "id": 34,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-subsquid-db-green-1\"}",
+          "expr": "max(up{job=~\"planck-subsquid-db-(blue|green)-1\"})",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2781,7 +2714,7 @@
       "title": "Indexer \u2014 30d",
       "gridPos": {
         "h": 4,
-        "w": 4,
+        "w": 5,
         "x": 0,
         "y": 57
       },
@@ -2839,8 +2772,8 @@
       "title": "API 1 \u2014 30d",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 4,
+        "w": 5,
+        "x": 5,
         "y": 57
       },
       "id": 41,
@@ -2897,8 +2830,8 @@
       "title": "API 2 \u2014 30d",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 8,
+        "w": 5,
+        "x": 10,
         "y": 57
       },
       "id": 42,
@@ -2952,75 +2885,17 @@
     },
     {
       "type": "stat",
-      "title": "DB Blue \u2014 30d",
+      "title": "DB \u2014 30d",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 12,
+        "w": 5,
+        "x": 15,
         "y": 57
       },
       "id": 43,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"planck-subsquid-db-blue-1\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
-        "colorMode": "background",
-        "graphMode": "area",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "DB Green \u2014 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 57
-      },
-      "id": 44,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-subsquid-db-green-1\"}[30d]) * 100",
+          "expr": "max(avg_over_time(up{job=~\"planck-subsquid-db-(blue|green)-1\"}[30d])) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
