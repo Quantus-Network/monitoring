@@ -188,7 +188,7 @@ SMTP_HOST=smtp.example.com:587
 SMTP_USER=your-email@example.com
 SMTP_PASSWORD=your_smtp_password_here
 SMTP_FROM_ADDRESS=your-email@example.com
-SMTP_FROM_NAME=Grafana Monitoring
+SMTP_FROM_NAME="Grafana Monitoring"
 SMTP_STARTTLS_POLICY=MandatoryStartTLS
 
 # Alert Email Addresses (comma-separated)

@@ -8,13 +8,46 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 ENV_FILE="${REPO_ROOT}/.env"
 
-# Load repo-root .env for manual runs. Compose injects env directly — do not require a file.
-if [ -f "${ENV_FILE}" ]; then
-  set -a
-  # shellcheck disable=SC1090
-  source "${ENV_FILE}"
-  set +a
-fi
+# Parse a Compose/dotenv file without executing it (bash source breaks on
+# unquoted spaces and glob characters such as cron '*').
+load_dotenv() {
+  local file="$1"
+  local line key value first last
+
+  while IFS= read -r line || [ -n "${line}" ]; do
+    line="${line%$'\r'}"
+    line="${line#"${line%%[![:space:]]*}"}"
+    [ -z "${line}" ] && continue
+    [ "${line#\#}" != "${line}" ] && continue
+    case "${line}" in
+      *=*) ;;
+      *) continue ;;
+    esac
+
+    key="${line%%=*}"
+    value="${line#*=}"
+    key="${key%"${key##*[![:space:]]}"}"
+    key="${key#"${key%%[![:space:]]*}"}"
+    case "${key}" in
+      ''|*[!A-Za-z0-9_]*|[0-9]*) continue ;;
+    esac
+
+    if [ "${#value}" -ge 2 ]; then
+      first="${value%"${value#?}"}"
+      last="${value#"${value%?}"}"
+      if [ "${first}" = '"' ] && [ "${last}" = '"' ]; then
+        value="${value#\"}"
+        value="${value%\"}"
+      elif [ "${first}" = "'" ] && [ "${last}" = "'" ]; then
+        value="${value#\'}"
+        value="${value%\'}"
+      fi
+    fi
+
+    printf -v "${key}" '%s' "${value}"
+    export "${key}"
+  done < "${file}"
+}
 
 require_var() {
   local name="$1"
@@ -24,11 +57,17 @@ require_var() {
   fi
 }
 
-require_var GRAFANA_URL
-require_var GRAFANA_TOKEN
-require_var SLACK_BOT_TOKEN
-require_var SLACK_CHANNEL
-require_var SLACK_REPORT_DASHBOARDS
+slack_report_main() {
+  # Load repo-root .env for manual runs. Compose injects env directly — do not require a file.
+  if [ -f "${ENV_FILE}" ]; then
+    load_dotenv "${ENV_FILE}"
+  fi
+
+  require_var GRAFANA_URL
+  require_var GRAFANA_TOKEN
+  require_var SLACK_BOT_TOKEN
+  require_var SLACK_CHANNEL
+  require_var SLACK_REPORT_DASHBOARDS
 
 SLACK_REPORT_FROM="${SLACK_REPORT_FROM:-now-24h}"
 SLACK_REPORT_TO="${SLACK_REPORT_TO:-now}"
@@ -226,3 +265,8 @@ if [ "${failures}" -gt 0 ]; then
 fi
 
 echo "All dashboard reports sent successfully."
+}
+
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+  slack_report_main "$@"
+fi
