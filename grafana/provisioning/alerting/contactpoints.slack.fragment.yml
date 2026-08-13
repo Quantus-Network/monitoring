@@ -1,16 +1,14 @@
   - orgId: 1
-    name: Rocket Notifications
+    name: Slack Notifications
     receivers:
-      - uid: rocket-contact-point
-        # Use webhook (not slack): Rocket returns {"success":true}, which Grafana's
-        # Slack notifier treats as failure and retries every group_interval.
-        type: webhook
+      - uid: slack-contact-point
+        type: slack
         settings:
-          url: ${ROCKET_WEBHOOK_URL}
-          httpMethod: POST
+          url: ${SLACK_WEBHOOK_URL}
+          username: Grafana Monitor
           title: |
             {{ if eq .Status "firing" }}🚨{{ else }}✅{{ end }} {{ .CommonLabels.alertname }} — {{ .Status | toUpper }}
-          message: |
+          text: |
             {{ range .Alerts -}}
             {{- if .Labels.severity }}*Severity:* {{ .Labels.severity }}
             {{ end -}}
@@ -25,10 +23,11 @@
             {{ .Annotations.description }}
             {{ end -}}
             {{- if .GeneratorURL }}
-            🔗 [View in Grafana]({{ .GeneratorURL }}){{ if .SilenceURL }} · [Silence]({{ .SilenceURL }}){{ end }}
+            🔗 <{{ .GeneratorURL }}|View in Grafana>{{ if .SilenceURL }} · <{{ .SilenceURL }}|Silence>{{ end }}
             {{- else if .SilenceURL }}
-            🔗 [Silence]({{ .SilenceURL }})
+            🔗 <{{ .SilenceURL }}|Silence>
             {{- end }}
 
             {{ end -}}
+          color: '{{ if eq .Status "firing" }}#D63232{{ else }}#36a64f{{ end }}'
         disableResolveMessage: false

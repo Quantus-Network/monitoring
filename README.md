@@ -19,9 +19,9 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials, SMTP, Telegram, Rocket & alert emails
+# 2. (Optional) Customize credentials, SMTP, Telegram, Slack & alert emails
 cp .env.example .env
-nano .env  # Set passwords, SMTP, TELEGRAM_*, ROCKET_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
+nano .env  # Set passwords, SMTP, TELEGRAM_*, SLACK_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
 
 # 3. Start the stack
 docker compose up -d
@@ -150,7 +150,7 @@ Optional - create `.env` from `.env.example`:
 cp .env.example .env
 ```
 
-Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Rocket):
+Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Slack):
 
 ```bash
 # Grafana Configuration
@@ -168,7 +168,7 @@ CF_ACCESS_CLIENT_SECRET=
 # Production alert routing (see Alert Routing below)
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_CHAT_ID=
-ROCKET_WEBHOOK_URL=
+SLACK_WEBHOOK_URL=
 ```
 
 **Security Tip**: For production, use strong credentials:
@@ -188,7 +188,7 @@ SMTP_HOST=smtp.example.com:587
 SMTP_USER=your-email@example.com
 SMTP_PASSWORD=your_smtp_password_here
 SMTP_FROM_ADDRESS=your-email@example.com
-SMTP_FROM_NAME=Grafana Monitoring
+SMTP_FROM_NAME="Grafana Monitoring"
 SMTP_STARTTLS_POLICY=MandatoryStartTLS
 
 # Alert Email Addresses (comma-separated)
@@ -215,7 +215,7 @@ To test email notifications:
 
 ### Telegram Notifications
 
-Grafana has **built-in Telegram support** for the highest-priority business alert: **No New Blocks** (critical). Other critical alerts go to Email only; warnings go to Rocket.Chat.
+Grafana has **built-in Telegram support** for the highest-priority business alert: **No New Blocks** (critical). Other critical alerts go to Email only; warnings go to Slack.
 
 **Setup Steps:**
 
@@ -270,32 +270,28 @@ Check block production immediately
 2. Find "Telegram Notifications"
 3. Click "Test" to send a test message
 
-### Rocket.Chat Notifications
+### Slack Notifications
 
-Non-critical alerts (warnings and chain-matched non-critical routes) go to **Rocket.Chat** via an Incoming Webhook. Grafana uses a generic webhook contact point (not Slack) so Rocket’s `{"success":true}` response is not treated as a failure.
-
-Grafana 11.3 posts a fixed JSON envelope (`version`, `title`, `message`, `state`, …). A script-less Rocket Incoming Webhook only builds chat content from `text` / `msg`, so you **must** enable a Rocket-side script that maps Grafana’s `title` and `message` into a Rocket attachment. Without that script you can get an empty channel message while Grafana still records HTTP 2xx success (and the long `repeat_interval` suppresses another send).
+Non-critical alerts (warnings and chain-matched non-critical routes) go to **Slack** via Grafana’s built-in Slack contact point and an Incoming Webhook.
 
 **Setup Steps:**
 
-1. In Rocket.Chat: **Administration → Workspace → Integrations → Incoming Webhook**.
-2. Set **Post to Channel** / **Post as** as needed.
-3. Turn **Script Enabled** **on**.
-4. Paste the contents of [`grafana/rocket-incoming-webhook.script.js`](grafana/rocket-incoming-webhook.script.js) into the **Script** field and save.
-5. Copy the webhook URL into your `.env` file:
+1. Create a Slack app at [api.slack.com/apps](https://api.slack.com/apps) (or reuse an existing one).
+2. Enable **Incoming Webhooks** and add a webhook for the alerts channel.
+3. Copy the webhook URL into your `.env` file:
 
 ```bash
-# Rocket.Chat Incoming Webhook
-ROCKET_WEBHOOK_URL=https://rocket.example.com/hooks/xxxx/yyyy
+# Slack Incoming Webhook
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T000/B000/XXXX
 ```
 
-6. Recreate Grafana so it picks up the new env and baked-in contact-point config:
+4. Recreate Grafana so it picks up the new env and baked-in contact-point config:
 
 ```bash
 docker compose up -d --build grafana
 ```
 
-**Message Format** (attachment: title = Grafana `title`, body = Grafana `message`):
+**Message Format:**
 ```
 🚨 High CPU Usage — FIRING
 Severity: warning
@@ -304,29 +300,62 @@ Instance: example-host
 
 📋 CPU usage high
 …
-🔗 [View in Grafana](…)
+🔗 View in Grafana
 ```
 
-Resolved alerts use a green attachment (`state: ok`); firing uses red (`state: alerting`).
+Resolved alerts use a green attachment; firing uses red.
 
 **To test:**
 1. Go to Grafana → Alerting → Contact points
-2. Find "Rocket Notifications"
-3. Click "Test" and confirm a non-empty message appears in the Rocket channel
-4. Optionally resolve a real warning alert and confirm the green resolved attachment
+2. Find "Slack Notifications"
+3. Click "Test" and confirm a message appears in the Slack channel
+4. Optionally resolve a real warning alert and confirm the green resolved message
+
+### Daily Slack Dashboard Reports
+
+Opt-in profile that renders full Grafana dashboards (last 24 hours by default) and posts one image per dashboard to Slack. Uses `grafana-image-renderer` (Chromium) — separate from alert **webhooks** (`SLACK_WEBHOOK_URL`).
+
+**Enable:**
+
+```bash
+# Set GRAFANA_TOKEN, SLACK_BOT_TOKEN, SLACK_CHANNEL, SLACK_REPORT_DASHBOARDS in .env
+docker compose --profile slack-report up -d --build
+```
+
+**Grafana token:** Administration → Service accounts → create a Viewer account → Add token → put it in `GRAFANA_TOKEN`.
+
+**Slack bot:** Create or reuse a Slack app with Bot Token Scopes `files:write` and `chat:write`. Install the app, copy the Bot User OAuth Token into `SLACK_BOT_TOKEN`, invite the bot to the channel, and set `SLACK_CHANNEL` to the channel **ID** (e.g. `C0123456789`, not `#alerts`).
+
+**Dashboard list** (`SLACK_REPORT_DASHBOARDS`) — comma-separated UIDs; append query params for template variables:
+
+```bash
+SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck,chain-health?var-chain=dirac
+```
+
+**Schedule:** default `0 8 * * *` (08:00) in `SLACK_REPORT_TZ` (default `UTC`). Override with `SLACK_REPORT_CRON` / `SLACK_REPORT_TZ`.
+
+**Image format:** Grafana always renders PNG; the script compresses before upload (`SLACK_REPORT_FORMAT=jpeg` default, or `webp` / `png`). JPEG is recommended for Slack inline preview.
+
+**Manual test** (without waiting for cron):
+
+```bash
+docker compose --profile slack-report run --rm slack-report /usr/local/bin/slack-report.sh
+```
+
+You can also run `slack-report/slack-report.sh` on the host if `curl`, `jq`, and ImageMagick/`cwebp` are installed and `.env` is filled in (use a reachable `GRAFANA_URL`, e.g. `http://localhost:3000`).
 
 ### Alert Routing
 
-When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `ROCKET_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
+When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
 
 - 🔴 **No New Blocks** (critical) → Email + Telegram
 - 🔴 **Other critical** → Email only
-- 🟡 **Warnings / non-critical** → Rocket.Chat
-- Default receiver → Rocket.Chat
+- 🟡 **Warnings / non-critical** → Slack
+- Default receiver → Slack
 - **Dirac / Planck** → 2 min `group_wait`
 - **Heisenberg** → 10 min `group_wait`
 
-If either Telegram or Rocket is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
+If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
 ### Alert Configuration (Provisioning)
 
@@ -439,7 +468,7 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 
 Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, once until resolved
-- **Warning alerts** (severity=warning): 30s wait → Rocket.Chat, once until resolved
+- **Warning alerts** (severity=warning): 30s wait → Slack, once until resolved
 
 After changing alert configuration (rules, contact points, or policies under `grafana/provisioning/alerting/`), rebuild and recreate Grafana so the image picks up the files:
 ```bash
@@ -582,7 +611,13 @@ Grafana serves `/public/img/*.svg` with long browser cache headers (`Cache-Contr
 
 ```
 monitoring/
-├── docker-compose.yml              # Main configuration
+├── docker-compose.yml              # Main configuration (+ slack-report profile)
+├── slack-report/                   # Daily Slack dashboard reports (opt-in profile)
+│   ├── Dockerfile                  # Alpine + supercronic report runner
+│   ├── docker-entrypoint.sh        # Cron from SLACK_REPORT_CRON
+│   └── slack-report.sh             # Render dashboards → Slack
+├── scripts/
+│   └── reorganize_dashboards.py    # One-off dashboard maintenance helper
 ├── prometheus/
 │   └── prometheus.yml              # Prometheus scrape configs
 ├── nginx/
@@ -600,7 +635,6 @@ monitoring/
 │   │   ├── logo.png                # Apple touch icon
 │   │   ├── favicon.ico             # Favicon
 │   │   └── fav32.png               # 32×32 favicon PNG
-│   ├── rocket-incoming-webhook.script.js  # Paste into Rocket Incoming Webhook (Script Enabled)
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
@@ -608,13 +642,15 @@ monitoring/
 │           ├── rules.yml           # Alert rules
 │           ├── contactpoints.base.yml
 │           ├── contactpoints.telegram.fragment.yml
-│           ├── contactpoints.rocket.fragment.yml
+│           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
-│           └── policies.production.yml # Email / Telegram / Rocket routing
+│           └── policies.production.yml # Email / Telegram / Slack routing
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
 ```
+
+`docker compose --profile slack-report` also starts **grafana-renderer** (`grafana/grafana-image-renderer`) and **slack-report** (daily cron).
 
 ## Included Dashboards
 
