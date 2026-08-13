@@ -311,6 +311,39 @@ Resolved alerts use a green attachment; firing uses red.
 3. Click "Test" and confirm a message appears in the Slack channel
 4. Optionally resolve a real warning alert and confirm the green resolved message
 
+### Daily Slack Dashboard Reports
+
+Opt-in profile that renders full Grafana dashboards (last 24 hours by default) and posts one image per dashboard to Slack. Uses `grafana-image-renderer` (Chromium) — separate from alert **webhooks** (`SLACK_WEBHOOK_URL`).
+
+**Enable:**
+
+```bash
+# Set GRAFANA_TOKEN, SLACK_BOT_TOKEN, SLACK_CHANNEL, SLACK_REPORT_DASHBOARDS in .env
+docker compose --profile slack-report up -d --build
+```
+
+**Grafana token:** Administration → Service accounts → create a Viewer account → Add token → put it in `GRAFANA_TOKEN`.
+
+**Slack bot:** Create or reuse a Slack app with Bot Token Scopes `files:write` and `chat:write`. Install the app, copy the Bot User OAuth Token into `SLACK_BOT_TOKEN`, invite the bot to the channel, and set `SLACK_CHANNEL` to the channel **ID** (e.g. `C0123456789`, not `#alerts`).
+
+**Dashboard list** (`SLACK_REPORT_DASHBOARDS`) — comma-separated UIDs; append query params for template variables:
+
+```bash
+SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck,chain-health?var-chain=dirac
+```
+
+**Schedule:** default `0 8 * * *` (08:00) in `SLACK_REPORT_TZ` (default `UTC`). Override with `SLACK_REPORT_CRON` / `SLACK_REPORT_TZ`.
+
+**Image format:** Grafana always renders PNG; the script compresses before upload (`SLACK_REPORT_FORMAT=jpeg` default, or `webp` / `png`). JPEG is recommended for Slack inline preview.
+
+**Manual test** (without waiting for cron):
+
+```bash
+docker compose --profile slack-report run --rm slack-report /usr/local/bin/slack-report.sh
+```
+
+You can also run `slack-report/slack-report.sh` on the host if `curl`, `jq`, and ImageMagick/`cwebp` are installed and `.env` is filled in (use a reachable `GRAFANA_URL`, e.g. `http://localhost:3000`).
+
 ### Alert Routing
 
 When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
@@ -578,7 +611,13 @@ Grafana serves `/public/img/*.svg` with long browser cache headers (`Cache-Contr
 
 ```
 monitoring/
-├── docker-compose.yml              # Main configuration
+├── docker-compose.yml              # Main configuration (+ slack-report profile)
+├── slack-report/                   # Daily Slack dashboard reports (opt-in profile)
+│   ├── Dockerfile                  # Alpine + supercronic report runner
+│   ├── docker-entrypoint.sh        # Cron from SLACK_REPORT_CRON
+│   └── slack-report.sh             # Render dashboards → Slack
+├── scripts/
+│   └── reorganize_dashboards.py    # One-off dashboard maintenance helper
 ├── prometheus/
 │   └── prometheus.yml              # Prometheus scrape configs
 ├── nginx/
@@ -610,6 +649,8 @@ monitoring/
 ├── .gitignore
 └── README.md
 ```
+
+`docker compose --profile slack-report` also starts **grafana-renderer** (`grafana/grafana-image-renderer`) and **slack-report** (daily cron).
 
 ## Included Dashboards
 

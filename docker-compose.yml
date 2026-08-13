@@ -121,6 +121,10 @@ services:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID:-}
       - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
+      # Image rendering (used by daily Slack reports; harmless when renderer profile is off)
+      - GF_RENDERING_SERVER_URL=http://grafana-renderer:8081/render
+      - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
+      - GF_RENDERING_RENDERER_TOKEN=${GRAFANA_RENDERER_TOKEN:--}
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
@@ -154,6 +158,55 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/host:ro
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+  # Opt-in: docker compose --profile slack-report up -d
+  grafana-renderer:
+    image: grafana/grafana-image-renderer:v5.12.0
+    container_name: grafana-renderer
+    profiles: ["slack-report"]
+    environment:
+      - AUTH_TOKEN=${GRAFANA_RENDERER_TOKEN:--}
+      - API_DEFAULT_ENCODING=png
+      - BROWSER_READINESS_TIMEOUT=120s
+    # Chromium needs shared memory; cap RAM so it cannot starve the stack
+    shm_size: "512mb"
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+  slack-report:
+    build:
+      context: ./slack-report
+      dockerfile: Dockerfile
+    image: quantus/slack-report:latest
+    container_name: slack-report
+    profiles: ["slack-report"]
+    environment:
+      # Always use the in-network Grafana URL (overrides any localhost from .env)
+      - GRAFANA_URL=http://grafana:3000
+      - GRAFANA_TOKEN=${GRAFANA_TOKEN:-}
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN:-}
+      - SLACK_CHANNEL=${SLACK_CHANNEL:-}
+      - SLACK_REPORT_DASHBOARDS=${SLACK_REPORT_DASHBOARDS:-welcome-overview,service-status}
+      - SLACK_REPORT_FROM=${SLACK_REPORT_FROM:-now-24h}
+      - SLACK_REPORT_TO=${SLACK_REPORT_TO:-now}
+      - SLACK_REPORT_TZ=${SLACK_REPORT_TZ:-UTC}
+      - SLACK_REPORT_FORMAT=${SLACK_REPORT_FORMAT:-jpeg}
+      - SLACK_REPORT_QUALITY=${SLACK_REPORT_QUALITY:-80}
+      - SLACK_REPORT_WIDTH=${SLACK_REPORT_WIDTH:-1920}
+      - SLACK_REPORT_HEIGHT=${SLACK_REPORT_HEIGHT:-1080}
+      - SLACK_REPORT_CRON=${SLACK_REPORT_CRON:-0 8 * * *}
+      - TZ=${SLACK_REPORT_TZ:-UTC}
+    depends_on:
+      - grafana
+      - grafana-renderer
     restart: unless-stopped
     networks:
       - monitoring
