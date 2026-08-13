@@ -19,9 +19,9 @@ Prometheus + Grafana monitoring stack for Substrate-based blockchain nodes. Simp
 git clone <your-repo-url>
 cd monitoring
 
-# 2. (Optional) Customize credentials, SMTP, Telegram, Rocket & alert emails
+# 2. (Optional) Customize credentials, SMTP, Telegram, Slack & alert emails
 cp .env.example .env
-nano .env  # Set passwords, SMTP, TELEGRAM_*, ROCKET_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
+nano .env  # Set passwords, SMTP, TELEGRAM_*, SLACK_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
 
 # 3. Start the stack
 docker compose up -d
@@ -150,7 +150,7 @@ Optional - create `.env` from `.env.example`:
 cp .env.example .env
 ```
 
-Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Rocket):
+Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Slack):
 
 ```bash
 # Grafana Configuration
@@ -168,7 +168,7 @@ CF_ACCESS_CLIENT_SECRET=
 # Production alert routing (see Alert Routing below)
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_CHAT_ID=
-ROCKET_WEBHOOK_URL=
+SLACK_WEBHOOK_URL=
 ```
 
 **Security Tip**: For production, use strong credentials:
@@ -215,7 +215,7 @@ To test email notifications:
 
 ### Telegram Notifications
 
-Grafana has **built-in Telegram support** for the highest-priority business alert: **No New Blocks** (critical). Other critical alerts go to Email only; warnings go to Rocket.Chat.
+Grafana has **built-in Telegram support** for the highest-priority business alert: **No New Blocks** (critical). Other critical alerts go to Email only; warnings go to Slack.
 
 **Setup Steps:**
 
@@ -270,32 +270,28 @@ Check block production immediately
 2. Find "Telegram Notifications"
 3. Click "Test" to send a test message
 
-### Rocket.Chat Notifications
+### Slack Notifications
 
-Non-critical alerts (warnings and chain-matched non-critical routes) go to **Rocket.Chat** via an Incoming Webhook. Grafana uses a generic webhook contact point (not Slack) so Rocket’s `{"success":true}` response is not treated as a failure.
-
-Grafana 11.3 posts a fixed JSON envelope (`version`, `title`, `message`, `state`, …). A script-less Rocket Incoming Webhook only builds chat content from `text` / `msg`, so you **must** enable a Rocket-side script that maps Grafana’s `title` and `message` into a Rocket attachment. Without that script you can get an empty channel message while Grafana still records HTTP 2xx success (and the long `repeat_interval` suppresses another send).
+Non-critical alerts (warnings and chain-matched non-critical routes) go to **Slack** via Grafana’s built-in Slack contact point and an Incoming Webhook.
 
 **Setup Steps:**
 
-1. In Rocket.Chat: **Administration → Workspace → Integrations → Incoming Webhook**.
-2. Set **Post to Channel** / **Post as** as needed.
-3. Turn **Script Enabled** **on**.
-4. Paste the contents of [`grafana/rocket-incoming-webhook.script.js`](grafana/rocket-incoming-webhook.script.js) into the **Script** field and save.
-5. Copy the webhook URL into your `.env` file:
+1. Create a Slack app at [api.slack.com/apps](https://api.slack.com/apps) (or reuse an existing one).
+2. Enable **Incoming Webhooks** and add a webhook for the alerts channel.
+3. Copy the webhook URL into your `.env` file:
 
 ```bash
-# Rocket.Chat Incoming Webhook
-ROCKET_WEBHOOK_URL=https://rocket.example.com/hooks/xxxx/yyyy
+# Slack Incoming Webhook
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/T000/B000/XXXX
 ```
 
-6. Recreate Grafana so it picks up the new env and baked-in contact-point config:
+4. Recreate Grafana so it picks up the new env and baked-in contact-point config:
 
 ```bash
 docker compose up -d --build grafana
 ```
 
-**Message Format** (attachment: title = Grafana `title`, body = Grafana `message`):
+**Message Format:**
 ```
 🚨 High CPU Usage — FIRING
 Severity: warning
@@ -304,29 +300,29 @@ Instance: example-host
 
 📋 CPU usage high
 …
-🔗 [View in Grafana](…)
+🔗 View in Grafana
 ```
 
-Resolved alerts use a green attachment (`state: ok`); firing uses red (`state: alerting`).
+Resolved alerts use a green attachment; firing uses red.
 
 **To test:**
 1. Go to Grafana → Alerting → Contact points
-2. Find "Rocket Notifications"
-3. Click "Test" and confirm a non-empty message appears in the Rocket channel
-4. Optionally resolve a real warning alert and confirm the green resolved attachment
+2. Find "Slack Notifications"
+3. Click "Test" and confirm a message appears in the Slack channel
+4. Optionally resolve a real warning alert and confirm the green resolved message
 
 ### Alert Routing
 
-When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `ROCKET_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
+When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WEBHOOK_URL` are set, Grafana loads production policies (`policies.production.yml`):
 
 - 🔴 **No New Blocks** (critical) → Email + Telegram
 - 🔴 **Other critical** → Email only
-- 🟡 **Warnings / non-critical** → Rocket.Chat
-- Default receiver → Rocket.Chat
+- 🟡 **Warnings / non-critical** → Slack
+- Default receiver → Slack
 - **Dirac / Planck** → 2 min `group_wait`
 - **Heisenberg** → 10 min `group_wait`
 
-If either Telegram or Rocket is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
+If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
 ### Alert Configuration (Provisioning)
 
@@ -439,7 +435,7 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 
 Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, once until resolved
-- **Warning alerts** (severity=warning): 30s wait → Rocket.Chat, once until resolved
+- **Warning alerts** (severity=warning): 30s wait → Slack, once until resolved
 
 After changing alert configuration (rules, contact points, or policies under `grafana/provisioning/alerting/`), rebuild and recreate Grafana so the image picks up the files:
 ```bash
@@ -600,7 +596,6 @@ monitoring/
 │   │   ├── logo.png                # Apple touch icon
 │   │   ├── favicon.ico             # Favicon
 │   │   └── fav32.png               # 32×32 favicon PNG
-│   ├── rocket-incoming-webhook.script.js  # Paste into Rocket Incoming Webhook (Script Enabled)
 │   └── provisioning/               # Auto-configuration
 │       ├── datasources/            # Prometheus datasource
 │       ├── dashboards/             # Dashboard providers
@@ -608,9 +603,9 @@ monitoring/
 │           ├── rules.yml           # Alert rules
 │           ├── contactpoints.base.yml
 │           ├── contactpoints.telegram.fragment.yml
-│           ├── contactpoints.rocket.fragment.yml
+│           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
-│           └── policies.production.yml # Email / Telegram / Rocket routing
+│           └── policies.production.yml # Email / Telegram / Slack routing
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
