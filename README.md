@@ -62,7 +62,7 @@ Public share state is stored in Grafana’s database (not in the provisioned JSO
 | Safe to public-share | Keep private |
 |----------------------|--------------|
 | **Service Status** (uptime / operational status only) | Infrastructure host boards (CPU, mem, disk, network, hostnames) |
-| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer, Quests full boards) |
+| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer full boards) |
 | | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
 
 Do **not** public-share Quersi Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
@@ -78,7 +78,7 @@ The stack monitors:
   - Disk usage and I/O
   - Network traffic (receive/transmit)
   - System uptime
-- **Remote Blockchain Nodes** - Heisenberg and Dirac networks
+- **Remote Blockchain Nodes** - Planck and Heisenberg networks
   - Node metrics (system resources, peers, network I/O)
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
@@ -256,10 +256,10 @@ docker compose up -d --build grafana
 
 Status: firing
 Severity: critical
-Chain: dirac
-Instance: a1-qm-dirac.quantus.cat
+Chain: planck
+Instance: a1-qm-planck.quantus.cat
 
-📋 No new blocks on dirac for 7+ minutes
+📋 No new blocks on planck for 7+ minutes
 Check block production immediately
 
 🔗 View in Grafana
@@ -329,7 +329,7 @@ docker compose --profile slack-report up -d --build
 **Dashboard list** (`SLACK_REPORT_DASHBOARDS`) — comma-separated UIDs; append query params for template variables:
 
 ```bash
-SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck,chain-health?var-chain=dirac
+SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck,chain-health?var-chain=heisenberg
 ```
 
 **Schedule:** default `0 8 * * *` (08:00) in `SLACK_REPORT_TZ` (default `UTC`). Override with `SLACK_REPORT_CRON` / `SLACK_REPORT_TZ`.
@@ -352,7 +352,7 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🔴 **Other critical** → Email only
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
-- **Dirac / Planck** → 2 min `group_wait`
+- **Planck** → 2 min `group_wait`
 - **Heisenberg** → 10 min `group_wait`
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
@@ -463,7 +463,7 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
-| **Dirac / Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
 | **Heisenberg** 🟡 | Medium | 10 minutes | once until resolved (`8736h`) |
 
 Fallback by severity (if no chain label):
@@ -629,7 +629,7 @@ monitoring/
 │   │   ├── overview/               # Home / multi-chain summary
 │   │   ├── chains/                 # Chain dashboards (chain selector)
 │   │   ├── infrastructure/         # Hosts & telemetry
-│   │   └── applications/           # Faucet, explorer, quests
+│   │   └── applications/           # Faucet, explorer
 │   ├── branding/                   # Quantus branding assets
 │   │   ├── logo.svg                # Sidebar logo (SVG)
 │   │   ├── logo.png                # Apple touch icon
@@ -654,18 +654,18 @@ monitoring/
 
 ## Included Dashboards
 
-Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (planck / heisenberg / dirac).
+Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (planck / heisenberg).
 
 ### Overview (home)
 
 **Quantus Network Overview** — first page after login:
-- Chain height, last block age, and uptime for Planck, Heisenberg, and Dirac
+- Chain height, last block age, and uptime for Planck and Heisenberg
 - Telemetry host status and connected nodes
 - Refreshes every 10 seconds
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
-- Chains: Planck / Heisenberg / Dirac (Chain 1–2 + Node 1–2 each)
-- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Quests; Telemetry
+- Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each)
+- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
@@ -698,7 +698,6 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 |-----------|----------------|
 | **Faucet** | Request rates, transfers, balance, rejections |
 | **Explorer** | Subsquid sync, RPC, Node.js performance |
-| **Quests** | HTTP request rates, errors, latency |
 
 ## Customization
 

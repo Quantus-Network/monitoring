@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck**, **Heisenberg**, and **Dirac**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
+        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck** and **Heisenberg**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
       }
     },
     {
@@ -34,50 +34,6 @@
       "targets": [
         {
           "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"planck\"})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 32
-        },
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "none",
-          "decimals": 0,
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "#FF6B35"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Dirac - Chain Height",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 3
-      },
-      "id": 63,
-      "targets": [
-        {
-          "expr": "max(qpow_metrics{data_group=\"chain_height\", chain=\"dirac\"})",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -149,66 +105,6 @@
           "color": {
             "mode": "fixed",
             "fixedColor": "#FF6B35"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Dirac - Last Block",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 7
-      },
-      "id": 64,
-      "targets": [
-        {
-          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", chain=\"dirac\"}) / 1000)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "text": {
-          "titleSize": 16,
-          "valueSize": 28
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "s",
-          "decimals": 0,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#252525"
-              },
-              {
-                "value": 180,
-                "color": "#CC5528"
-              },
-              {
-                "value": 600,
-                "color": "#FF6B35"
-              }
-            ]
           }
         }
       }
