@@ -2662,14 +2662,9 @@
             "selected": false,
             "text": "heisenberg",
             "value": "heisenberg"
-          },
-          {
-            "selected": false,
-            "text": "dirac",
-            "value": "dirac"
           }
         ],
-        "query": "planck,heisenberg,dirac",
+        "query": "planck,heisenberg",
         "skipUrlSync": false,
         "type": "custom"
       }

@@ -12,44 +12,6 @@ policies:
       # 🔴 CRITICAL — Email only (server/service down, disk full, etc.)
       # No New Blocks also gets Telegram as the highest-priority business alert
 
-      # Dirac — No New Blocks → Email + Telegram
-      - receiver: Email Notifications
-        matchers:
-          - chain = dirac
-          - severity = critical
-          - alertname = "No New Blocks"
-        group_by: ["alertname", "chain"]
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: true
-
-      - receiver: Telegram Notifications
-        matchers:
-          - chain = dirac
-          - severity = critical
-          - alertname = "No New Blocks"
-        group_by: ["alertname", "chain"]
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: false
-
-      # Dirac — other critical → Email only
-      - receiver: Email Notifications
-        matchers:
-          - chain = dirac
-          - severity = critical
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: false
-
-      # Dirac — non-critical → Slack
-      - receiver: Slack Notifications
-        matchers:
-          - chain = dirac
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: false
-
       # Planck — No New Blocks → Email + Telegram
       - receiver: Email Notifications
         matchers:

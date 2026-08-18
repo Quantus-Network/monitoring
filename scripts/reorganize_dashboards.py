@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DASHBOARDS = ROOT / "grafana" / "dashboards"
-CHAINS = ("planck", "heisenberg", "dirac")
+CHAINS = ("planck", "heisenberg")
 
 CONSENSUS_TITLES = {
     "Estimated Network Hashrate",
@@ -152,9 +152,8 @@ def chain_variable(include_datasource: bool = False) -> list[dict]:
             "options": [
                 {"selected": True, "text": "planck", "value": "planck"},
                 {"selected": False, "text": "heisenberg", "value": "heisenberg"},
-                {"selected": False, "text": "dirac", "value": "dirac"},
             ],
-            "query": "planck,heisenberg,dirac",
+            "query": "planck,heisenberg",
             "skipUrlSync": False,
             "type": "custom",
         }
@@ -464,12 +463,6 @@ def move_infrastructure_and_apps() -> None:
             "app-explorer",
             ["applications", "explorer"],
         ),
-        DASHBOARDS / "system" / "quests-monitoring.json": (
-            DASHBOARDS / "applications" / "quests.json",
-            "Quests",
-            "app-quests",
-            ["applications", "quests"],
-        ),
     }
 
     for src, (dest, title, uid, tags) in moves.items():
@@ -484,45 +477,10 @@ def update_welcome() -> None:
     welcome = load(DASHBOARDS / "general" / "welcome.json")
     welcome["panels"][0]["options"]["content"] = (
         "# Quantus Network Overview\n\n"
-        "Real-time monitoring across **Planck**, **Heisenberg**, and **Dirac**. "
+        "Real-time monitoring across **Planck** and **Heisenberg**. "
         "Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n"
         "[quantus.com](https://www.quantus.com/)"
     )
-
-    # Add Dirac chain height + last block stats after Heisenberg panels
-    planck_height = welcome["panels"][1]
-    heisenberg_height = welcome["panels"][2]
-    max_id = max(p["id"] for p in welcome["panels"])
-
-    dirac_height = copy.deepcopy(planck_height)
-    dirac_height["id"] = max_id + 1
-    dirac_height["title"] = "Dirac - Chain Height"
-    dirac_height["targets"][0]["expr"] = (
-        'max(qpow_metrics{data_group="chain_height", chain="dirac"})'
-    )
-    dirac_height["gridPos"] = {"h": 4, "w": 8, "x": 0, "y": 3}
-
-    planck_height["gridPos"] = {"h": 4, "w": 8, "x": 0, "y": 7}
-    heisenberg_height["gridPos"] = {"h": 4, "w": 8, "x": 8, "y": 7}
-
-    dirac_block = copy.deepcopy(welcome["panels"][3])
-    dirac_block["id"] = max_id + 2
-    dirac_block["title"] = "Dirac - Last Block"
-    dirac_block["targets"][0]["expr"] = (
-        'time() - (max(qpow_metrics{data_group="last_block_time", chain="dirac"}) / 1000)'
-    )
-    dirac_block["gridPos"] = {"h": 4, "w": 8, "x": 16, "y": 3}
-
-    for p in welcome["panels"][3:]:
-        if p.get("gridPos", {}).get("y", 0) >= 9:
-            p["gridPos"]["y"] += 4
-
-    welcome["panels"][1]["gridPos"] = planck_height["gridPos"]
-    welcome["panels"][2]["gridPos"] = heisenberg_height["gridPos"]
-    welcome["panels"][3]["gridPos"] = {"h": 4, "w": 8, "x": 8, "y": 3}
-    welcome["panels"].insert(2, dirac_height)
-    welcome["panels"].insert(4, dirac_block)
-
     save(DASHBOARDS / "overview" / "welcome.json", welcome)
 
 
