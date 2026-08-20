@@ -62,10 +62,10 @@ Public share state is stored in Grafana’s database (not in the provisioned JSO
 | Safe to public-share | Keep private |
 |----------------------|--------------|
 | **Service Status** (uptime / operational status only) | Infrastructure host boards (CPU, mem, disk, network, hostnames) |
-| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer full boards) |
+| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer, Graylog) |
 | | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
 
-Do **not** public-share Quersi Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
+Do **not** public-share Quersi Host, Logs Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
 
 ## What's Being Monitored?
 
@@ -88,6 +88,8 @@ The stack monitors:
     - Connected nodes/feeds/shards
     - Message rates and dropped messages
     - Service availability
+  - Logs Host (hm-logs.quantus.cat) - VPS system metrics
+  - Graylog (qm-logs.quantus.cat) - Ingest, journal, indexer failures, JVM heap
 
 ## Adding Your Nodes
 
@@ -375,6 +377,11 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
+- 🔴 **Logs Host Down** - Triggers when the logs VPS is unreachable for 3+ minutes
+- 🔴 **Graylog Down** - Triggers when Graylog (`qm-logs.quantus.cat`) is unreachable for 3+ minutes
+- 🟡 **Graylog Journal High** - Triggers when the Graylog journal exceeds 65% for 5+ minutes
+- 🟡 **Graylog Indexer Failures** - Triggers when OpenSearch write/flush failures are above 0 for 5+ minutes
+- 🟡 **Graylog Heap High** - Triggers when Graylog JVM heap exceeds 85% for 10+ minutes
 
 **Customizing Alert Email:**
 
@@ -629,7 +636,7 @@ monitoring/
 │   │   ├── overview/               # Home / multi-chain summary
 │   │   ├── chains/                 # Chain dashboards (chain selector)
 │   │   ├── infrastructure/         # Hosts & telemetry
-│   │   └── applications/           # Faucet, explorer
+│   │   └── applications/           # Faucet, explorer, graylog
 │   ├── branding/                   # Quantus branding assets
 │   │   ├── logo.svg                # Sidebar logo (SVG)
 │   │   ├── logo.png                # Apple touch icon
@@ -665,7 +672,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each)
-- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
@@ -691,6 +698,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 | **Senoti Host** | Senoti fleet system metrics |
 | **Subsquid Host** | Subsquid fleet system metrics |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
+| **Logs Host** | Logs server system metrics |
 
 ### Applications
 
@@ -698,6 +706,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 |-----------|----------------|
 | **Faucet** | Request rates, transfers, balance, rejections |
 | **Explorer** | Subsquid sync, RPC, Node.js performance |
+| **Graylog** | Ingest rate, journal fill, buffer fill, indexer failures, heap |
 
 ## Customization
 
