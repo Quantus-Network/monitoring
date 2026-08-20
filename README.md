@@ -379,8 +379,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
 - 🔴 **Logs Host Down** - Triggers when the logs VPS is unreachable for 3+ minutes
 - 🔴 **Graylog Down** - Triggers when Graylog (`qm-logs.quantus.cat`) is unreachable for 3+ minutes
-- 🔴 **Graylog Journal Critical** - Triggers when the Graylog journal exceeds 75% for 5+ minutes
-- 🟡 **Graylog Journal High** - Triggers when the Graylog journal exceeds 50% for 5+ minutes
+- 🟡 **Graylog Journal High** - Triggers when the Graylog journal exceeds 65% for 5+ minutes
 - 🟡 **Graylog Indexer Failures** - Triggers when OpenSearch write/flush failures are above 0 for 5+ minutes
 - 🟡 **Graylog Heap High** - Triggers when Graylog JVM heap exceeds 85% for 10+ minutes
 

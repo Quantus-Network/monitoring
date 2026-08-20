@@ -195,12 +195,8 @@
                 "color": "green"
               },
               {
-                "value": 50,
+                "value": 65,
                 "color": "yellow"
-              },
-              {
-                "value": 75,
-                "color": "red"
               }
             ]
           }
@@ -628,12 +624,8 @@
                 "color": "green"
               },
               {
-                "value": 50,
+                "value": 65,
                 "color": "yellow"
-              },
-              {
-                "value": 75,
-                "color": "red"
               }
             ]
           }
