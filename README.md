@@ -65,7 +65,7 @@ Public share state is stored in Grafana’s database (not in the provisioned JSO
 | Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer full boards) |
 | | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
 
-Do **not** public-share Quersi Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
+Do **not** public-share Quersi Host, Logs Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
 
 ## What's Being Monitored?
 
@@ -665,7 +665,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each)
-- Quersi; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Quersi; Logs; Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
@@ -691,6 +691,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 | **Senoti Host** | Senoti fleet system metrics |
 | **Subsquid Host** | Subsquid fleet system metrics |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
+| **Logs Host** | Logs server system metrics |
 
 ### Applications
 
