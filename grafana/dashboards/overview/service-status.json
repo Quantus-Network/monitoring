@@ -1241,10 +1241,10 @@
     },
     {
       "type": "stat",
-      "title": "Logs",
+      "title": "Logs Host",
       "gridPos": {
         "h": 4,
-        "w": 12,
+        "w": 6,
         "x": 0,
         "y": 33
       },
@@ -1308,10 +1308,77 @@
     },
     {
       "type": "stat",
-      "title": "Logs \u2014 30d Availability",
+      "title": "Graylog",
       "gridPos": {
         "h": 4,
-        "w": 12,
+        "w": 6,
+        "x": 6,
+        "y": 33
+      },
+      "id": 103,
+      "targets": [
+        {
+          "expr": "up{job=\"logs-graylog\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Logs Host \u2014 30d Availability",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
         "x": 12,
         "y": 33
       },
@@ -1319,6 +1386,66 @@
       "targets": [
         {
           "expr": "avg_over_time(up{job=\"logs-host\"}[30d]) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": true,
+          "range": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Graylog \u2014 30d Availability",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 33
+      },
+      "id": 104,
+      "targets": [
+        {
+          "expr": "avg_over_time(up{job=\"logs-graylog\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
