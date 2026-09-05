@@ -50,6 +50,45 @@ policies:
         repeat_interval: 8736h
         continue: false
 
+      # Staging (bootnode + rpcnode metrics use chain=staging_mainnet)
+      # No New Blocks + RPC height stall → Email + Telegram
+      - receiver: Email Notifications
+        matchers:
+          - chain = staging_mainnet
+          - severity = critical
+          - alertname =~ ".*No New Blocks"
+        group_by: ["alertname", "chain"]
+        group_wait: 2m
+        repeat_interval: 8736h
+        continue: true
+
+      - receiver: Telegram Notifications
+        matchers:
+          - chain = staging_mainnet
+          - severity = critical
+          - alertname =~ ".*No New Blocks"
+        group_by: ["alertname", "chain"]
+        group_wait: 2m
+        repeat_interval: 8736h
+        continue: false
+
+      # Staging — other critical → Email only
+      - receiver: Email Notifications
+        matchers:
+          - chain = staging_mainnet
+          - severity = critical
+        group_wait: 2m
+        repeat_interval: 8736h
+        continue: false
+
+      # Staging — non-critical → Slack
+      - receiver: Slack Notifications
+        matchers:
+          - chain = staging_mainnet
+        group_wait: 2m
+        repeat_interval: 8736h
+        continue: false
+
       # Heisenberg — critical → Email; otherwise Slack
       - receiver: Email Notifications
         matchers:

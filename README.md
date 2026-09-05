@@ -359,7 +359,7 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🔴 **Other critical** → Email only
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
-- **Planck** → 2 min `group_wait`
+- **Planck**, **staging_mainnet** (bootnode + rpcnode) → 2 min `group_wait`
 - **Heisenberg** → 10 min `group_wait`
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
@@ -371,9 +371,9 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **Pre-configured Alerts:**
 
 **Node Health:**
-- 🔴 **Node Down** - Triggers when a node is unreachable for 5+ minutes
-- 🔴 **No New Blocks** - Fires when no new blocks have been produced for 7+ minutes (rule); first Telegram notification arrives ~10 min after the last block (7 min threshold + 1 min `for:` + ~2 min `group_wait`)
-- 🟡 **Low Peer Count** - Triggers when peer count drops below 3
+- 🔴 **Node Down** - Triggers when a `*-node`, `*-chain`, or `*-substrate` scrape is down for 5+ minutes
+- 🔴 **No New Blocks** - Fires when no new blocks have been produced for 7+ minutes (rule); first Telegram notification arrives ~10 min after the last block (7 min threshold + 1 min `for:` + ~2 min `group_wait`). Staging RPC nodes do not export `last_block_time`; they use a dedicated best-block height stall (`delta(...)[7m] < 1`)
+- 🟡 **Low Peer Count** - Triggers when peer count drops below 2 (all non-Heisenberg chains, including staging_mainnet)
 
 **System Resources:**
 - 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
@@ -476,6 +476,7 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
 | **Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **staging_mainnet** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
 | **Heisenberg** 🟡 | Medium | 10 minutes | once until resolved (`8736h`) |
 
 Fallback by severity (if no chain label):
