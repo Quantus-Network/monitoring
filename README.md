@@ -684,7 +684,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 ### Chains
 
-All chain dashboards share a chain selector and link to each other via the **Chains** dropdown:
+Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is planck / heisenberg / staging bootnode / staging rpcnode, except **Consensus & Mining**, which omits RPC (those nodes do not export QPoW).
 
 | Dashboard | What it covers |
 |-----------|----------------|

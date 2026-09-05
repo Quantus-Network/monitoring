@@ -257,7 +257,7 @@
     {
       "type": "stat",
       "title": "Difficulty",
-      "description": "Current network difficulty from on-chain QPoW metrics (lowest 64 bits of the runtime U512 value).",
+      "description": "Current network difficulty from on-chain QPoW metrics (lowest 64 bits of the runtime U512 value). RPC nodes do not export that series; the value is joined from validators on the same chain.",
       "id": 5,
       "gridPos": {
         "h": 5,
@@ -271,7 +271,7 @@
       },
       "targets": [
         {
-          "expr": "max(qpow_metrics{data_group=\"difficulty\", job=\"${chain}-chain\"})",
+          "expr": "max(qpow_metrics{data_group=\"difficulty\"} and on(chain) max by (chain) (substrate_block_height{status=\"best\", job=\"${chain}-chain\"}))",
           "refId": "A",
           "datasource": {
             "type": "prometheus",

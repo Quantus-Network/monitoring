@@ -461,14 +461,9 @@
             "selected": false,
             "text": "staging bootnode",
             "value": "bootnode"
-          },
-          {
-            "selected": false,
-            "text": "staging rpcnode",
-            "value": "rpcnode"
           }
         ],
-        "query": "planck,heisenberg,staging bootnode : bootnode,staging rpcnode : rpcnode",
+        "query": "planck,heisenberg,staging bootnode : bootnode",
         "skipUrlSync": false,
         "type": "custom"
       }
