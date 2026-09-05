@@ -529,7 +529,7 @@
       "id": 83,
       "targets": [
         {
-          "expr": "max(qpow_metrics{data_group=\"chain_height\", job=\"rpcnode-chain\"})",
+          "expr": "max(substrate_block_height{status=\"best\", job=\"rpcnode-chain\"})",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -564,6 +564,7 @@
     {
       "type": "stat",
       "title": "Staging RPC nodes - Last Block",
+      "description": "Seconds since the last QPoW block on the staging chain. RPC nodes are not validators and do not export last_block_time; this uses the bootnode series.",
       "gridPos": {
         "h": 4,
         "w": 8,
@@ -573,7 +574,7 @@
       "id": 84,
       "targets": [
         {
-          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", job=\"rpcnode-chain\"}) / 1000)",
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", job=\"bootnode-chain\"}) / 1000)",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
