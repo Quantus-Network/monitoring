@@ -83,6 +83,10 @@ The stack monitors:
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
   - Staging bootnode (`a1`–`a7`) and staging rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
+- **Subsquid / Explorer** - Planck testnet and staging mainnet fleets (`planck-subsquid-*`, `staging-subsquid-*`)
+  - Processor Prometheus on `subsquid-proc-1` / `subsquid-mainnet-proc-1` (active-color indexer)
+  - node_exporter on app, chain, and both DB colors (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
+  - Staging scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
   - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
   - Telemetry Backend (feed-telemetry.quantus.cat) - Application metrics
@@ -673,7 +677,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Staging Bootnodes (`a1`–`a7` chain + host, fleet 30d); Staging RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck) and Staging Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
@@ -697,7 +701,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 | **Telemetry** | Telemetry VPS host + backend message feeds |
 | **Support Host** | Support server system metrics |
 | **Senoti Host** | Senoti fleet system metrics |
-| **Subsquid Host** | Subsquid fleet system metrics |
+| **Subsquid Host** | Subsquid fleet system metrics (Fleet: Planck / staging) |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
 | **Logs Host** | Logs server system metrics |
 
@@ -706,7 +710,7 @@ All chain dashboards share a chain selector and link to each other via the **Cha
 | Dashboard | What it covers |
 |-----------|----------------|
 | **Faucet** | Request rates, transfers, balance, rejections |
-| **Explorer** | Subsquid sync, RPC, Node.js performance |
+| **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: Planck / staging) |
 | **Graylog** | Ingest rate, journal fill, buffer fill, indexer failures, heap |
 
 ## Customization

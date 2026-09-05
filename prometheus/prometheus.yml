@@ -324,6 +324,174 @@ scrape_configs:
     - subsquid-chain-1.quantus.com
     labels:
       chain: planck
+- job_name: staging-subsquid-proc-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-mainnet-proc-1.quantus.com
+    labels:
+      chain: staging
+- job_name: staging-subsquid-app-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-mainnet-app-1.quantus.com
+    labels:
+      chain: staging
+- job_name: staging-subsquid-app-2
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-mainnet-app-2.quantus.com
+    labels:
+      chain: staging
+- job_name: staging-subsquid-db-blue-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-mainnet-db-blue-1.quantus.com
+    labels:
+      chain: staging
+- job_name: staging-subsquid-db-green-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-mainnet-db-green-1.quantus.com
+    labels:
+      chain: staging
+- job_name: staging-subsquid-chain-1
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - subsquid-mainnet-chain-1.quantus.com
+    labels:
+      chain: staging
 - job_name: planck-senoti-app-1
   honor_timestamps: true
   track_timestamps_staleness: false
