@@ -7,6 +7,16 @@ deleteRules:
     uid: task_master_down
   - orgId: 1
     uid: task_master_high_error_rate
+  - orgId: 1
+    uid: bootnode-node-down-alert
+  - orgId: 1
+    uid: bootnode-low-peer-count-alert
+  - orgId: 1
+    uid: bootnode-no-new-blocks-alert
+  - orgId: 1
+    uid: rpcnode-node-down-alert
+  - orgId: 1
+    uid: rpcnode-low-peer-count-alert
 
 groups:
   # Node Health Monitoring
@@ -29,7 +39,7 @@ groups:
               datasource:
                 type: prometheus
                 uid: prometheus
-              expr: up{job=~".*-(substrate|node)"}
+              expr: up{job=~".*-(substrate|node|chain)"}
               refId: A
               intervalMs: 1000
               maxDataPoints: 43200
@@ -198,6 +208,68 @@ groups:
           description: 'Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" $values.B.Value }} minutes ago (alert fires after ~10 min without a block) - check block production'
           summary: 'No new blocks on {{ index $labels "chain" }}'
         labels:
+          severity: critical
+
+      # RPC nodes are not validators and do not export last_block_time.
+      # Equivalent signal: best block height has not increased for 7+ minutes.
+      - uid: rpcnode-no-new-blocks-alert
+        title: RPC Node No New Blocks
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 900
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: delta(substrate_block_height{status="best", job="rpcnode-chain"}[7m])
+              refId: A
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 1m
+        annotations:
+          description: 'RPC node {{ index $labels "instance" }} best block height has not increased in 7+ minutes (delta: {{ printf "%.0f" $values.B.Value }}) - node may be stalled or disconnected from block producers'
+          summary: 'No new blocks on RPC node {{ index $labels "instance" }}'
+        labels:
+          chain: staging_mainnet
           severity: critical
 
   # System Resource Monitoring
@@ -1071,10 +1143,396 @@ groups:
         execErrState: Alerting
         for: 3m
         annotations:
-          description: 'Both Planck Subsquid DB colors (blue and green) are down - no active database available'
-          summary: 'Planck Subsquid DB both colors DOWN'
+          description: "Both Planck Subsquid DB colors (blue and green) are down - no active database available"
+          summary: "Planck Subsquid DB both colors DOWN"
         labels:
           chain: planck
+          severity: critical
+
+      # ===============================================
+      # EXPLORER MONITORING ALERTS (Staging)
+      # ===============================================
+      - uid: staging_explorer_down
+        title: Staging Explorer Service Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: up{job="staging-subsquid-proc-1"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: 'Staging Explorer service ({{ index $labels "instance" }}) is not responding - blockchain data indexing unavailable'
+          summary: "Staging Explorer Service is DOWN"
+        labels:
+          chain: staging
+          severity: critical
+
+      - uid: staging_explorer_sync_lag
+        title: Staging Explorer Sync Lag
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: sqd_processor_chain_height{job="staging-subsquid-proc-1"} - sqd_processor_last_block{job="staging-subsquid-proc-1"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 100
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 10m
+        annotations:
+          description: 'Staging Explorer is {{ printf "%.0f" $values.B.Value }} blocks behind chain height (threshold: >100 blocks) - check processing performance'
+          summary: "Staging Explorer Synchronization Lag"
+        labels:
+          chain: staging
+          severity: warning
+
+      - uid: staging_explorer_high_rpc_failure_rate
+        title: Staging Explorer High RPC Failure Rate
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: (rate(sqd_rpc_request_count{job="staging-subsquid-proc-1",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="staging-subsquid-proc-1",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="staging-subsquid-proc-1",kind="failure"}[5m]) + 0.001)) * 100
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 10
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: OK
+        execErrState: Alerting
+        for: 5m
+        annotations:
+          description: 'Staging Explorer RPC failure rate is {{ printf "%.1f" $values.B.Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}'
+          summary: "Staging High RPC Failure Rate"
+        labels:
+          chain: staging
+          severity: warning
+
+      # ===============================================
+      # SUBSQUID FLEET ALERTS (Staging — app, chain, db)
+      # ===============================================
+      - uid: staging_subsquid_app_chain_down
+        title: Staging Subsquid App/Chain Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: up{job=~"staging-subsquid-(app|chain).*"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: 'Staging Subsquid {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
+          summary: 'Staging Subsquid {{ index $labels "job" }} is DOWN'
+        labels:
+          chain: staging
+          severity: critical
+
+      - uid: staging_subsquid_db_both_down
+        title: Staging Subsquid DB Both Colors Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: max(up{job=~"staging-subsquid-db-(blue|green)-1"})
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: "Both Staging Subsquid DB colors (blue and green) are down - no active database available"
+          summary: "Staging Subsquid DB both colors DOWN"
+        labels:
+          chain: staging
           severity: critical
 
       # ===============================================
@@ -1230,7 +1688,7 @@ groups:
         for: 3m
         annotations:
           description: 'Quersi host ({{ index $labels "instance" }}) is down for more than 3 minutes — wallet remote config unavailable'
-          summary: 'Quersi Host is DOWN'
+          summary: "Quersi Host is DOWN"
         labels:
           severity: critical
 
@@ -1308,7 +1766,7 @@ groups:
         for: 3m
         annotations:
           description: 'Logs host ({{ index $labels "instance" }}) is down for more than 3 minutes'
-          summary: 'Logs Host is DOWN'
+          summary: "Logs Host is DOWN"
         labels:
           severity: critical
 
@@ -1383,7 +1841,7 @@ groups:
         for: 3m
         annotations:
           description: 'Graylog ({{ index $labels "instance" }}) is down for more than 3 minutes — log ingest unavailable'
-          summary: 'Graylog is DOWN'
+          summary: "Graylog is DOWN"
         labels:
           severity: critical
 
@@ -1458,7 +1916,7 @@ groups:
         for: 5m
         annotations:
           description: 'Graylog journal is {{ printf "%.1f" $values.B.Value }}% full (threshold: >65%) — indexer falling behind, risk of message loss'
-          summary: 'Graylog journal filling'
+          summary: "Graylog journal filling"
         labels:
           severity: warning
 
@@ -1533,7 +1991,7 @@ groups:
         for: 5m
         annotations:
           description: 'Graylog indexer failures at {{ printf "%.3f" $values.B.Value }}/s (threshold: >0) — messages are not being written to OpenSearch'
-          summary: 'Graylog indexer failures'
+          summary: "Graylog indexer failures"
         labels:
           severity: warning
 
@@ -1608,6 +2066,6 @@ groups:
         for: 10m
         annotations:
           description: 'Graylog heap is {{ printf "%.1f" $values.B.Value }}% of max (threshold: >85%) — OOM risk on the 1GiB heap'
-          summary: 'Graylog heap high'
+          summary: "Graylog heap high"
         labels:
           severity: warning

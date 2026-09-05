@@ -683,7 +683,7 @@
       "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "substrate_ready_transactions_number{chain=\"$chain\"}",
+          "expr": "substrate_ready_transactions_number{job=\"${chain}-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -774,7 +774,7 @@
       "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "substrate_sync_propagated_transactions{chain=\"$chain\"}",
+          "expr": "substrate_sync_propagated_transactions{job=\"${chain}-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -865,7 +865,7 @@
       },
       "targets": [
         {
-          "expr": "substrate_rpc_sessions_opened{chain=\"$chain\"} - substrate_rpc_sessions_closed{chain=\"$chain\"}",
+          "expr": "substrate_rpc_sessions_opened{job=\"${chain}-chain\"} - substrate_rpc_sessions_closed{job=\"${chain}-chain\"}",
           "legendFormat": "Active Sessions",
           "refId": "A"
         }
@@ -956,12 +956,12 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_rpc_sessions_opened{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_rpc_sessions_opened{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Opened/s",
           "refId": "A"
         },
         {
-          "expr": "rate(substrate_rpc_sessions_closed{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_rpc_sessions_closed{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Closed/s",
           "refId": "B"
         }
@@ -1052,12 +1052,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_rpc_sessions_opened{chain=\"$chain\"}",
+          "expr": "substrate_rpc_sessions_opened{job=\"${chain}-chain\"}",
           "legendFormat": "Total Opened",
           "refId": "A"
         },
         {
-          "expr": "substrate_rpc_sessions_closed{chain=\"$chain\"}",
+          "expr": "substrate_rpc_sessions_closed{job=\"${chain}-chain\"}",
           "legendFormat": "Total Closed",
           "refId": "B"
         }
@@ -1094,9 +1094,19 @@
             "selected": false,
             "text": "heisenberg",
             "value": "heisenberg"
+          },
+          {
+            "selected": false,
+            "text": "staging bootnode",
+            "value": "bootnode"
+          },
+          {
+            "selected": false,
+            "text": "staging rpcnode",
+            "value": "rpcnode"
           }
         ],
-        "query": "planck,heisenberg",
+        "query": "planck,heisenberg,staging bootnode : bootnode,staging rpcnode : rpcnode",
         "skipUrlSync": false,
         "type": "custom"
       }

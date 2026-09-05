@@ -1,10 +1,7 @@
 {
   "title": "Subsquid Host",
   "uid": "infra-subsquid-host",
-  "tags": [
-    "infrastructure",
-    "subsquid"
-  ],
+  "tags": ["infrastructure", "subsquid"],
   "timezone": "browser",
   "schemaVersion": 38,
   "refresh": "10s",
@@ -21,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts (`subsquid-*.quantus.com`). Use the **Host** selector to focus a role or view All for fleet trends.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
+        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (Planck testnet vs staging mainnet) and **Host** to focus a role or view All.\n\nPlanck: `subsquid-*.quantus.com`. Staging: `subsquid-mainnet-*.quantus.com`.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
       }
     },
     {
@@ -36,7 +33,7 @@
       "id": 10,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-proc-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-proc-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -47,9 +44,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -118,7 +113,7 @@
       "id": 11,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-app-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-app-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -129,9 +124,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -200,7 +193,7 @@
       "id": 12,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-app-2\"}",
+          "expr": "up{job=\"${fleet}-subsquid-app-2\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -211,9 +204,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -282,7 +273,7 @@
       "id": 13,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-db-blue-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-db-blue-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -293,9 +284,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -364,7 +353,7 @@
       "id": 14,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-db-green-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-db-green-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -375,9 +364,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -446,7 +433,7 @@
       "id": 15,
       "targets": [
         {
-          "expr": "up{job=\"planck-subsquid-chain-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-chain-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -457,9 +444,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -540,9 +525,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "text": {
           "titleSize": 16,
@@ -605,9 +588,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "text": {
           "titleSize": 16,
@@ -670,9 +651,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "text": {
           "titleSize": 16,
@@ -734,11 +713,7 @@
       ],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "mean",
-            "max"
-          ],
+          "calcs": ["lastNotNull", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -815,11 +790,7 @@
       ],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "mean",
-            "max"
-          ],
+          "calcs": ["lastNotNull", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -896,11 +867,7 @@
       ],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "mean",
-            "max"
-          ],
+          "calcs": ["lastNotNull", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -986,11 +953,7 @@
       ],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "mean",
-            "max"
-          ],
+          "calcs": ["lastNotNull", "mean", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -1083,9 +1046,7 @@
       ],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -1161,9 +1122,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "text": {
           "titleSize": 16,
@@ -1190,12 +1149,39 @@
       {
         "current": {
           "selected": true,
+          "text": "planck",
+          "value": "planck"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Fleet",
+        "multi": false,
+        "name": "fleet",
+        "options": [
+          {
+            "selected": true,
+            "text": "planck",
+            "value": "planck"
+          },
+          {
+            "selected": false,
+            "text": "staging",
+            "value": "staging"
+          }
+        ],
+        "query": "planck,staging",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": true,
           "text": "All",
           "value": "$__all"
         },
         "hide": 0,
         "includeAll": true,
-        "allValue": "planck-subsquid-(proc-1|app-1|app-2|db-blue-1|db-green-1|chain-1)",
+        "allValue": "${fleet}-subsquid-(proc-1|app-1|app-2|db-blue-1|db-green-1|chain-1)",
         "label": "Host",
         "multi": true,
         "name": "job",
@@ -1207,36 +1193,36 @@
           },
           {
             "selected": false,
-            "text": "planck-subsquid-proc-1",
-            "value": "planck-subsquid-proc-1"
+            "text": "proc-1",
+            "value": "${fleet}-subsquid-proc-1"
           },
           {
             "selected": false,
-            "text": "planck-subsquid-app-1",
-            "value": "planck-subsquid-app-1"
+            "text": "app-1",
+            "value": "${fleet}-subsquid-app-1"
           },
           {
             "selected": false,
-            "text": "planck-subsquid-app-2",
-            "value": "planck-subsquid-app-2"
+            "text": "app-2",
+            "value": "${fleet}-subsquid-app-2"
           },
           {
             "selected": false,
-            "text": "planck-subsquid-db-blue-1",
-            "value": "planck-subsquid-db-blue-1"
+            "text": "db-blue-1",
+            "value": "${fleet}-subsquid-db-blue-1"
           },
           {
             "selected": false,
-            "text": "planck-subsquid-db-green-1",
-            "value": "planck-subsquid-db-green-1"
+            "text": "db-green-1",
+            "value": "${fleet}-subsquid-db-green-1"
           },
           {
             "selected": false,
-            "text": "planck-subsquid-chain-1",
-            "value": "planck-subsquid-chain-1"
+            "text": "chain-1",
+            "value": "${fleet}-subsquid-chain-1"
           }
         ],
-        "query": "planck-subsquid-proc-1,planck-subsquid-app-1,planck-subsquid-app-2,planck-subsquid-db-blue-1,planck-subsquid-db-green-1,planck-subsquid-chain-1",
+        "query": "proc-1 : ${fleet}-subsquid-proc-1,app-1 : ${fleet}-subsquid-app-1,app-2 : ${fleet}-subsquid-app-2,db-blue-1 : ${fleet}-subsquid-db-blue-1,db-green-1 : ${fleet}-subsquid-db-green-1,chain-1 : ${fleet}-subsquid-chain-1",
         "skipUrlSync": false,
         "type": "custom"
       }
@@ -1247,26 +1233,7 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "7d", "30d"]
   }
 }

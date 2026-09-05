@@ -94,12 +94,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_block_height{status=\"best\",chain=\"$chain\"}",
+          "expr": "substrate_block_height{status=\"best\",job=\"${chain}-chain\"}",
           "legendFormat": "Best Block - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "substrate_block_height{status=\"finalized\",chain=\"$chain\"}",
+          "expr": "substrate_block_height{status=\"finalized\",job=\"${chain}-chain\"}",
           "legendFormat": "Finalized Block - {{instance}}",
           "refId": "B"
         }
@@ -151,7 +151,7 @@
       "pluginVersion": "10.0.0",
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_peers_count{job=\"${chain}-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -400,12 +400,12 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",chain=\"$chain\"}[1m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"in\",job=\"${chain}-chain\"}[1m])",
           "legendFormat": "Network IN - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",chain=\"$chain\"}[1m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{direction=\"out\",job=\"${chain}-chain\"}[1m])",
           "legendFormat": "Network OUT - {{instance}}",
           "refId": "B"
         }
@@ -488,7 +488,7 @@
       },
       "targets": [
         {
-          "expr": "rate(substrate_tasks_polling_duration_sum{chain=\"$chain\"}[1m]) / rate(substrate_tasks_polling_duration_count{chain=\"$chain\"}[1m])",
+          "expr": "rate(substrate_tasks_polling_duration_sum{job=\"${chain}-chain\"}[1m]) / rate(substrate_tasks_polling_duration_count{job=\"${chain}-chain\"}[1m])",
           "legendFormat": "{{instance}} - {{task_name}}",
           "refId": "A"
         }
@@ -751,17 +751,17 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"$chain\"}[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{job=\"${chain}-chain\"}[5m])))",
           "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"$chain\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{job=\"${chain}-chain\"}[5m])))",
           "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{chain=\"$chain\"}[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_proposer_block_constructed_bucket{job=\"${chain}-chain\"}[5m])))",
           "legendFormat": "p99",
           "refId": "C"
         }
@@ -845,7 +845,7 @@
       },
       "targets": [
         {
-          "expr": "avg by (chain) (substrate_proposer_number_of_transactions{chain=\"$chain\"})",
+          "expr": "avg by (chain) (substrate_proposer_number_of_transactions{job=\"${chain}-chain\"})",
           "legendFormat": "{{chain}}",
           "refId": "A"
         }
@@ -915,7 +915,7 @@
       },
       "targets": [
         {
-          "expr": "substrate_sub_libp2p_is_major_syncing{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_is_major_syncing{job=\"${chain}-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -975,7 +975,7 @@
       },
       "targets": [
         {
-          "expr": "substrate_number_leaves{chain=\"$chain\"}",
+          "expr": "substrate_number_leaves{job=\"${chain}-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -1059,7 +1059,7 @@
       },
       "targets": [
         {
-          "expr": "substrate_number_leaves{chain=\"$chain\"}",
+          "expr": "substrate_number_leaves{job=\"${chain}-chain\"}",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -1144,17 +1144,17 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"$chain\"}[5m])))",
+          "expr": "histogram_quantile(0.50, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{job=\"${chain}-chain\"}[5m])))",
           "legendFormat": "p50",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"$chain\"}[5m])))",
+          "expr": "histogram_quantile(0.95, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{job=\"${chain}-chain\"}[5m])))",
           "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{chain=\"$chain\"}[5m])))",
+          "expr": "histogram_quantile(0.99, sum by (le, chain) (rate(substrate_block_verification_and_import_time_bucket{job=\"${chain}-chain\"}[5m])))",
           "legendFormat": "p99",
           "refId": "C"
         }
@@ -1252,12 +1252,12 @@
       },
       "targets": [
         {
-          "expr": "rate(trie_cache_shared_hits{cache_type=\"node\",chain=\"$chain\"}[5m]) / (rate(trie_cache_shared_fetch_attempts{cache_type=\"node\",chain=\"$chain\"}[5m]) + 0.001)",
+          "expr": "rate(trie_cache_shared_hits{cache_type=\"node\",job=\"${chain}-chain\"}[5m]) / (rate(trie_cache_shared_fetch_attempts{cache_type=\"node\",job=\"${chain}-chain\"}[5m]) + 0.001)",
           "legendFormat": "Node Cache Hit Ratio - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(trie_cache_shared_hits{cache_type=\"value\",chain=\"$chain\"}[5m]) / (rate(trie_cache_shared_fetch_attempts{cache_type=\"value\",chain=\"$chain\"}[5m]) + 0.001)",
+          "expr": "rate(trie_cache_shared_hits{cache_type=\"value\",job=\"${chain}-chain\"}[5m]) / (rate(trie_cache_shared_fetch_attempts{cache_type=\"value\",job=\"${chain}-chain\"}[5m]) + 0.001)",
           "legendFormat": "Value Cache Hit Ratio - {{instance}}",
           "refId": "B"
         }
@@ -1342,12 +1342,12 @@
       },
       "targets": [
         {
-          "expr": "rate(trie_cache_local_hits{cache_type=\"node\",chain=\"$chain\"}[5m]) / (rate(trie_cache_local_fetch_attempts{cache_type=\"node\",chain=\"$chain\"}[5m]) + 0.001)",
+          "expr": "rate(trie_cache_local_hits{cache_type=\"node\",job=\"${chain}-chain\"}[5m]) / (rate(trie_cache_local_fetch_attempts{cache_type=\"node\",job=\"${chain}-chain\"}[5m]) + 0.001)",
           "legendFormat": "Node Cache Hit Ratio - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "rate(trie_cache_local_hits{cache_type=\"value\",chain=\"$chain\"}[5m]) / (rate(trie_cache_local_fetch_attempts{cache_type=\"value\",chain=\"$chain\"}[5m]) + 0.001)",
+          "expr": "rate(trie_cache_local_hits{cache_type=\"value\",job=\"${chain}-chain\"}[5m]) / (rate(trie_cache_local_fetch_attempts{cache_type=\"value\",job=\"${chain}-chain\"}[5m]) + 0.001)",
           "legendFormat": "Value Cache Hit Ratio - {{instance}}",
           "refId": "B"
         }
@@ -1432,12 +1432,12 @@
       },
       "targets": [
         {
-          "expr": "trie_cache_shared_cache_heap_size{chain=\"$chain\"}",
+          "expr": "trie_cache_shared_cache_heap_size{job=\"${chain}-chain\"}",
           "legendFormat": "Heap - {{cache_type}} - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "trie_cache_shared_cache_inline_size{chain=\"$chain\"}",
+          "expr": "trie_cache_shared_cache_inline_size{job=\"${chain}-chain\"}",
           "legendFormat": "Inline - {{cache_type}} - {{instance}}",
           "refId": "B"
         }
@@ -1521,7 +1521,7 @@
       },
       "targets": [
         {
-          "expr": "rate(trie_cache_shared_update_duration_sum{chain=\"$chain\"}[5m]) / rate(trie_cache_shared_update_duration_count{chain=\"$chain\"}[5m])",
+          "expr": "rate(trie_cache_shared_update_duration_sum{job=\"${chain}-chain\"}[5m]) / rate(trie_cache_shared_update_duration_count{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Avg Update - {{cache_type}} - {{instance}}",
           "refId": "A"
         }
@@ -1619,12 +1619,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_state_cache_bytes{chain=\"$chain\"}",
+          "expr": "substrate_state_cache_bytes{job=\"${chain}-chain\"}",
           "legendFormat": "State Cache - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "substrate_database_cache_bytes{chain=\"$chain\"}",
+          "expr": "substrate_database_cache_bytes{job=\"${chain}-chain\"}",
           "legendFormat": "Database Cache - {{instance}}",
           "refId": "B"
         }
@@ -1707,12 +1707,12 @@
       },
       "targets": [
         {
-          "expr": "substrate_tokio_threads_alive{chain=\"$chain\"}",
+          "expr": "substrate_tokio_threads_alive{job=\"${chain}-chain\"}",
           "legendFormat": "Alive - {{instance}}",
           "refId": "A"
         },
         {
-          "expr": "substrate_tokio_threads_total{chain=\"$chain\"}",
+          "expr": "substrate_tokio_threads_total{job=\"${chain}-chain\"}",
           "legendFormat": "Total Created - {{instance}}",
           "refId": "B"
         }
@@ -1763,7 +1763,7 @@
       },
       "targets": [
         {
-          "expr": "label_replace(substrate_build_info{chain=\"$chain\"}, \"__name__\", \"$1 $2\", \"name\", \"(.+)\")",
+          "expr": "label_replace(substrate_build_info{job=\"${chain}-chain\"}, \"__name__\", \"$1 $2\", \"name\", \"(.+)\")",
           "legendFormat": "{{name}} v{{version}}",
           "refId": "A"
         }
@@ -1854,7 +1854,7 @@
       },
       "targets": [
         {
-          "expr": "topk(10, substrate_unbounded_channel_size{chain=\"$chain\"} > 0)",
+          "expr": "topk(10, substrate_unbounded_channel_size{job=\"${chain}-chain\"} > 0)",
           "legendFormat": "{{entity}} - {{instance}}",
           "refId": "A"
         }
@@ -1891,9 +1891,19 @@
             "selected": false,
             "text": "heisenberg",
             "value": "heisenberg"
+          },
+          {
+            "selected": false,
+            "text": "staging bootnode",
+            "value": "bootnode"
+          },
+          {
+            "selected": false,
+            "text": "staging rpcnode",
+            "value": "rpcnode"
           }
         ],
-        "query": "planck,heisenberg",
+        "query": "planck,heisenberg,staging bootnode : bootnode,staging rpcnode : rpcnode",
         "skipUrlSync": false,
         "type": "custom"
       }

@@ -88,7 +88,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_peers_count{job=\"${chain}-chain\"}",
           "refId": "A"
         }
       ],
@@ -175,7 +175,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_peers_count{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_peers_count{job=\"${chain}-chain\"}",
           "legendFormat": "Connected Peers - {{instance}}",
           "refId": "A"
         },
@@ -184,7 +184,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_peerset_num_discovered{job=\"${chain}-chain\"}",
           "legendFormat": "Discovered Peers - {{instance}}",
           "refId": "B"
         }
@@ -255,18 +255,9 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\", instance=~\"a1.*\"}",
-          "legendFormat": "a1",
+          "expr": "substrate_sub_libp2p_peerset_num_discovered{job=\"${chain}-chain\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "expr": "substrate_sub_libp2p_peerset_num_discovered{chain=\"$chain\", instance=~\"a2.*\"}",
-          "legendFormat": "a2",
-          "refId": "B"
         }
       ],
       "title": "Discovered Peers",
@@ -335,18 +326,9 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\", instance=~\"a1.*\"}",
-          "legendFormat": "a1",
+          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{job=\"${chain}-chain\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "expr": "substrate_sub_libp2p_peerset_num_banned_peers{chain=\"$chain\", instance=~\"a2.*\"}",
-          "legendFormat": "a2",
-          "refId": "B"
         }
       ],
       "title": "Banned Peers",
@@ -414,18 +396,9 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\", instance=~\"a1.*\"}",
-          "legendFormat": "a1",
+          "expr": "substrate_sub_libp2p_pending_connections{job=\"${chain}-chain\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "expr": "substrate_sub_libp2p_pending_connections{chain=\"$chain\", instance=~\"a2.*\"}",
-          "legendFormat": "a2",
-          "refId": "B"
         }
       ],
       "title": "Pending Connections",
@@ -486,18 +459,9 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sync_peers{chain=\"$chain\", instance=~\"a1.*\"}",
-          "legendFormat": "a1",
+          "expr": "substrate_sync_peers{job=\"${chain}-chain\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "expr": "substrate_sync_peers{chain=\"$chain\", instance=~\"a2.*\"}",
-          "legendFormat": "a2",
-          "refId": "B"
         }
       ],
       "title": "Sync Peers",
@@ -610,7 +574,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_connections_opened_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Opened ({{direction}}) - {{instance}}",
           "refId": "A"
         },
@@ -619,7 +583,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_connections_closed_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_connections_closed_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Closed ({{direction}}, {{reason}}) - {{instance}}",
           "refId": "B"
         }
@@ -707,7 +671,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Handshake Errors ({{reason}}) - {{instance}}",
           "refId": "A"
         },
@@ -716,7 +680,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_pending_connections_errors_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_pending_connections_errors_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Pending Errors ({{reason}}) - {{instance}}",
           "refId": "B"
         }
@@ -772,7 +736,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sum by (reason) (increase(substrate_sub_libp2p_connections_closed_total{chain=\"$chain\"}[1h]))",
+          "expr": "sum by (reason) (increase(substrate_sub_libp2p_connections_closed_total{job=\"${chain}-chain\"}[1h]))",
           "legendFormat": "{{reason}}",
           "refId": "A"
         }
@@ -861,7 +825,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_opened_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_opened_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Distinct Peers Opened - {{instance}}",
           "refId": "A"
         },
@@ -870,7 +834,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_closed_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_distinct_peers_connections_closed_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Distinct Peers Closed - {{instance}}",
           "refId": "B"
         }
@@ -985,7 +949,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"in\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{job=\"${chain}-chain\",direction=\"in\"}[5m])",
           "legendFormat": "IN - {{instance}}",
           "refId": "A"
         },
@@ -994,7 +958,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"out\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_network_bytes_total{job=\"${chain}-chain\",direction=\"out\"}[5m])",
           "legendFormat": "OUT - {{instance}}",
           "refId": "B"
         }
@@ -1052,7 +1016,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"in\"})",
+          "expr": "sum(substrate_sub_libp2p_network_bytes_total{job=\"${chain}-chain\",direction=\"in\"})",
           "refId": "A"
         }
       ],
@@ -1109,7 +1073,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "sum(substrate_sub_libp2p_network_bytes_total{chain=\"$chain\",direction=\"out\"})",
+          "expr": "sum(substrate_sub_libp2p_network_bytes_total{job=\"${chain}-chain\",direction=\"out\"})",
           "refId": "A"
         }
       ],
@@ -1196,7 +1160,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{job=\"${chain}-chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{job=\"${chain}-chain\",direction=\"in\",protocol=~\".*block-announces.*\"}[5m])",
           "legendFormat": "Block Announces IN - {{instance}}",
           "refId": "A"
         },
@@ -1205,7 +1169,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{job=\"${chain}-chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{job=\"${chain}-chain\",direction=\"in\",protocol=~\".*transactions.*\"}[5m])",
           "legendFormat": "Transactions IN - {{instance}}",
           "refId": "B"
         }
@@ -1294,7 +1258,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{job=\"${chain}-chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{job=\"${chain}-chain\",direction=\"out\",protocol=~\".*block-announces.*\"}[5m])",
           "legendFormat": "Block Announces OUT - {{instance}}",
           "refId": "A"
         },
@@ -1303,7 +1267,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{chain=\"$chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{chain=\"$chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_sizes_sum{job=\"${chain}-chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m]) / rate(substrate_sub_libp2p_notifications_sizes_count{job=\"${chain}-chain\",direction=\"out\",protocol=~\".*transactions.*\"}[5m])",
           "legendFormat": "Transactions OUT - {{instance}}",
           "refId": "B"
         }
@@ -1375,7 +1339,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_kademlia_records_count{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_kademlia_records_count{job=\"${chain}-chain\"}",
           "refId": "A"
         }
       ],
@@ -1433,7 +1397,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_kademlia_records_sizes_total{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_kademlia_records_sizes_total{job=\"${chain}-chain\"}",
           "refId": "A"
         }
       ],
@@ -1520,7 +1484,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_kademlia_random_queries_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_kademlia_random_queries_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Random Queries - {{instance}}",
           "refId": "A"
         }
@@ -1609,7 +1573,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sub_libp2p_kbuckets_num_nodes{chain=\"$chain\"}",
+          "expr": "substrate_sub_libp2p_kbuckets_num_nodes{job=\"${chain}-chain\"}",
           "legendFormat": "Bucket {{lower_ilog2_bucket_bound}} - {{instance}}",
           "refId": "A"
         }
@@ -1711,7 +1675,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
+          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_in_success_total_bucket{job=\"${chain}-chain\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
           "refId": "A"
         },
@@ -1720,7 +1684,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
+          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_in_success_total_bucket{job=\"${chain}-chain\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
           "refId": "B"
         },
@@ -1729,7 +1693,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_in_success_total_bucket{chain=\"$chain\"}[5m]))",
+          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_in_success_total_bucket{job=\"${chain}-chain\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
           "refId": "C"
         }
@@ -1818,7 +1782,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
+          "expr": "histogram_quantile(0.50, rate(substrate_sub_libp2p_requests_out_success_total_bucket{job=\"${chain}-chain\"}[5m]))",
           "legendFormat": "p50 - {{instance}}",
           "refId": "A"
         },
@@ -1827,7 +1791,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
+          "expr": "histogram_quantile(0.95, rate(substrate_sub_libp2p_requests_out_success_total_bucket{job=\"${chain}-chain\"}[5m]))",
           "legendFormat": "p95 - {{instance}}",
           "refId": "B"
         },
@@ -1836,7 +1800,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_out_success_total_bucket{chain=\"$chain\"}[5m]))",
+          "expr": "histogram_quantile(0.99, rate(substrate_sub_libp2p_requests_out_success_total_bucket{job=\"${chain}-chain\"}[5m]))",
           "legendFormat": "p99 - {{instance}}",
           "refId": "C"
         }
@@ -1925,7 +1889,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_requests_in_success_total_count{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_requests_in_success_total_count{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Incoming - {{instance}}",
           "refId": "A"
         }
@@ -2013,7 +1977,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_requests_out_success_total_count{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_requests_out_success_total_count{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Outgoing - {{instance}}",
           "refId": "A"
         }
@@ -2117,7 +2081,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "topk(10, floor(increase(substrate_sub_libp2p_pending_connections_errors_total{chain=\"$chain\"}[1h])))",
+          "expr": "topk(10, floor(increase(substrate_sub_libp2p_pending_connections_errors_total{job=\"${chain}-chain\"}[1h])))",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -2226,7 +2190,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "substrate_sync_queued_blocks{chain=\"$chain\"}",
+          "expr": "substrate_sync_queued_blocks{job=\"${chain}-chain\"}",
           "legendFormat": "Queued Blocks - {{instance}}",
           "refId": "A"
         },
@@ -2235,7 +2199,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sync_import_queue_blocks_submitted{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sync_import_queue_blocks_submitted{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Blocks Submitted/s - {{instance}}",
           "refId": "B"
         }
@@ -2337,7 +2301,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_streams_opened_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_streams_opened_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Streams Opened ({{protocol}}) - {{instance}}",
           "refId": "A"
         },
@@ -2346,7 +2310,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_notifications_streams_closed_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_notifications_streams_closed_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Streams Closed ({{protocol}}) - {{instance}}",
           "refId": "B"
         }
@@ -2442,7 +2406,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "(sum(rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{chain=\"$chain\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_incoming_connections_total{chain=\"$chain\"}[$__rate_interval])) by (instance) + 0.001)) * 100",
+          "expr": "(sum(rate(substrate_sub_libp2p_incoming_connections_handshake_errors_total{job=\"${chain}-chain\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_incoming_connections_total{job=\"${chain}-chain\"}[$__rate_interval])) by (instance) + 0.001)) * 100",
           "legendFormat": "Handshake Error Rate - {{instance}}",
           "refId": "A",
           "interval": "1m"
@@ -2536,7 +2500,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "rate(substrate_sub_libp2p_listeners_errors_total{chain=\"$chain\"}[5m])",
+          "expr": "rate(substrate_sub_libp2p_listeners_errors_total{job=\"${chain}-chain\"}[5m])",
           "legendFormat": "Listener Errors - {{instance}}",
           "refId": "A"
         }
@@ -2624,7 +2588,7 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "(sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\",direction=\"in\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_connections_opened_total{chain=\"$chain\"}[$__rate_interval])) by (instance) + 0.001))",
+          "expr": "(sum(rate(substrate_sub_libp2p_connections_opened_total{job=\"${chain}-chain\",direction=\"in\"}[$__rate_interval])) by (instance) / (sum(rate(substrate_sub_libp2p_connections_opened_total{job=\"${chain}-chain\"}[$__rate_interval])) by (instance) + 0.001))",
           "legendFormat": "Incoming Ratio - {{instance}}",
           "refId": "A",
           "interval": "1m"
@@ -2662,9 +2626,19 @@
             "selected": false,
             "text": "heisenberg",
             "value": "heisenberg"
+          },
+          {
+            "selected": false,
+            "text": "staging bootnode",
+            "value": "bootnode"
+          },
+          {
+            "selected": false,
+            "text": "staging rpcnode",
+            "value": "rpcnode"
           }
         ],
-        "query": "planck,heisenberg",
+        "query": "planck,heisenberg,staging bootnode : bootnode,staging rpcnode : rpcnode",
         "skipUrlSync": false,
         "type": "custom"
       }
