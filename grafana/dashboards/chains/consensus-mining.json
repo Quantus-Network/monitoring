@@ -96,12 +96,12 @@
       },
       "targets": [
         {
-          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", job=\"${chain}-chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", job=\"${chain}-chain\"}) / 1000, 0.001) / 1e6",
           "legendFormat": "Instantaneous",
           "refId": "A"
         },
         {
-          "expr": "avg_over_time((max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6)[150s:15s])",
+          "expr": "avg_over_time((max by (chain) (qpow_metrics{data_group=\"difficulty\", job=\"${chain}-chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", job=\"${chain}-chain\"}) / 1000, 0.001) / 1e6)[150s:15s])",
           "legendFormat": "Smoothed (10 samples)",
           "refId": "B"
         }
@@ -155,12 +155,12 @@
       "pluginVersion": "10.0.0",
       "targets": [
         {
-          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", job=\"${chain}-chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", job=\"${chain}-chain\"}) / 1000, 0.001) / 1e6",
           "legendFormat": "Instantaneous",
           "refId": "A"
         },
         {
-          "expr": "avg_over_time((max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"}) / 1000, 0.001) / 1e6)[150s:15s])",
+          "expr": "avg_over_time((max by (chain) (qpow_metrics{data_group=\"difficulty\", job=\"${chain}-chain\"}) / clamp_min(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", job=\"${chain}-chain\"}) / 1000, 0.001) / 1e6)[150s:15s])",
           "legendFormat": "Smoothed (10 samples)",
           "refId": "B"
         }
@@ -247,12 +247,12 @@
       "description": "On-chain inter-block wall-clock interval (ms) between consecutive block timestamps — not per-miner CPU time.",
       "targets": [
         {
-          "expr": "max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"last_block_duration\", job=\"${chain}-chain\"})",
           "legendFormat": "Instantaneous",
           "refId": "A"
         },
         {
-          "expr": "avg_over_time(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", chain=\"$chain\"})[150s:15s])",
+          "expr": "avg_over_time(max by (chain) (qpow_metrics{data_group=\"last_block_duration\", job=\"${chain}-chain\"})[150s:15s])",
           "legendFormat": "Smoothed (10 samples)",
           "refId": "B"
         }
@@ -335,7 +335,7 @@
       },
       "targets": [
         {
-          "expr": "max by (chain) (qpow_metrics{data_group=\"chain_height\", chain=\"$chain\"})",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"chain_height\", job=\"${chain}-chain\"})",
           "legendFormat": "{{chain}}",
           "refId": "A"
         }
@@ -419,7 +419,7 @@
       },
       "targets": [
         {
-          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", chain=\"$chain\"})",
+          "expr": "max by (chain) (qpow_metrics{data_group=\"difficulty\", job=\"${chain}-chain\"})",
           "legendFormat": "{{chain}}",
           "refId": "A"
         }
@@ -456,9 +456,19 @@
             "selected": false,
             "text": "heisenberg",
             "value": "heisenberg"
+          },
+          {
+            "selected": false,
+            "text": "staging bootnode",
+            "value": "bootnode"
+          },
+          {
+            "selected": false,
+            "text": "staging rpcnode",
+            "value": "rpcnode"
           }
         ],
-        "query": "planck,heisenberg",
+        "query": "planck,heisenberg,staging bootnode : bootnode,staging rpcnode : rpcnode",
         "skipUrlSync": false,
         "type": "custom"
       }

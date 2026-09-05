@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck** and **Heisenberg**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
+        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck**, **Heisenberg**, **Staging bootnodes**, and **Staging RPC nodes**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
       }
     },
     {
@@ -352,17 +352,349 @@
       }
     },
     {
+      "type": "stat",
+      "title": "Staging Bootnodes - Chain Height",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "id": 80,
+      "targets": [
+        {
+          "expr": "max(qpow_metrics{data_group=\"chain_height\", job=\"bootnode-chain\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 32
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#FF6B35"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnodes - Last Block",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "id": 81,
+      "targets": [
+        {
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", job=\"bootnode-chain\"}) / 1000)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#252525"
+              },
+              {
+                "value": 180,
+                "color": "#CC5528"
+              },
+              {
+                "value": 600,
+                "color": "#FF6B35"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnodes - Uptime",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 82,
+      "targets": [
+        {
+          "expr": "avg(avg_over_time(up{job=\"bootnode-chain\"}[30d])) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": false,
+          "range": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC nodes - Chain Height",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 19
+      },
+      "id": 83,
+      "targets": [
+        {
+          "expr": "max(qpow_metrics{data_group=\"chain_height\", job=\"rpcnode-chain\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 32
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "decimals": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#FF6B35"
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC nodes - Last Block",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 19
+      },
+      "id": 84,
+      "targets": [
+        {
+          "expr": "time() - (max(qpow_metrics{data_group=\"last_block_time\", job=\"rpcnode-chain\"}) / 1000)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "decimals": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#252525"
+              },
+              {
+                "value": 180,
+                "color": "#CC5528"
+              },
+              {
+                "value": 600,
+                "color": "#FF6B35"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC nodes - Uptime",
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "id": 85,
+      "targets": [
+        {
+          "expr": "avg(avg_over_time(up{job=\"rpcnode-chain\"}[30d])) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": false,
+          "range": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "text": {
+          "titleSize": 16,
+          "valueSize": 28
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
       "type": "text",
       "gridPos": {
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 23
       },
       "id": 60,
       "options": {
         "mode": "markdown",
-        "content": "## \ud83d\udd27 Support Services Status"
+        "content": "## 🔧 Support Services Status"
       }
     },
     {
@@ -372,7 +704,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 24
       },
       "id": 61,
       "targets": [
@@ -441,7 +773,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 24
       },
       "id": 62,
       "targets": [

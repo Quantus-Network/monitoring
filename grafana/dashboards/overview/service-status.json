@@ -1,11 +1,7 @@
 {
   "title": "Service Status",
   "uid": "service-status",
-  "tags": [
-    "overview",
-    "public",
-    "status"
-  ],
+  "tags": ["overview", "public", "status"],
   "timezone": "browser",
   "schemaVersion": 38,
   "refresh": "30s",
@@ -77,9 +73,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -144,9 +138,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -211,9 +203,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -278,9 +268,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -324,7 +312,7 @@
     },
     {
       "type": "stat",
-      "title": "Planck Chain 1 \u2014 30d",
+      "title": "Planck Chain 1 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -347,9 +335,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -384,7 +370,7 @@
     },
     {
       "type": "stat",
-      "title": "Planck Chain 2 \u2014 30d",
+      "title": "Planck Chain 2 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -407,9 +393,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -444,7 +428,7 @@
     },
     {
       "type": "stat",
-      "title": "Planck Node 1 \u2014 30d",
+      "title": "Planck Node 1 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -467,9 +451,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -504,7 +486,7 @@
     },
     {
       "type": "stat",
-      "title": "Planck Node 2 \u2014 30d",
+      "title": "Planck Node 2 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -527,9 +509,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -599,9 +579,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -666,9 +644,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -733,9 +709,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -800,9 +774,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -846,7 +818,7 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg Chain 1 \u2014 30d",
+      "title": "Heisenberg Chain 1 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -869,9 +841,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -906,7 +876,7 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg Chain 2 \u2014 30d",
+      "title": "Heisenberg Chain 2 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -929,9 +899,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -966,7 +934,7 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg Node 1 \u2014 30d",
+      "title": "Heisenberg Node 1 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -989,9 +957,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1026,7 +992,7 @@
     },
     {
       "type": "stat",
-      "title": "Heisenberg Node 2 \u2014 30d",
+      "title": "Heisenberg Node 2 — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -1049,9 +1015,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1092,25 +1056,25 @@
         "x": 0,
         "y": 25
       },
-      "id": 2,
+      "id": 200,
       "options": {
         "mode": "markdown",
-        "content": "## Quersi"
+        "content": "### Staging Bootnodes"
       }
     },
     {
       "type": "stat",
-      "title": "Quersi",
+      "title": "Staging Bootnode a1 chain",
       "gridPos": {
         "h": 4,
-        "w": 12,
+        "w": 3,
         "x": 0,
         "y": 27
       },
-      "id": 10,
+      "id": 201,
       "targets": [
         {
-          "expr": "up{job=\"quersi-1\"}",
+          "expr": "up{job=\"bootnode-chain\", instance=\"a1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -1121,9 +1085,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1167,17 +1129,862 @@
     },
     {
       "type": "stat",
-      "title": "Quersi \u2014 30d Availability",
+      "title": "Staging Bootnode a2 chain",
       "gridPos": {
         "h": 4,
-        "w": 12,
+        "w": 3,
+        "x": 3,
+        "y": 27
+      },
+      "id": 202,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-chain\", instance=\"a2\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a3 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 27
+      },
+      "id": 203,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-chain\", instance=\"a3\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a4 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 27
+      },
+      "id": 204,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-chain\", instance=\"a4\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a5 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
         "x": 12,
         "y": 27
       },
-      "id": 11,
+      "id": 205,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"quersi-1\"}[30d]) * 100",
+          "expr": "up{job=\"bootnode-chain\", instance=\"a5\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a6 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 27
+      },
+      "id": 206,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-chain\", instance=\"a6\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a7 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 27
+      },
+      "id": 207,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-chain\", instance=\"a7\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a1 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 31
+      },
+      "id": 208,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a1\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a2 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 31
+      },
+      "id": 209,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a2\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a3 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 31
+      },
+      "id": 210,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a3\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a4 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 31
+      },
+      "id": 211,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a4\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a5 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 31
+      },
+      "id": 212,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a5\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a6 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 31
+      },
+      "id": 213,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a6\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnode a7 host",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 31
+      },
+      "id": 214,
+      "targets": [
+        {
+          "expr": "up{job=\"bootnode-node\", instance=\"a7\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnodes chain — 30d",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 35
+      },
+      "id": 215,
+      "targets": [
+        {
+          "expr": "avg(avg_over_time(up{job=\"bootnode-chain\"}[30d])) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -1190,9 +1997,65 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging Bootnodes host — 30d",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 35
+      },
+      "id": 216,
+      "targets": [
+        {
+          "expr": "avg(avg_over_time(up{job=\"bootnode-node\"}[30d])) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": true,
+          "range": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1231,7 +2094,534 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 39
+      },
+      "id": 217,
+      "options": {
+        "mode": "markdown",
+        "content": "### Staging RPC nodes"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC rpc1 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 41
+      },
+      "id": 218,
+      "targets": [
+        {
+          "expr": "up{job=\"rpcnode-chain\", instance=\"rpc1\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC rpc2 chain",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 41
+      },
+      "id": 219,
+      "targets": [
+        {
+          "expr": "up{job=\"rpcnode-chain\", instance=\"rpc2\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC rpc1 host",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 41
+      },
+      "id": 220,
+      "targets": [
+        {
+          "expr": "up{job=\"rpcnode-node\", instance=\"rpc1\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC rpc2 host",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 41
+      },
+      "id": 221,
+      "targets": [
+        {
+          "expr": "up{job=\"rpcnode-node\", instance=\"rpc2\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC chain — 30d",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 45
+      },
+      "id": 222,
+      "targets": [
+        {
+          "expr": "avg(avg_over_time(up{job=\"rpcnode-chain\"}[30d])) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": true,
+          "range": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Staging RPC host — 30d",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 45
+      },
+      "id": 223,
+      "targets": [
+        {
+          "expr": "avg(avg_over_time(up{job=\"rpcnode-node\"}[30d])) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": true,
+          "range": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      },
+      "id": 2,
+      "options": {
+        "mode": "markdown",
+        "content": "## Quersi"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Quersi",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 51
+      },
+      "id": 10,
+      "targets": [
+        {
+          "expr": "up{job=\"quersi-1\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Quersi — 30d Availability",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 51
+      },
+      "id": 11,
+      "targets": [
+        {
+          "expr": "avg_over_time(up{job=\"quersi-1\"}[30d]) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": true,
+          "range": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 55
       },
       "id": 100,
       "options": {
@@ -1246,7 +2636,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 33
+        "y": 57
       },
       "id": 101,
       "targets": [
@@ -1262,9 +2652,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1313,7 +2701,7 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 33
+        "y": 57
       },
       "id": 103,
       "targets": [
@@ -1329,9 +2717,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1375,12 +2761,12 @@
     },
     {
       "type": "stat",
-      "title": "Logs Host \u2014 30d Availability",
+      "title": "Logs Host — 30d Availability",
       "gridPos": {
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 33
+        "y": 57
       },
       "id": 102,
       "targets": [
@@ -1398,9 +2784,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1435,12 +2819,12 @@
     },
     {
       "type": "stat",
-      "title": "Graylog \u2014 30d Availability",
+      "title": "Graylog — 30d Availability",
       "gridPos": {
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 33
+        "y": 57
       },
       "id": 104,
       "targets": [
@@ -1458,9 +2842,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1499,7 +2881,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 37
+        "y": 61
       },
       "id": 3,
       "options": {
@@ -1514,7 +2896,7 @@
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 39
+        "y": 63
       },
       "id": 20,
       "targets": [
@@ -1530,9 +2912,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1581,7 +2961,7 @@
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 39
+        "y": 63
       },
       "id": 21,
       "targets": [
@@ -1597,9 +2977,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1648,7 +3026,7 @@
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 39
+        "y": 63
       },
       "id": 22,
       "targets": [
@@ -1664,9 +3042,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1715,7 +3091,7 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 39
+        "y": 63
       },
       "id": 23,
       "targets": [
@@ -1731,9 +3107,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1782,7 +3156,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 39
+        "y": 63
       },
       "id": 24,
       "targets": [
@@ -1798,9 +3172,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1844,12 +3216,12 @@
     },
     {
       "type": "stat",
-      "title": "App \u2014 30d",
+      "title": "App — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 43
+        "y": 67
       },
       "id": 25,
       "targets": [
@@ -1867,9 +3239,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1904,12 +3274,12 @@
     },
     {
       "type": "stat",
-      "title": "DB \u2014 30d",
+      "title": "DB — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 43
+        "y": 67
       },
       "id": 26,
       "targets": [
@@ -1927,9 +3297,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -1964,12 +3332,12 @@
     },
     {
       "type": "stat",
-      "title": "MQ \u2014 30d",
+      "title": "MQ — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 43
+        "y": 67
       },
       "id": 27,
       "targets": [
@@ -1987,9 +3355,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2024,12 +3390,12 @@
     },
     {
       "type": "stat",
-      "title": "Watcher \u2014 30d",
+      "title": "Watcher — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 43
+        "y": 67
       },
       "id": 28,
       "targets": [
@@ -2047,9 +3413,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2084,12 +3448,12 @@
     },
     {
       "type": "stat",
-      "title": "Core \u2014 30d",
+      "title": "Core — 30d",
       "gridPos": {
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 43
+        "y": 67
       },
       "id": 29,
       "targets": [
@@ -2107,9 +3471,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2148,7 +3510,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 71
       },
       "id": 4,
       "options": {
@@ -2163,7 +3525,7 @@
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 49
+        "y": 73
       },
       "id": 30,
       "targets": [
@@ -2179,9 +3541,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2230,7 +3590,7 @@
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 49
+        "y": 73
       },
       "id": 31,
       "targets": [
@@ -2246,9 +3606,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2297,7 +3655,7 @@
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 49
+        "y": 73
       },
       "id": 32,
       "targets": [
@@ -2313,9 +3671,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2364,7 +3720,7 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 49
+        "y": 73
       },
       "id": 33,
       "targets": [
@@ -2380,9 +3736,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2431,7 +3785,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 49
+        "y": 73
       },
       "id": 35,
       "targets": [
@@ -2447,9 +3801,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2493,12 +3845,12 @@
     },
     {
       "type": "stat",
-      "title": "Indexer \u2014 30d",
+      "title": "Indexer — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 53
+        "y": 77
       },
       "id": 40,
       "targets": [
@@ -2516,9 +3868,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2553,12 +3903,12 @@
     },
     {
       "type": "stat",
-      "title": "API 1 \u2014 30d",
+      "title": "API 1 — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 53
+        "y": 77
       },
       "id": 41,
       "targets": [
@@ -2576,9 +3926,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2613,12 +3961,12 @@
     },
     {
       "type": "stat",
-      "title": "API 2 \u2014 30d",
+      "title": "API 2 — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 53
+        "y": 77
       },
       "id": 42,
       "targets": [
@@ -2636,9 +3984,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2673,12 +4019,12 @@
     },
     {
       "type": "stat",
-      "title": "DB \u2014 30d",
+      "title": "DB — 30d",
       "gridPos": {
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 53
+        "y": 77
       },
       "id": 43,
       "targets": [
@@ -2696,9 +4042,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2733,12 +4077,12 @@
     },
     {
       "type": "stat",
-      "title": "Chain \u2014 30d",
+      "title": "Chain — 30d",
       "gridPos": {
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 53
+        "y": 77
       },
       "id": 45,
       "targets": [
@@ -2756,9 +4100,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2798,7 +4140,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 81
       },
       "id": 36,
       "targets": [
@@ -2814,9 +4156,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2855,7 +4195,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 85
       },
       "id": 5,
       "options": {
@@ -2870,7 +4210,7 @@
         "h": 4,
         "w": 8,
         "x": 0,
-        "y": 63
+        "y": 87
       },
       "id": 50,
       "targets": [
@@ -2886,9 +4226,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2932,12 +4270,12 @@
     },
     {
       "type": "stat",
-      "title": "Faucet \u2014 30d Availability",
+      "title": "Faucet — 30d Availability",
       "gridPos": {
         "h": 4,
         "w": 8,
         "x": 8,
-        "y": 63
+        "y": 87
       },
       "id": 51,
       "targets": [
@@ -2955,9 +4293,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -2997,7 +4333,7 @@
         "h": 4,
         "w": 8,
         "x": 16,
-        "y": 63
+        "y": 87
       },
       "id": 52,
       "targets": [
@@ -3013,9 +4349,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -3054,7 +4388,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 67
+        "y": 91
       },
       "id": 7,
       "options": {
@@ -3069,7 +4403,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 69
+        "y": 93
       },
       "id": 70,
       "targets": [
@@ -3085,9 +4419,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -3131,12 +4463,12 @@
     },
     {
       "type": "stat",
-      "title": "Host \u2014 30d",
+      "title": "Host — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 69
+        "y": 93
       },
       "id": 71,
       "targets": [
@@ -3154,9 +4486,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -3196,7 +4526,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 69
+        "y": 93
       },
       "id": 72,
       "targets": [
@@ -3212,9 +4542,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -3258,12 +4586,12 @@
     },
     {
       "type": "stat",
-      "title": "Backend \u2014 30d",
+      "title": "Backend — 30d",
       "gridPos": {
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 69
+        "y": 93
       },
       "id": 73,
       "targets": [
@@ -3281,9 +4609,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "background",
         "graphMode": "none",
@@ -3323,7 +4649,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 73
+        "y": 97
       },
       "id": 74,
       "targets": [
@@ -3339,9 +4665,7 @@
       "options": {
         "reduceOptions": {
           "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "colorMode": "value",
         "graphMode": "area",
@@ -3376,26 +4700,7 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "7d", "30d"]
   }
 }

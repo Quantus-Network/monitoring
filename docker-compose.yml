@@ -148,7 +148,7 @@ services:
     image: prom/node-exporter:latest
     container_name: node-exporter
     ports:
-      - "127.0.0.1:9100:9100"
+      - "127.0.0.1:9200:9100"
     command:
       - "--path.procfs=/host/proc"
       - "--path.sysfs=/host/sys"

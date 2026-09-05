@@ -528,6 +528,174 @@ scrape_configs:
   - targets:
     - a1-hm-planck.quantus.cat
     - a2-hm-planck.quantus.cat
+- job_name: bootnode-chain
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - a1-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a1
+  - targets:
+    - a2-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a2
+  - targets:
+    - a3-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a3
+  - targets:
+    - a4-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a4
+  - targets:
+    - a5-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a5
+  - targets:
+    - a6-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a6
+  - targets:
+    - a7-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a7
+- job_name: bootnode-node
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - a1-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a1
+  - targets:
+    - a2-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a2
+  - targets:
+    - a3-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a3
+  - targets:
+    - a4-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a4
+  - targets:
+    - a5-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a5
+  - targets:
+    - a6-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a6
+  - targets:
+    - a7-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    labels:
+      instance: a7
+- job_name: rpcnode-chain
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - rpc1-qm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    labels:
+      instance: rpc1
+  - targets:
+    - rpc2-qm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    labels:
+      instance: rpc2
+- job_name: rpcnode-node
+  honor_timestamps: true
+  track_timestamps_staleness: false
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  scrape_protocols:
+  - PrometheusText0.0.4
+  - OpenMetricsText1.0.0
+  - OpenMetricsText0.0.1
+  - PrometheusText1.0.0
+  metrics_path: /metrics
+  scheme: https
+  enable_compression: true
+  follow_redirects: true
+  enable_http2: true
+  fallback_scrape_protocol: PrometheusText0.0.4
+  http_headers:
+    CF-Access-Client-Id:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_id
+    CF-Access-Client-Secret:
+      files:
+      - /etc/prometheus/secrets/cf_access_client_secret
+  static_configs:
+  - targets:
+    - rpc1-hm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    labels:
+      instance: rpc1
+  - targets:
+    - rpc2-hm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    labels:
+      instance: rpc2
 - job_name: 'logs-host'
   honor_timestamps: true
   track_timestamps_staleness: false

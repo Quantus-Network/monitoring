@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "format": "prettier --write \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml",
-    "format:check": "prettier --check \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml"
+    "format:check": "prettier --check \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml",
+    "test": "node prometheus/boot-rpc-monitoring.test.mjs"
   },
   "devDependencies": {
     "prettier": "^3.5.3"
