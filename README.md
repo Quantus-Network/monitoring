@@ -684,7 +684,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 ### Chains
 
-Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is planck / heisenberg / staging bootnode / staging rpcnode, except **Consensus & Mining**, which omits RPC (those nodes do not export QPoW).
+Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is planck / heisenberg / staging bootnode / staging rpcnode. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
 
 | Dashboard | What it covers |
 |-----------|----------------|
