@@ -908,7 +908,7 @@ groups:
               expression: B
               refId: C
               type: threshold
-        noDataState: NoData
+        noDataState: Alerting
         execErrState: Alerting
         for: 10m
         annotations:
@@ -1294,7 +1294,7 @@ groups:
               expression: B
               refId: C
               type: threshold
-        noDataState: NoData
+        noDataState: Alerting
         execErrState: Alerting
         for: 10m
         annotations:
