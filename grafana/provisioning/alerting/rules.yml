@@ -144,7 +144,7 @@ groups:
         execErrState: Error
         for: 10m
         annotations:
-          description: '{{ with $values.B.Value }}Node {{ index $labels "instance" }} (chain: {{ index $labels "chain" }}) has {{ printf "%.0f" . }} peers (threshold: <2) - check network connectivity{{ else }}Node {{ index $labels "instance" }} (chain: {{ index $labels "chain" }}) peer count could not be measured - peer metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Node {{ index $labels "instance" }} (chain: {{ index $labels "chain" }}) has {{ printf "%.0f" .Value }} peers (threshold: <2) - check network connectivity{{ else }}Node {{ index $labels "instance" }} (chain: {{ index $labels "chain" }}) peer count could not be measured - peer metrics returned no data{{ end }}'
           summary: 'Low peer count on {{ index $labels "instance" }}'
         labels:
           severity: warning
@@ -205,7 +205,7 @@ groups:
         execErrState: Alerting
         for: 1m
         annotations:
-          description: '{{ with $values.B.Value }}Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" . }} minutes ago (alert fires after ~10 min without a block) - check block production{{ else }}Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) last block time could not be measured - block time metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) - last block was {{ printf "%.1f" .Value }} minutes ago (alert fires after ~10 min without a block) - check block production{{ else }}Chain {{ index $labels "chain" }} (instance: {{ index $labels "instance" }}) last block time could not be measured - block time metrics returned no data{{ end }}'
           summary: 'No new blocks on {{ index $labels "chain" }}'
         labels:
           severity: critical
@@ -266,7 +266,7 @@ groups:
         execErrState: Alerting
         for: 1m
         annotations:
-          description: '{{ with $values.B.Value }}RPC node {{ index $labels "instance" }} best block height has not increased in 7+ minutes (delta: {{ printf "%.0f" . }}) - node may be stalled or disconnected from block producers{{ else }}RPC node {{ index $labels "instance" }} best-block delta could not be measured - block height metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}RPC node {{ index $labels "instance" }} best block height has not increased in 7+ minutes (delta: {{ printf "%.0f" .Value }}) - node may be stalled or disconnected from block producers{{ else }}RPC node {{ index $labels "instance" }} best-block delta could not be measured - block height metrics returned no data{{ end }}'
           summary: 'No new blocks on RPC node {{ index $labels "instance" }}'
         labels:
           chain: staging_mainnet
@@ -335,7 +335,7 @@ groups:
         execErrState: Error
         for: 15m
         annotations:
-          description: '{{ with $values.B.Value }}CPU usage on {{ index $labels "instance" }} has exceeded 80% (current: {{ printf "%.1f" . }}%) for more than 15 minutes{{ else }}CPU usage on {{ index $labels "instance" }} could not be measured - CPU metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}CPU usage on {{ index $labels "instance" }} has exceeded 80% (current: {{ printf "%.1f" .Value }}%) for more than 15 minutes{{ else }}CPU usage on {{ index $labels "instance" }} could not be measured - CPU metrics returned no data{{ end }}'
           summary: 'High CPU usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
@@ -397,7 +397,7 @@ groups:
         execErrState: Error
         for: 10m
         annotations:
-          description: '{{ with $values.B.Value }}Memory usage on {{ index $labels "instance" }} has exceeded 90% (current: {{ printf "%.1f" . }}%) for more than 10 minutes{{ else }}Memory usage on {{ index $labels "instance" }} could not be measured - memory metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Memory usage on {{ index $labels "instance" }} has exceeded 90% (current: {{ printf "%.1f" .Value }}%) for more than 10 minutes{{ else }}Memory usage on {{ index $labels "instance" }} could not be measured - memory metrics returned no data{{ end }}'
           summary: 'High memory usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
@@ -459,7 +459,7 @@ groups:
         execErrState: Error
         for: 5m
         annotations:
-          description: '{{ with $values.B.Value }}Disk space on {{ index $labels "instance" }} has exceeded 85% usage (current: {{ printf "%.1f" . }}%) - immediate action required{{ else }}Disk space on {{ index $labels "instance" }} could not be measured - filesystem metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Disk space on {{ index $labels "instance" }} has exceeded 85% usage (current: {{ printf "%.1f" .Value }}%) - immediate action required{{ else }}Disk space on {{ index $labels "instance" }} could not be measured - filesystem metrics returned no data{{ end }}'
           summary: 'Low disk space on {{ index $labels "instance" }}'
         labels:
           severity: critical
@@ -681,7 +681,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: '{{ with $values.B.Value }}Faucet transfer failure rate is {{ printf "%.1f" . }}% (threshold: >75%) - check logs and chain connection{{ else }}Faucet transfer failure rate could not be measured - faucet metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Faucet transfer failure rate is {{ printf "%.1f" .Value }}% (threshold: >75%) - check logs and chain connection{{ else }}Faucet transfer failure rate could not be measured - faucet metrics returned no data{{ end }}'
           summary: "High Transfer Failure Rate"
         labels:
           chain: planck
@@ -757,7 +757,7 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: '{{ with $values.B.Value }}Faucet rejection rate is {{ printf "%.1f" . }}% (threshold: >75%) - possible spam or validation issues{{ else }}Faucet rejection rate could not be measured - faucet metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Faucet rejection rate is {{ printf "%.1f" .Value }}% (threshold: >75%) - possible spam or validation issues{{ else }}Faucet rejection rate could not be measured - faucet metrics returned no data{{ end }}'
           summary: "High Request Rejection Rate"
         labels:
           chain: planck
@@ -912,7 +912,7 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: '{{ with $values.B.Value }}Explorer is {{ printf "%.0f" . }} blocks behind chain height (threshold: >100 blocks) - check processing performance{{ else }}Explorer sync lag could not be measured - processor metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Explorer is {{ printf "%.0f" .Value }} blocks behind chain height (threshold: >100 blocks) - check processing performance{{ else }}Explorer sync lag could not be measured - processor metrics returned no data{{ end }}'
           summary: "Explorer Synchronization Lag"
         labels:
           chain: planck
@@ -988,7 +988,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: '{{ with $values.B.Value }}Explorer RPC failure rate is {{ printf "%.1f" . }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}{{ else }}Explorer RPC failure rate could not be measured - RPC metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Explorer RPC failure rate is {{ printf "%.1f" .Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}{{ else }}Explorer RPC failure rate could not be measured - RPC metrics returned no data{{ end }}'
           summary: "High RPC Failure Rate"
         labels:
           chain: planck
@@ -1298,7 +1298,7 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: '{{ with $values.B.Value }}Staging Explorer is {{ printf "%.0f" . }} blocks behind chain height (threshold: >100 blocks) - check processing performance{{ else }}Staging Explorer sync lag could not be measured - processor metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Staging Explorer is {{ printf "%.0f" .Value }} blocks behind chain height (threshold: >100 blocks) - check processing performance{{ else }}Staging Explorer sync lag could not be measured - processor metrics returned no data{{ end }}'
           summary: "Staging Explorer Synchronization Lag"
         labels:
           chain: staging
@@ -1374,7 +1374,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: '{{ with $values.B.Value }}Staging Explorer RPC failure rate is {{ printf "%.1f" . }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}{{ else }}Staging Explorer RPC failure rate could not be measured - RPC metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Staging Explorer RPC failure rate is {{ printf "%.1f" .Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}{{ else }}Staging Explorer RPC failure rate could not be measured - RPC metrics returned no data{{ end }}'
           summary: "Staging High RPC Failure Rate"
         labels:
           chain: staging
@@ -1915,7 +1915,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: '{{ with $values.B.Value }}Graylog journal is {{ printf "%.1f" . }}% full (threshold: >65%) — indexer falling behind, risk of message loss{{ else }}Graylog journal fill could not be measured - journal metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Graylog journal is {{ printf "%.1f" .Value }}% full (threshold: >65%) — indexer falling behind, risk of message loss{{ else }}Graylog journal fill could not be measured - journal metrics returned no data{{ end }}'
           summary: "Graylog journal filling"
         labels:
           severity: warning
@@ -1990,7 +1990,7 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: '{{ with $values.B.Value }}Graylog indexer failures at {{ printf "%.3f" . }}/s (threshold: >0) — messages are not being written to OpenSearch{{ else }}Graylog indexer failure rate could not be measured - indexer metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Graylog indexer failures at {{ printf "%.3f" .Value }}/s (threshold: >0) — messages are not being written to OpenSearch{{ else }}Graylog indexer failure rate could not be measured - indexer metrics returned no data{{ end }}'
           summary: "Graylog indexer failures"
         labels:
           severity: warning
@@ -2065,7 +2065,7 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: '{{ with $values.B.Value }}Graylog heap is {{ printf "%.1f" . }}% of max (threshold: >85%) — OOM risk on the 1GiB heap{{ else }}Graylog heap usage could not be measured - JVM metrics returned no data{{ end }}'
+          description: '{{ with $values.B }}Graylog heap is {{ printf "%.1f" .Value }}% of max (threshold: >85%) — OOM risk on the 1GiB heap{{ else }}Graylog heap usage could not be measured - JVM metrics returned no data{{ end }}'
           summary: "Graylog heap high"
         labels:
           severity: warning
