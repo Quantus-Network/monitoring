@@ -269,7 +269,7 @@ groups:
           description: '{{ with $values.B }}RPC node {{ index $labels "instance" }} best block height has not increased in 7+ minutes (delta: {{ printf "%.0f" .Value }}) - node may be stalled or disconnected from block producers{{ else }}RPC node {{ index $labels "instance" }} best-block delta could not be measured - block height metrics returned no data{{ end }}'
           summary: 'No new blocks on RPC node {{ index $labels "instance" }}'
         labels:
-          chain: staging_mainnet
+          chain: mainnet
           severity: critical
 
   # System Resource Monitoring
@@ -1150,10 +1150,10 @@ groups:
           severity: critical
 
       # ===============================================
-      # EXPLORER MONITORING ALERTS (Staging)
+      # EXPLORER MONITORING ALERTS (Mainnet)
       # ===============================================
       - uid: staging_explorer_down
-        title: Staging Explorer Service Down
+        title: Mainnet Explorer Service Down
         condition: C
         data:
           - refId: A
@@ -1162,7 +1162,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: up{job="staging-subsquid-proc-1"}
+              expr: up{job="mainnet-subsquid-proc-1"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1222,14 +1222,14 @@ groups:
         execErrState: Alerting
         for: 3m
         annotations:
-          description: 'Staging Explorer service ({{ index $labels "instance" }}) is not responding - blockchain data indexing unavailable'
-          summary: "Staging Explorer Service is DOWN"
+          description: 'Mainnet Explorer service ({{ index $labels "instance" }}) is not responding - blockchain data indexing unavailable'
+          summary: "Mainnet Explorer Service is DOWN"
         labels:
-          chain: staging
+          chain: mainnet
           severity: critical
 
       - uid: staging_explorer_sync_lag
-        title: Staging Explorer Sync Lag
+        title: Mainnet Explorer Sync Lag
         condition: C
         data:
           - refId: A
@@ -1238,7 +1238,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: sqd_processor_chain_height{job="staging-subsquid-proc-1"} - sqd_processor_last_block{job="staging-subsquid-proc-1"}
+              expr: sqd_processor_chain_height{job="mainnet-subsquid-proc-1"} - sqd_processor_last_block{job="mainnet-subsquid-proc-1"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1298,14 +1298,14 @@ groups:
         execErrState: Alerting
         for: 10m
         annotations:
-          description: '{{ with $values.B }}Staging Explorer is {{ printf "%.0f" .Value }} blocks behind chain height (threshold: >100 blocks) - check processing performance{{ else }}Staging Explorer sync lag could not be measured - processor metrics returned no data{{ end }}'
-          summary: "Staging Explorer Synchronization Lag"
+          description: '{{ with $values.B }}Mainnet Explorer is {{ printf "%.0f" .Value }} blocks behind chain height (threshold: >100 blocks) - check processing performance{{ else }}Mainnet Explorer sync lag could not be measured - processor metrics returned no data{{ end }}'
+          summary: "Mainnet Explorer Synchronization Lag"
         labels:
-          chain: staging
+          chain: mainnet
           severity: warning
 
       - uid: staging_explorer_high_rpc_failure_rate
-        title: Staging Explorer High RPC Failure Rate
+        title: Mainnet Explorer High RPC Failure Rate
         condition: C
         data:
           - refId: A
@@ -1314,7 +1314,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: (rate(sqd_rpc_request_count{job="staging-subsquid-proc-1",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="staging-subsquid-proc-1",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="staging-subsquid-proc-1",kind="failure"}[5m]) + 0.001)) * 100
+              expr: (rate(sqd_rpc_request_count{job="mainnet-subsquid-proc-1",kind="failure"}[5m]) / (rate(sqd_rpc_request_count{job="mainnet-subsquid-proc-1",kind="success"}[5m]) + rate(sqd_rpc_request_count{job="mainnet-subsquid-proc-1",kind="failure"}[5m]) + 0.001)) * 100
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1374,17 +1374,17 @@ groups:
         execErrState: Alerting
         for: 5m
         annotations:
-          description: '{{ with $values.B }}Staging Explorer RPC failure rate is {{ printf "%.1f" .Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}{{ else }}Staging Explorer RPC failure rate could not be measured - RPC metrics returned no data{{ end }}'
-          summary: "Staging High RPC Failure Rate"
+          description: '{{ with $values.B }}Mainnet Explorer RPC failure rate is {{ printf "%.1f" .Value }}% (threshold: >10%) - check RPC node connectivity at {{ index $labels "url" }}{{ else }}Mainnet Explorer RPC failure rate could not be measured - RPC metrics returned no data{{ end }}'
+          summary: "Mainnet High RPC Failure Rate"
         labels:
-          chain: staging
+          chain: mainnet
           severity: warning
 
       # ===============================================
-      # SUBSQUID FLEET ALERTS (Staging — app, chain, db)
+      # SUBSQUID FLEET ALERTS (Mainnet — app, chain, db)
       # ===============================================
       - uid: staging_subsquid_app_chain_down
-        title: Staging Subsquid App/Chain Down
+        title: Mainnet Subsquid App/Chain Down
         condition: C
         data:
           - refId: A
@@ -1393,7 +1393,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: up{job=~"staging-subsquid-(app|chain).*"}
+              expr: up{job=~"mainnet-subsquid-(app|chain).*"}
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1453,14 +1453,14 @@ groups:
         execErrState: Alerting
         for: 3m
         annotations:
-          description: 'Staging Subsquid {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
-          summary: 'Staging Subsquid {{ index $labels "job" }} is DOWN'
+          description: 'Mainnet Subsquid {{ index $labels "job" }} ({{ index $labels "instance" }}) is down for more than 3 minutes'
+          summary: 'Mainnet Subsquid {{ index $labels "job" }} is DOWN'
         labels:
-          chain: staging
+          chain: mainnet
           severity: critical
 
       - uid: staging_subsquid_db_both_down
-        title: Staging Subsquid DB Both Colors Down
+        title: Mainnet Subsquid DB Both Colors Down
         condition: C
         data:
           - refId: A
@@ -1469,7 +1469,7 @@ groups:
               to: 0
             datasourceUid: prometheus
             model:
-              expr: max(up{job=~"staging-subsquid-db-(blue|green)-1"})
+              expr: max(up{job=~"mainnet-subsquid-db-(blue|green)-1"})
               refId: A
           - refId: B
             relativeTimeRange:
@@ -1529,10 +1529,10 @@ groups:
         execErrState: Alerting
         for: 3m
         annotations:
-          description: "Both Staging Subsquid DB colors (blue and green) are down - no active database available"
-          summary: "Staging Subsquid DB both colors DOWN"
+          description: "Both Mainnet Subsquid DB colors (blue and green) are down - no active database available"
+          summary: "Mainnet Subsquid DB both colors DOWN"
         labels:
-          chain: staging
+          chain: mainnet
           severity: critical
 
       # ===============================================

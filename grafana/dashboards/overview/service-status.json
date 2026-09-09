@@ -1059,12 +1059,12 @@
       "id": 200,
       "options": {
         "mode": "markdown",
-        "content": "### Staging Bootnodes"
+        "content": "### Mainnet Bootnodes"
       }
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a1 chain",
+      "title": "Mainnet Bootnode a1 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1129,7 +1129,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a2 chain",
+      "title": "Mainnet Bootnode a2 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1194,7 +1194,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a3 chain",
+      "title": "Mainnet Bootnode a3 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1259,7 +1259,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a4 chain",
+      "title": "Mainnet Bootnode a4 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1324,7 +1324,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a5 chain",
+      "title": "Mainnet Bootnode a5 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1389,7 +1389,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a6 chain",
+      "title": "Mainnet Bootnode a6 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1454,7 +1454,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a7 chain",
+      "title": "Mainnet Bootnode a7 chain",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1519,7 +1519,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a1 host",
+      "title": "Mainnet Bootnode a1 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1584,7 +1584,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a2 host",
+      "title": "Mainnet Bootnode a2 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1649,7 +1649,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a3 host",
+      "title": "Mainnet Bootnode a3 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1714,7 +1714,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a4 host",
+      "title": "Mainnet Bootnode a4 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1779,7 +1779,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a5 host",
+      "title": "Mainnet Bootnode a5 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1844,7 +1844,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a6 host",
+      "title": "Mainnet Bootnode a6 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1909,7 +1909,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnode a7 host",
+      "title": "Mainnet Bootnode a7 host",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -1974,7 +1974,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnodes chain — 30d",
+      "title": "Mainnet Bootnodes chain — 30d",
       "gridPos": {
         "h": 4,
         "w": 12,
@@ -2032,7 +2032,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnodes host — 30d",
+      "title": "Mainnet Bootnodes host — 30d",
       "gridPos": {
         "h": 4,
         "w": 12,
@@ -2099,12 +2099,12 @@
       "id": 217,
       "options": {
         "mode": "markdown",
-        "content": "### Staging RPC nodes"
+        "content": "### Mainnet RPC nodes"
       }
     },
     {
       "type": "stat",
-      "title": "Staging RPC rpc1 chain",
+      "title": "Mainnet RPC rpc1 chain",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -2169,7 +2169,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC rpc2 chain",
+      "title": "Mainnet RPC rpc2 chain",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -2234,7 +2234,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC rpc1 host",
+      "title": "Mainnet RPC rpc1 host",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -2299,7 +2299,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC rpc2 host",
+      "title": "Mainnet RPC rpc2 host",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -2364,7 +2364,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC chain — 30d",
+      "title": "Mainnet RPC chain — 30d",
       "gridPos": {
         "h": 4,
         "w": 12,
@@ -2422,7 +2422,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC host — 30d",
+      "title": "Mainnet RPC host — 30d",
       "gridPos": {
         "h": 4,
         "w": 12,
@@ -4200,7 +4200,7 @@
       "id": 304,
       "options": {
         "mode": "markdown",
-        "content": "## Staging Explorer"
+        "content": "## Mainnet Explorer"
       }
     },
     {
@@ -4215,7 +4215,7 @@
       "id": 330,
       "targets": [
         {
-          "expr": "up{job=\"staging-subsquid-proc-1\"}",
+          "expr": "up{job=\"mainnet-subsquid-proc-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4280,7 +4280,7 @@
       "id": 331,
       "targets": [
         {
-          "expr": "up{job=\"staging-subsquid-app-1\"}",
+          "expr": "up{job=\"mainnet-subsquid-app-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4345,7 +4345,7 @@
       "id": 332,
       "targets": [
         {
-          "expr": "up{job=\"staging-subsquid-app-2\"}",
+          "expr": "up{job=\"mainnet-subsquid-app-2\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4410,7 +4410,7 @@
       "id": 333,
       "targets": [
         {
-          "expr": "max(up{job=~\"staging-subsquid-db-(blue|green)-1\"})",
+          "expr": "max(up{job=~\"mainnet-subsquid-db-(blue|green)-1\"})",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4475,7 +4475,7 @@
       "id": 335,
       "targets": [
         {
-          "expr": "up{job=\"staging-subsquid-chain-1\"}",
+          "expr": "up{job=\"mainnet-subsquid-chain-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4540,7 +4540,7 @@
       "id": 340,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"staging-subsquid-proc-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"mainnet-subsquid-proc-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4598,7 +4598,7 @@
       "id": 341,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"staging-subsquid-app-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"mainnet-subsquid-app-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4656,7 +4656,7 @@
       "id": 342,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"staging-subsquid-app-2\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"mainnet-subsquid-app-2\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4714,7 +4714,7 @@
       "id": 343,
       "targets": [
         {
-          "expr": "avg_over_time((max(up{job=~\"staging-subsquid-db-(blue|green)-1\"}))[30d:1m]) * 100",
+          "expr": "avg_over_time((max(up{job=~\"mainnet-subsquid-db-(blue|green)-1\"}))[30d:1m]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4772,7 +4772,7 @@
       "id": 345,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"staging-subsquid-chain-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"mainnet-subsquid-chain-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -4830,7 +4830,7 @@
       "id": 336,
       "targets": [
         {
-          "expr": "sqd_processor_sync_ratio{job=\"staging-subsquid-proc-1\"} * 100",
+          "expr": "sqd_processor_sync_ratio{job=\"mainnet-subsquid-proc-1\"} * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",

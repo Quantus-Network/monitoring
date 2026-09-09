@@ -324,7 +324,7 @@ scrape_configs:
     - subsquid-chain-1.quantus.com
     labels:
       chain: planck
-- job_name: staging-subsquid-proc-1
+- job_name: mainnet-subsquid-proc-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -351,8 +351,8 @@ scrape_configs:
   - targets:
     - subsquid-mainnet-proc-1.quantus.com
     labels:
-      chain: staging
-- job_name: staging-subsquid-app-1
+      chain: mainnet
+- job_name: mainnet-subsquid-app-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -379,8 +379,8 @@ scrape_configs:
   - targets:
     - subsquid-mainnet-app-1.quantus.com
     labels:
-      chain: staging
-- job_name: staging-subsquid-app-2
+      chain: mainnet
+- job_name: mainnet-subsquid-app-2
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -407,8 +407,8 @@ scrape_configs:
   - targets:
     - subsquid-mainnet-app-2.quantus.com
     labels:
-      chain: staging
-- job_name: staging-subsquid-db-blue-1
+      chain: mainnet
+- job_name: mainnet-subsquid-db-blue-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -435,8 +435,8 @@ scrape_configs:
   - targets:
     - subsquid-mainnet-db-blue-1.quantus.com
     labels:
-      chain: staging
-- job_name: staging-subsquid-db-green-1
+      chain: mainnet
+- job_name: mainnet-subsquid-db-green-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -463,8 +463,8 @@ scrape_configs:
   - targets:
     - subsquid-mainnet-db-green-1.quantus.com
     labels:
-      chain: staging
-- job_name: staging-subsquid-chain-1
+      chain: mainnet
+- job_name: mainnet-subsquid-chain-1
   honor_timestamps: true
   track_timestamps_staleness: false
   scrape_interval: 15s
@@ -491,7 +491,7 @@ scrape_configs:
   - targets:
     - subsquid-mainnet-chain-1.quantus.com
     labels:
-      chain: staging
+      chain: mainnet
 - job_name: planck-senoti-app-1
   honor_timestamps: true
   track_timestamps_staleness: false
@@ -719,33 +719,36 @@ scrape_configs:
     CF-Access-Client-Secret:
       files:
       - /etc/prometheus/secrets/cf_access_client_secret
+  relabel_configs:
+  - target_label: chain
+    replacement: mainnet
   static_configs:
   - targets:
-    - a1-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a1-qm-mainnet.quantus.com
     labels:
       instance: a1
   - targets:
-    - a2-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a2-qm-mainnet.quantus.com
     labels:
       instance: a2
   - targets:
-    - a3-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a3-qm-mainnet.quantus.com
     labels:
       instance: a3
   - targets:
-    - a4-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a4-qm-mainnet.quantus.com
     labels:
       instance: a4
   - targets:
-    - a5-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a5-qm-mainnet.quantus.com
     labels:
       instance: a5
   - targets:
-    - a6-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a6-qm-mainnet.quantus.com
     labels:
       instance: a6
   - targets:
-    - a7-qm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a7-qm-mainnet.quantus.com
     labels:
       instance: a7
 - job_name: bootnode-node
@@ -771,33 +774,36 @@ scrape_configs:
     CF-Access-Client-Secret:
       files:
       - /etc/prometheus/secrets/cf_access_client_secret
+  relabel_configs:
+  - target_label: chain
+    replacement: mainnet
   static_configs:
   - targets:
-    - a1-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a1-hm-mainnet.quantus.com
     labels:
       instance: a1
   - targets:
-    - a2-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a2-hm-mainnet.quantus.com
     labels:
       instance: a2
   - targets:
-    - a3-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a3-hm-mainnet.quantus.com
     labels:
       instance: a3
   - targets:
-    - a4-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a4-hm-mainnet.quantus.com
     labels:
       instance: a4
   - targets:
-    - a5-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a5-hm-mainnet.quantus.com
     labels:
       instance: a5
   - targets:
-    - a6-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a6-hm-mainnet.quantus.com
     labels:
       instance: a6
   - targets:
-    - a7-hm-mkML2cajSbEaIYKpdo1SFexDqOUOWVy7.quantus.com
+    - a7-hm-mainnet.quantus.com
     labels:
       instance: a7
 - job_name: rpcnode-chain
@@ -823,13 +829,16 @@ scrape_configs:
     CF-Access-Client-Secret:
       files:
       - /etc/prometheus/secrets/cf_access_client_secret
+  relabel_configs:
+  - target_label: chain
+    replacement: mainnet
   static_configs:
   - targets:
-    - rpc1-qm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    - rpc1-qm-mainnet.quantus.com
     labels:
       instance: rpc1
   - targets:
-    - rpc2-qm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    - rpc2-qm-mainnet.quantus.com
     labels:
       instance: rpc2
 - job_name: rpcnode-node
@@ -855,13 +864,16 @@ scrape_configs:
     CF-Access-Client-Secret:
       files:
       - /etc/prometheus/secrets/cf_access_client_secret
+  relabel_configs:
+  - target_label: chain
+    replacement: mainnet
   static_configs:
   - targets:
-    - rpc1-hm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    - rpc1-hm-mainnet.quantus.com
     labels:
       instance: rpc1
   - targets:
-    - rpc2-hm-bAhQwgqf3zXDHKv6yAmetQkOalMKi1uA1.quantus.com
+    - rpc2-hm-mainnet.quantus.com
     labels:
       instance: rpc2
 - job_name: 'logs-host'

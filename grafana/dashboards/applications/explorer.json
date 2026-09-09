@@ -902,11 +902,11 @@
           },
           {
             "selected": false,
-            "text": "staging",
-            "value": "staging"
+            "text": "mainnet",
+            "value": "mainnet"
           }
         ],
-        "query": "planck,staging",
+        "query": "planck,mainnet",
         "skipUrlSync": false,
         "type": "custom"
       }

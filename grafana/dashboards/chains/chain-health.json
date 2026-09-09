@@ -537,16 +537,16 @@
           },
           {
             "selected": false,
-            "text": "staging bootnode",
+            "text": "mainnet bootnode",
             "value": "bootnode"
           },
           {
             "selected": false,
-            "text": "staging rpcnode",
+            "text": "mainnet rpcnode",
             "value": "rpcnode"
           }
         ],
-        "query": "planck,heisenberg,staging bootnode : bootnode,staging rpcnode : rpcnode",
+        "query": "planck,heisenberg,mainnet bootnode : bootnode,mainnet rpcnode : rpcnode",
         "skipUrlSync": false,
         "type": "custom"
       }
