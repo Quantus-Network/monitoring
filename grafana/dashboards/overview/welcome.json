@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck**, **Heisenberg**, **Staging bootnodes**, and **Staging RPC nodes**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
+        "content": "# Quantus Network Overview\n\nReal-time monitoring across **Planck**, **Heisenberg**, **Mainnet bootnodes**, and **Mainnet RPC nodes**. Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n[quantus.com](https://www.quantus.com/)"
       }
     },
     {
@@ -353,7 +353,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnodes - Chain Height",
+      "title": "Mainnet Bootnodes - Chain Height",
       "gridPos": {
         "h": 4,
         "w": 8,
@@ -397,7 +397,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnodes - Last Block",
+      "title": "Mainnet Bootnodes - Last Block",
       "gridPos": {
         "h": 4,
         "w": 8,
@@ -457,7 +457,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging Bootnodes - Uptime",
+      "title": "Mainnet Bootnodes - Uptime",
       "gridPos": {
         "h": 4,
         "w": 8,
@@ -519,7 +519,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC nodes - Chain Height",
+      "title": "Mainnet RPC nodes - Chain Height",
       "gridPos": {
         "h": 4,
         "w": 8,
@@ -563,8 +563,8 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC nodes - Last Block",
-      "description": "Seconds since the last QPoW block on the staging chain. RPC nodes are not validators and do not export last_block_time; this uses the bootnode series.",
+      "title": "Mainnet RPC nodes - Last Block",
+      "description": "Seconds since the last QPoW block on the mainnet chain. RPC nodes are not validators and do not export last_block_time; this uses the bootnode series.",
       "gridPos": {
         "h": 4,
         "w": 8,
@@ -624,7 +624,7 @@
     },
     {
       "type": "stat",
-      "title": "Staging RPC nodes - Uptime",
+      "title": "Mainnet RPC nodes - Uptime",
       "gridPos": {
         "h": 4,
         "w": 8,

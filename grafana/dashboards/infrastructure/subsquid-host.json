@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (Planck testnet vs staging mainnet) and **Host** to focus a role or view All.\n\nPlanck: `subsquid-*.quantus.com`. Staging: `subsquid-mainnet-*.quantus.com`.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
+        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (Planck testnet vs mainnet) and **Host** to focus a role or view All.\n\nPlanck: `subsquid-*.quantus.com`. Mainnet: `subsquid-mainnet-*.quantus.com`.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
       }
     },
     {
@@ -1165,11 +1165,11 @@
           },
           {
             "selected": false,
-            "text": "staging",
-            "value": "staging"
+            "text": "mainnet",
+            "value": "mainnet"
           }
         ],
-        "query": "planck,staging",
+        "query": "planck,mainnet",
         "skipUrlSync": false,
         "type": "custom"
       },

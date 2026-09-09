@@ -78,15 +78,15 @@ The stack monitors:
   - Disk usage and I/O
   - Network traffic (receive/transmit)
   - System uptime
-- **Remote Blockchain Nodes** - Planck, Heisenberg, staging bootnode, and staging rpcnode fleets
+- **Remote Blockchain Nodes** - Planck, Heisenberg, mainnet bootnode, and mainnet rpcnode fleets
   - Node metrics (system resources, peers, network I/O)
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
-  - Staging bootnode (`a1`–`a7`) and staging rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
-- **Subsquid / Explorer** - Planck testnet and staging mainnet fleets (`planck-subsquid-*`, `staging-subsquid-*`)
+  - Mainnet bootnode (`a1`–`a7`) and mainnet rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
+- **Subsquid / Explorer** - Planck testnet and mainnet fleets (`planck-subsquid-*`, `mainnet-subsquid-*`)
   - Processor Prometheus on `subsquid-proc-1` / `subsquid-mainnet-proc-1` (active-color indexer)
   - node_exporter on app, chain, and both DB colors (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
-  - Staging scrapes use the same Cloudflare Access headers as senoti/quersi
+  - Mainnet scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
   - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
   - Telemetry Backend (feed-telemetry.quantus.cat) - Application metrics
@@ -359,7 +359,7 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🔴 **Other critical** → Email only
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
-- **Planck**, **staging_mainnet** (bootnode + rpcnode) → 2 min `group_wait`
+- **Planck**, **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
 - **Heisenberg** → 10 min `group_wait`
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
@@ -372,8 +372,8 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 
 **Node Health:**
 - 🔴 **Node Down** - Triggers when a `*-node`, `*-chain`, or `*-substrate` scrape is down for 5+ minutes
-- 🔴 **No New Blocks** - Fires when no new blocks have been produced for 7+ minutes (rule); first Telegram notification arrives ~10 min after the last block (7 min threshold + 1 min `for:` + ~2 min `group_wait`). Staging RPC nodes do not export `last_block_time`; they use a dedicated best-block height stall (`delta(...)[7m] < 1`)
-- 🟡 **Low Peer Count** - Triggers when peer count drops below 2 (all non-Heisenberg chains, including staging_mainnet)
+- 🔴 **No New Blocks** - Fires when no new blocks have been produced for 7+ minutes (rule); first Telegram notification arrives ~10 min after the last block (7 min threshold + 1 min `for:` + ~2 min `group_wait`). Mainnet RPC nodes do not export `last_block_time`; they use a dedicated best-block height stall (`delta(...)[7m] < 1`)
+- 🟡 **Low Peer Count** - Triggers when peer count drops below 2 (all non-Heisenberg chains, including mainnet)
 
 **System Resources:**
 - 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
@@ -476,7 +476,7 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
 | **Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
-| **staging_mainnet** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **mainnet** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
 | **Heisenberg** 🟡 | Medium | 10 minutes | once until resolved (`8736h`) |
 
 Fallback by severity (if no chain label):
@@ -667,24 +667,24 @@ monitoring/
 
 ## Included Dashboards
 
-Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (planck / heisenberg / staging bootnode / staging rpcnode).
+Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (planck / heisenberg / mainnet bootnode / mainnet rpcnode).
 
 ### Overview (home)
 
 **Quantus Network Overview** — first page after login:
-- Chain height, last block age, and uptime for Planck, Heisenberg, staging bootnodes, and staging RPC nodes
+- Chain height, last block age, and uptime for Planck, Heisenberg, mainnet bootnodes, and mainnet RPC nodes
 - Telemetry host status and connected nodes
 - Refreshes every 10 seconds
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
-- Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Staging Bootnodes (`a1`–`a7` chain + host, fleet 30d); Staging RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck) and Staging Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains
 
-Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is planck / heisenberg / staging bootnode / staging rpcnode. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
+Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is planck / heisenberg / mainnet bootnode / mainnet rpcnode. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
 
 | Dashboard | What it covers |
 |-----------|----------------|
@@ -702,7 +702,7 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 | **Telemetry** | Telemetry VPS host + backend message feeds |
 | **Support Host** | Support server system metrics |
 | **Senoti Host** | Senoti fleet system metrics |
-| **Subsquid Host** | Subsquid fleet system metrics (Fleet: Planck / staging) |
+| **Subsquid Host** | Subsquid fleet system metrics (Fleet: Planck / mainnet) |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
 | **Logs Host** | Logs server system metrics |
 
@@ -711,7 +711,7 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 | Dashboard | What it covers |
 |-----------|----------------|
 | **Faucet** | Request rates, transfers, balance, rejections |
-| **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: Planck / staging) |
+| **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: Planck / mainnet) |
 | **Graylog** | Ingest rate, journal fill, buffer fill, indexer failures, heap |
 
 ## Customization
