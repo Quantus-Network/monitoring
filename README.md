@@ -85,7 +85,7 @@ The stack monitors:
   - Mainnet bootnode (`a1`–`a7`) and mainnet rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
 - **Subsquid / Explorer** - Planck testnet and mainnet fleets (`planck-subsquid-*`, `mainnet-subsquid-*`)
   - Processor Prometheus on `subsquid-proc-1` / `subsquid-mainnet-proc-1` (active-color indexer)
-  - node_exporter on app, chain, and both DB colors (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
+  - node_exporter on proc via `subsquid-proc-1-hm` / `subsquid-mainnet-proc-1-hm`, and on app, chain, and both DB colors (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
   - Mainnet scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
   - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics

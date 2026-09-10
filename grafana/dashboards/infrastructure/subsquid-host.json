@@ -1181,7 +1181,7 @@
         },
         "hide": 0,
         "includeAll": true,
-        "allValue": "${fleet}-subsquid-(proc-1|app-1|app-2|db-blue-1|db-green-1|chain-1)",
+        "allValue": "${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)",
         "label": "Host",
         "multi": true,
         "name": "job",
@@ -1194,7 +1194,7 @@
           {
             "selected": false,
             "text": "proc-1",
-            "value": "${fleet}-subsquid-proc-1"
+            "value": "${fleet}-subsquid-proc-1-hm"
           },
           {
             "selected": false,
@@ -1222,7 +1222,7 @@
             "value": "${fleet}-subsquid-chain-1"
           }
         ],
-        "query": "proc-1 : ${fleet}-subsquid-proc-1,app-1 : ${fleet}-subsquid-app-1,app-2 : ${fleet}-subsquid-app-2,db-blue-1 : ${fleet}-subsquid-db-blue-1,db-green-1 : ${fleet}-subsquid-db-green-1,chain-1 : ${fleet}-subsquid-chain-1",
+        "query": "proc-1 : ${fleet}-subsquid-proc-1-hm,app-1 : ${fleet}-subsquid-app-1,app-2 : ${fleet}-subsquid-app-2,db-blue-1 : ${fleet}-subsquid-db-blue-1,db-green-1 : ${fleet}-subsquid-db-green-1,chain-1 : ${fleet}-subsquid-chain-1",
         "skipUrlSync": false,
         "type": "custom"
       }
