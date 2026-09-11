@@ -33,7 +33,7 @@
       "id": 10,
       "targets": [
         {
-          "expr": "up{job=\"${fleet}-subsquid-proc-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-proc-1-hm\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
