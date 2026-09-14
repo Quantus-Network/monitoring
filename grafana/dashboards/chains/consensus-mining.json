@@ -24,7 +24,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Both lines are **estimated network hashrate (MH/s)** using `difficulty ÷ block interval`.\n\n- **Instantaneous** — current difficulty divided by the latest on-chain block interval.\n- **Smoothed (10 samples)** — rolling average of the instantaneous estimate over the last 10 Prometheus scrapes (15s interval → 150s window).",
+      "description": "Both lines are **estimated network hashrate** using `difficulty ÷ block interval`. Grafana SI-scales the display (MH/s, GH/s, TH/s, …).\n\n- **Instantaneous** — current difficulty divided by the latest on-chain block interval.\n- **Smoothed (10 samples)** — rolling average of the instantaneous estimate over the last 10 Prometheus scrapes (15s interval → 150s window).",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -71,7 +71,7 @@
               }
             ]
           },
-          "unit": "MH/s"
+          "unit": "MHs"
         },
         "overrides": []
       },
@@ -114,7 +114,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "Latest MH/s values from the chart — instantaneous and 10-sample smoothed.",
+      "description": "Latest hashrate values from the chart — instantaneous and 10-sample smoothed. Grafana SI-scales the display (MH/s, GH/s, TH/s, …).",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -129,7 +129,7 @@
               }
             ]
           },
-          "unit": "MH/s"
+          "unit": "MHs"
         },
         "overrides": []
       },
@@ -165,7 +165,7 @@
           "refId": "B"
         }
       ],
-      "title": "Current MH/s",
+      "title": "Current Hashrate",
       "type": "stat"
     },
     {
