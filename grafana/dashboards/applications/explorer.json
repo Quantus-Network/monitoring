@@ -886,8 +886,8 @@
       {
         "current": {
           "selected": true,
-          "text": "planck",
-          "value": "planck"
+          "text": "mainnet",
+          "value": "mainnet"
         },
         "hide": 0,
         "includeAll": false,
@@ -897,16 +897,16 @@
         "options": [
           {
             "selected": true,
-            "text": "planck",
-            "value": "planck"
+            "text": "mainnet",
+            "value": "mainnet"
           },
           {
             "selected": false,
-            "text": "mainnet",
-            "value": "mainnet"
+            "text": "planck",
+            "value": "planck"
           }
         ],
-        "query": "planck,mainnet",
+        "query": "mainnet,planck",
         "skipUrlSync": false,
         "type": "custom"
       }

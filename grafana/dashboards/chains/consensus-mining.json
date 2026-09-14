@@ -440,8 +440,8 @@
       {
         "current": {
           "selected": true,
-          "text": "planck",
-          "value": "planck"
+          "text": "mainnet bootnode",
+          "value": "bootnode"
         },
         "hide": 0,
         "includeAll": false,
@@ -451,16 +451,6 @@
         "options": [
           {
             "selected": true,
-            "text": "planck",
-            "value": "planck"
-          },
-          {
-            "selected": false,
-            "text": "heisenberg",
-            "value": "heisenberg"
-          },
-          {
-            "selected": false,
             "text": "mainnet bootnode",
             "value": "bootnode"
           },
@@ -468,9 +458,19 @@
             "selected": false,
             "text": "mainnet rpcnode",
             "value": "rpcnode"
+          },
+          {
+            "selected": false,
+            "text": "planck",
+            "value": "planck"
+          },
+          {
+            "selected": false,
+            "text": "heisenberg",
+            "value": "heisenberg"
           }
         ],
-        "query": "planck,heisenberg,mainnet bootnode : bootnode,mainnet rpcnode : rpcnode",
+        "query": "mainnet bootnode : bootnode,mainnet rpcnode : rpcnode,planck,heisenberg",
         "skipUrlSync": false,
         "type": "custom"
       }
