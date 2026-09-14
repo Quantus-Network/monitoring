@@ -667,7 +667,7 @@ monitoring/
 
 ## Included Dashboards
 
-Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (planck / heisenberg / mainnet bootnode / mainnet rpcnode).
+Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (mainnet bootnode / mainnet rpcnode / planck / heisenberg).
 
 ### Overview (home)
 
@@ -684,7 +684,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 ### Chains
 
-Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is planck / heisenberg / mainnet bootnode / mainnet rpcnode. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
+Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is mainnet bootnode / mainnet rpcnode / planck / heisenberg. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
 
 | Dashboard | What it covers |
 |-----------|----------------|
@@ -702,7 +702,7 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 | **Telemetry** | Telemetry VPS host + backend message feeds |
 | **Support Host** | Support server system metrics |
 | **Senoti Host** | Senoti fleet system metrics |
-| **Subsquid Host** | Subsquid fleet system metrics (Fleet: Planck / mainnet) |
+| **Subsquid Host** | Subsquid fleet system metrics (Fleet: mainnet / Planck) |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
 | **Logs Host** | Logs server system metrics |
 
@@ -711,7 +711,7 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 | Dashboard | What it covers |
 |-----------|----------------|
 | **Faucet** | Request rates, transfers, balance, rejections |
-| **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: Planck / mainnet) |
+| **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: mainnet / Planck) |
 | **Graylog** | Ingest rate, journal fill, buffer fill, indexer failures, heap |
 
 ## Customization

@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (Planck testnet vs mainnet) and **Host** to focus a role or view All.\n\nPlanck: `subsquid-*.quantus.com`. Mainnet: `subsquid-mainnet-*.quantus.com`.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
+        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (mainnet vs Planck testnet) and **Host** to focus a role or view All.\n\nMainnet: `subsquid-mainnet-*.quantus.com`. Planck: `subsquid-*.quantus.com`.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
       }
     },
     {
@@ -1149,8 +1149,8 @@
       {
         "current": {
           "selected": true,
-          "text": "planck",
-          "value": "planck"
+          "text": "mainnet",
+          "value": "mainnet"
         },
         "hide": 0,
         "includeAll": false,
@@ -1160,16 +1160,16 @@
         "options": [
           {
             "selected": true,
-            "text": "planck",
-            "value": "planck"
+            "text": "mainnet",
+            "value": "mainnet"
           },
           {
             "selected": false,
-            "text": "mainnet",
-            "value": "mainnet"
+            "text": "planck",
+            "value": "planck"
           }
         ],
-        "query": "planck,mainnet",
+        "query": "mainnet,planck",
         "skipUrlSync": false,
         "type": "custom"
       },
