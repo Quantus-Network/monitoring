@@ -506,7 +506,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -562,7 +562,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -618,7 +618,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -674,7 +674,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -730,7 +730,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -786,7 +786,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
@@ -982,7 +982,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"

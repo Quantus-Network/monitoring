@@ -69,7 +69,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "locale"
         },
         "overrides": []
       },
@@ -127,7 +127,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "locale"
         },
         "overrides": []
       },
@@ -777,6 +777,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "locale",
           "color": {
             "mode": "palette-classic"
           },
@@ -931,6 +932,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "locale",
           "color": {
             "mode": "thresholds"
           },
@@ -991,6 +993,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "locale",
           "color": {
             "mode": "palette-classic"
           },
@@ -1639,6 +1642,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "locale",
           "color": {
             "mode": "palette-classic"
           },
@@ -1778,6 +1782,7 @@
       },
       "fieldConfig": {
         "defaults": {
+          "unit": "locale",
           "color": {
             "mode": "palette-classic"
           },

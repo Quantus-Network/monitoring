@@ -56,7 +56,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -100,7 +100,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -144,7 +144,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -250,7 +250,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 2,
           "color": {
             "mode": "thresholds"
@@ -310,7 +310,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -354,7 +354,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -491,7 +491,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 2,
           "color": {
             "mode": "palette-classic"
@@ -650,7 +650,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "palette-classic"
@@ -725,7 +725,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -769,7 +769,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -813,7 +813,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",

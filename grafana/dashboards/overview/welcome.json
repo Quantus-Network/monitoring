@@ -56,7 +56,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -100,7 +100,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -386,7 +386,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -552,7 +552,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "fixed",
@@ -802,7 +802,7 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
+          "unit": "locale",
           "decimals": 0,
           "color": {
             "mode": "thresholds"
