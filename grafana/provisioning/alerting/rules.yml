@@ -340,7 +340,8 @@ groups:
         labels:
           severity: warning
 
-      # Alert when memory usage is high
+      # Alert when memory usage is high.
+      # Planck/Heisenberg node hosts are excluded — RAM alerts on those testnets are noisy.
       - uid: high-memory-alert
         title: High Memory Usage
         condition: C
@@ -354,7 +355,7 @@ groups:
               datasource:
                 type: prometheus
                 uid: prometheus
-              expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+              expr: (1 - (node_memory_MemAvailable_bytes{job!~"(heisenberg|planck)-node"} / node_memory_MemTotal_bytes{job!~"(heisenberg|planck)-node"})) * 100
               refId: A
               intervalMs: 1000
               maxDataPoints: 43200

@@ -378,7 +378,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **System Resources:**
 - 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
 - 🟡 **High CPU Usage** - Triggers when CPU usage exceeds 80% for 15+ minutes
-- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90%
+- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% (Planck and Heisenberg node hosts are excluded)
 
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
