@@ -8,3 +8,25 @@ policies:
     group_interval: 5m
     # Effectively notify once until resolved; re-notify only after resolve → fire again
     repeat_interval: 8736h
+    routes:
+      # Heisenberg — no email. Same matchers as production; mute-heisenberg suppresses delivery.
+      - receiver: Email Notifications
+        matchers:
+          - chain = heisenberg
+        mute_time_intervals:
+          - mute-heisenberg
+        continue: false
+
+      - receiver: Email Notifications
+        matchers:
+          - job =~ "heisenberg-.*"
+        mute_time_intervals:
+          - mute-heisenberg
+        continue: false
+
+      - receiver: Email Notifications
+        matchers:
+          - instance =~ ".*heisenberg.*"
+        mute_time_intervals:
+          - mute-heisenberg
+        continue: false
