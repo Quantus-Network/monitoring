@@ -1,0 +1,14 @@
+apiVersion: 1
+
+# Always-on mute for the Heisenberg notification routes.
+# end_time 24:00 is the exclusive end of the day.
+# Weekdays are Sunday=0 … Saturday=6; monday:sunday is rejected because Sunday sorts first.
+muteTimes:
+  - orgId: 1
+    name: mute-heisenberg
+    time_intervals:
+      - times:
+          - start_time: "00:00"
+            end_time: "24:00"
+        weekdays: ["sunday:saturday"]
+        location: UTC

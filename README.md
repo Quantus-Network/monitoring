@@ -360,7 +360,9 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
 - **Planck**, **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
-- **Heisenberg** → 10 min `group_wait`
+- **Heisenberg** → not notified (email, Slack, and Telegram are muted)
+
+Heisenberg alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=heisenberg`, a `heisenberg-*` job, or an instance name containing `heisenberg`. That covers chain alerts and host alerts (node down, disk, CPU) that have no chain label. The same mute routes are in the email-only local policies.
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
@@ -477,7 +479,7 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 |---------|----------|-------------------|-----------------|
 | **Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
 | **mainnet** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
-| **Heisenberg** 🟡 | Medium | 10 minutes | once until resolved (`8736h`) |
+| **Heisenberg** | Muted | not notified | — |
 
 Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, once until resolved
@@ -657,7 +659,8 @@ monitoring/
 │           ├── contactpoints.telegram.fragment.yml
 │           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
-│           └── policies.production.yml # Email / Telegram / Slack routing
+│           ├── policies.production.yml # Email / Telegram / Slack routing
+│           └── mute_times.yml          # Always-on mute for Heisenberg notifications
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
