@@ -85,7 +85,7 @@ The stack monitors:
   - Mainnet bootnode (`a1`–`a7`) and mainnet rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
 - **Subsquid / Explorer** - Planck testnet and mainnet fleets (`planck-subsquid-*`, `mainnet-subsquid-*`)
   - Processor Prometheus on `subsquid-proc-1` / `subsquid-mainnet-proc-1` (active-color indexer)
-  - node_exporter on proc via `subsquid-proc-1-hm` / `subsquid-mainnet-proc-1-hm`, and on app, chain, and both DB colors (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
+  - node_exporter on proc via `subsquid-proc-1-hm` / `subsquid-mainnet-proc-1-hm`, and on app and both DB colors. Planck has a single app host and no dedicated chain node. Mainnet also scrapes `app-2` and `chain-1` (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
   - Mainnet scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
   - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
@@ -681,7 +681,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck: Indexer / API / DB + sync) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
