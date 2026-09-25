@@ -85,7 +85,7 @@ The stack monitors:
   - Mainnet bootnode (`a1`–`a7`) and mainnet rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
 - **Subsquid / Explorer** - Planck testnet and mainnet fleets (`planck-subsquid-*`, `mainnet-subsquid-*`)
   - Processor Prometheus on `subsquid-proc-1` / `subsquid-mainnet-proc-1` (active-color indexer)
-  - node_exporter on proc via `subsquid-proc-1-hm` / `subsquid-mainnet-proc-1-hm`, and on app, chain, and both DB colors (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
+  - node_exporter on proc via `subsquid-proc-1-hm` / `subsquid-mainnet-proc-1-hm`, and on app and both DB colors. Planck has a single app host and no dedicated chain node. Mainnet also scrapes `app-2` and `chain-1` (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
   - Mainnet scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
   - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
@@ -359,10 +359,10 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🔴 **Other critical** → Email only
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
-- **Planck**, **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
-- **Heisenberg** → not notified (email, Slack, and Telegram are muted)
+- **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
+- **Planck** and **Heisenberg** → not notified (email, Slack, and Telegram are muted)
 
-Heisenberg alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=heisenberg`, a `heisenberg-*` job, or an instance name containing `heisenberg`. That covers chain alerts and host alerts (node down, disk, CPU) that have no chain label. The same mute routes are in the email-only local policies.
+Planck and Heisenberg alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=planck` or `chain=heisenberg`, a `planck-*` or `heisenberg-*` job, or an instance name containing `planck` or `heisenberg`. That covers chain alerts, Planck apps labeled `chain=planck`, and host alerts (node down, disk, CPU) that have no chain label. Mainnet bootnode and rpcnode still notify. The same mute routes are in the email-only local policies.
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
@@ -477,8 +477,8 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
-| **Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
-| **mainnet** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **mainnet** (bootnode + rpcnode) 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **Planck** | Muted | not notified | — |
 | **Heisenberg** | Muted | not notified | — |
 
 Fallback by severity (if no chain label):
@@ -660,7 +660,7 @@ monitoring/
 │           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
 │           ├── policies.production.yml # Email / Telegram / Slack routing
-│           └── mute_times.yml          # Always-on mute for Heisenberg notifications
+│           └── mute_times.yml          # Always-on mute for Planck and Heisenberg notifications
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
@@ -681,7 +681,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck: Indexer / API / DB + sync) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 

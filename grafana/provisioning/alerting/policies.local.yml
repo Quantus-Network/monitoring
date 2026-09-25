@@ -30,3 +30,25 @@ policies:
         mute_time_intervals:
           - mute-heisenberg
         continue: false
+
+      # Planck — no email. Same matchers as production; mute-planck suppresses delivery.
+      - receiver: Email Notifications
+        matchers:
+          - chain = planck
+        mute_time_intervals:
+          - mute-planck
+        continue: false
+
+      - receiver: Email Notifications
+        matchers:
+          - job =~ "planck-.*"
+        mute_time_intervals:
+          - mute-planck
+        continue: false
+
+      - receiver: Email Notifications
+        matchers:
+          - instance =~ ".*planck.*"
+        mute_time_intervals:
+          - mute-planck
+        continue: false

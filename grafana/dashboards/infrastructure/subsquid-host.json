@@ -18,12 +18,12 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (mainnet vs Planck testnet) and **Host** to focus a role or view All.\n\nMainnet: `subsquid-mainnet-*.quantus.com`. Planck: `subsquid-*.quantus.com`.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
+        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (mainnet vs Planck testnet) and **Host** to focus a role or view All.\n\nMainnet: `subsquid-mainnet-*.quantus.com` (includes app-2 and chain-1). Planck: `subsquid-*.quantus.com` (app-1 and DB colors only; no app-2 and no dedicated chain node). UP tiles list only hosts Prometheus is scraping for the selected fleet.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
       }
     },
     {
       "type": "stat",
-      "title": "proc-1",
+      "title": "$tile",
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -31,409 +31,12 @@
         "y": 3
       },
       "id": 10,
+      "repeat": "tile",
+      "repeatDirection": "h",
+      "maxPerRow": 6,
       "targets": [
         {
-          "expr": "up{job=\"${fleet}-subsquid-proc-1-hm\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value",
-        "mappings": [
-          {
-            "type": "value",
-            "options": {
-              "0": {
-                "text": "DOWN",
-                "color": "red"
-              },
-              "1": {
-                "text": "UP",
-                "color": "green"
-              }
-            }
-          }
-        ]
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 1,
-                "color": "green"
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "app-1",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 3
-      },
-      "id": 11,
-      "targets": [
-        {
-          "expr": "up{job=\"${fleet}-subsquid-app-1\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value",
-        "mappings": [
-          {
-            "type": "value",
-            "options": {
-              "0": {
-                "text": "DOWN",
-                "color": "red"
-              },
-              "1": {
-                "text": "UP",
-                "color": "green"
-              }
-            }
-          }
-        ]
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 1,
-                "color": "green"
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "app-2",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 3
-      },
-      "id": 12,
-      "targets": [
-        {
-          "expr": "up{job=\"${fleet}-subsquid-app-2\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value",
-        "mappings": [
-          {
-            "type": "value",
-            "options": {
-              "0": {
-                "text": "DOWN",
-                "color": "red"
-              },
-              "1": {
-                "text": "UP",
-                "color": "green"
-              }
-            }
-          }
-        ]
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 1,
-                "color": "green"
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "db-blue-1",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 3
-      },
-      "id": 13,
-      "targets": [
-        {
-          "expr": "up{job=\"${fleet}-subsquid-db-blue-1\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value",
-        "mappings": [
-          {
-            "type": "value",
-            "options": {
-              "0": {
-                "text": "DOWN",
-                "color": "red"
-              },
-              "1": {
-                "text": "UP",
-                "color": "green"
-              }
-            }
-          }
-        ]
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 1,
-                "color": "green"
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "db-green-1",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 3
-      },
-      "id": 14,
-      "targets": [
-        {
-          "expr": "up{job=\"${fleet}-subsquid-db-green-1\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value",
-        "mappings": [
-          {
-            "type": "value",
-            "options": {
-              "0": {
-                "text": "DOWN",
-                "color": "red"
-              },
-              "1": {
-                "text": "UP",
-                "color": "green"
-              }
-            }
-          }
-        ]
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "red"
-              },
-              {
-                "value": 1,
-                "color": "green"
-              }
-            ]
-          },
-          "color": {
-            "mode": "thresholds"
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "chain-1",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 3
-      },
-      "id": 15,
-      "targets": [
-        {
-          "expr": "up{job=\"${fleet}-subsquid-chain-1\"}",
+          "expr": "up{job=\"${fleet}-subsquid-$tile\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -513,7 +116,7 @@
       "id": 2,
       "targets": [
         {
-          "expr": "100 - (avg by (job) (rate(node_cpu_seconds_total{mode=\"idle\", job=~\"$job\"}[5m])) * 100)",
+          "expr": "100 - (avg by (job) (rate(node_cpu_seconds_total{mode=\"idle\", job=~\"${fleet}-subsquid-($job)\"}[5m])) * 100)",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -576,7 +179,7 @@
       "id": 3,
       "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=~\"$job\"} - node_memory_MemAvailable_bytes{job=~\"$job\"}) / node_memory_MemTotal_bytes{job=~\"$job\"}) * 100",
+          "expr": "((node_memory_MemTotal_bytes{job=~\"${fleet}-subsquid-($job)\"} - node_memory_MemAvailable_bytes{job=~\"${fleet}-subsquid-($job)\"}) / node_memory_MemTotal_bytes{job=~\"${fleet}-subsquid-($job)\"}) * 100",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -639,7 +242,7 @@
       "id": 4,
       "targets": [
         {
-          "expr": "((node_filesystem_size_bytes{job=~\"$job\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=~\"$job\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=~\"$job\", mountpoint=\"/\"}) * 100",
+          "expr": "((node_filesystem_size_bytes{job=~\"${fleet}-subsquid-($job)\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=~\"${fleet}-subsquid-($job)\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=~\"${fleet}-subsquid-($job)\", mountpoint=\"/\"}) * 100",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -702,7 +305,7 @@
       "id": 5,
       "targets": [
         {
-          "expr": "100 - (avg by (job) (rate(node_cpu_seconds_total{mode=\"idle\", job=~\"$job\"}[5m])) * 100)",
+          "expr": "100 - (avg by (job) (rate(node_cpu_seconds_total{mode=\"idle\", job=~\"${fleet}-subsquid-($job)\"}[5m])) * 100)",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -779,7 +382,7 @@
       "id": 6,
       "targets": [
         {
-          "expr": "((node_memory_MemTotal_bytes{job=~\"$job\"} - node_memory_MemAvailable_bytes{job=~\"$job\"}) / node_memory_MemTotal_bytes{job=~\"$job\"}) * 100",
+          "expr": "((node_memory_MemTotal_bytes{job=~\"${fleet}-subsquid-($job)\"} - node_memory_MemAvailable_bytes{job=~\"${fleet}-subsquid-($job)\"}) / node_memory_MemTotal_bytes{job=~\"${fleet}-subsquid-($job)\"}) * 100",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -856,7 +459,7 @@
       "id": 15,
       "targets": [
         {
-          "expr": "((node_filesystem_size_bytes{job=~\"$job\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=~\"$job\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=~\"$job\", mountpoint=\"/\"}) * 100",
+          "expr": "((node_filesystem_size_bytes{job=~\"${fleet}-subsquid-($job)\", mountpoint=\"/\"} - node_filesystem_avail_bytes{job=~\"${fleet}-subsquid-($job)\", mountpoint=\"/\"}) / node_filesystem_size_bytes{job=~\"${fleet}-subsquid-($job)\", mountpoint=\"/\"}) * 100",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -933,7 +536,7 @@
       "id": 7,
       "targets": [
         {
-          "expr": "rate(node_network_receive_bytes_total{job=~\"$job\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "expr": "rate(node_network_receive_bytes_total{job=~\"${fleet}-subsquid-($job)\", device!~\"lo|docker.*|veth.*\"}[5m])",
           "refId": "A",
           "legendFormat": "{{job}} {{device}} RX",
           "datasource": {
@@ -942,7 +545,7 @@
           }
         },
         {
-          "expr": "rate(node_network_transmit_bytes_total{job=~\"$job\", device!~\"lo|docker.*|veth.*\"}[5m])",
+          "expr": "rate(node_network_transmit_bytes_total{job=~\"${fleet}-subsquid-($job)\", device!~\"lo|docker.*|veth.*\"}[5m])",
           "refId": "B",
           "legendFormat": "{{job}} {{device}} TX",
           "datasource": {
@@ -1017,7 +620,7 @@
       "id": 8,
       "targets": [
         {
-          "expr": "node_load1{job=~\"$job\"}",
+          "expr": "node_load1{job=~\"${fleet}-subsquid-($job)\"}",
           "refId": "A",
           "legendFormat": "{{job}} 1m",
           "datasource": {
@@ -1026,7 +629,7 @@
           }
         },
         {
-          "expr": "node_load5{job=~\"$job\"}",
+          "expr": "node_load5{job=~\"${fleet}-subsquid-($job)\"}",
           "refId": "B",
           "legendFormat": "{{job}} 5m",
           "datasource": {
@@ -1035,7 +638,7 @@
           }
         },
         {
-          "expr": "node_load15{job=~\"$job\"}",
+          "expr": "node_load15{job=~\"${fleet}-subsquid-($job)\"}",
           "refId": "C",
           "legendFormat": "{{job}} 15m",
           "datasource": {
@@ -1110,7 +713,7 @@
       "id": 9,
       "targets": [
         {
-          "expr": "time() - process_start_time_seconds{job=~\"$job\"}",
+          "expr": "time() - process_start_time_seconds{job=~\"${fleet}-subsquid-($job)\"}",
           "refId": "A",
           "legendFormat": "{{job}}",
           "datasource": {
@@ -1174,57 +777,40 @@
         "type": "custom"
       },
       {
-        "current": {
-          "selected": true,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "definition": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
         "hide": 0,
         "includeAll": true,
-        "allValue": "${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)",
+        "allValue": "",
         "label": "Host",
         "multi": true,
         "name": "job",
-        "options": [
-          {
-            "selected": true,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "proc-1",
-            "value": "${fleet}-subsquid-proc-1-hm"
-          },
-          {
-            "selected": false,
-            "text": "app-1",
-            "value": "${fleet}-subsquid-app-1"
-          },
-          {
-            "selected": false,
-            "text": "app-2",
-            "value": "${fleet}-subsquid-app-2"
-          },
-          {
-            "selected": false,
-            "text": "db-blue-1",
-            "value": "${fleet}-subsquid-db-blue-1"
-          },
-          {
-            "selected": false,
-            "text": "db-green-1",
-            "value": "${fleet}-subsquid-db-green-1"
-          },
-          {
-            "selected": false,
-            "text": "chain-1",
-            "value": "${fleet}-subsquid-chain-1"
-          }
-        ],
-        "query": "proc-1 : ${fleet}-subsquid-proc-1-hm,app-1 : ${fleet}-subsquid-app-1,app-2 : ${fleet}-subsquid-app-2,db-blue-1 : ${fleet}-subsquid-db-blue-1,db-green-1 : ${fleet}-subsquid-db-green-1,chain-1 : ${fleet}-subsquid-chain-1",
+        "options": [],
+        "query": { "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})", "refId": "StandardVariableQuery" },
+        "refresh": 1,
+        "regex": "/job=\"[^\"]*-subsquid-([^\"]+)\"/",
         "skipUrlSync": false,
-        "type": "custom"
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "definition": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
+        "hide": 2,
+        "includeAll": true,
+        "allValue": "(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)",
+        "label": "Tile",
+        "multi": true,
+        "name": "tile",
+        "options": [],
+        "query": { "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})", "refId": "StandardVariableQuery" },
+        "refresh": 1,
+        "regex": "/job=\"[^\"]*-subsquid-([^\"]+)\"/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
       }
     ]
   },
