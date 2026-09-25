@@ -359,10 +359,10 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🔴 **Other critical** → Email only
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
-- **Planck**, **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
-- **Heisenberg** → not notified (email, Slack, and Telegram are muted)
+- **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
+- **Planck** and **Heisenberg** → not notified (email, Slack, and Telegram are muted)
 
-Heisenberg alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=heisenberg`, a `heisenberg-*` job, or an instance name containing `heisenberg`. That covers chain alerts and host alerts (node down, disk, CPU) that have no chain label. The same mute routes are in the email-only local policies.
+Planck and Heisenberg alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=planck` or `chain=heisenberg`, a `planck-*` or `heisenberg-*` job, or an instance name containing `planck` or `heisenberg`. That covers chain alerts, Planck apps labeled `chain=planck`, and host alerts (node down, disk, CPU) that have no chain label. Mainnet bootnode and rpcnode still notify. The same mute routes are in the email-only local policies.
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
@@ -477,8 +477,8 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
-| **Planck** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
-| **mainnet** 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **mainnet** (bootnode + rpcnode) 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
+| **Planck** | Muted | not notified | — |
 | **Heisenberg** | Muted | not notified | — |
 
 Fallback by severity (if no chain label):
@@ -660,7 +660,7 @@ monitoring/
 │           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
 │           ├── policies.production.yml # Email / Telegram / Slack routing
-│           └── mute_times.yml          # Always-on mute for Heisenberg notifications
+│           └── mute_times.yml          # Always-on mute for Planck and Heisenberg notifications
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md

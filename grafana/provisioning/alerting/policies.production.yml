@@ -33,46 +33,31 @@ policies:
           - mute-heisenberg
         continue: false
 
+      # Planck — no email, Slack, or Telegram.
+      # Match chain, scrape job, and host name: Node Down, disk, and CPU have no chain label.
+      - receiver: Email Notifications
+        matchers:
+          - chain = planck
+        mute_time_intervals:
+          - mute-planck
+        continue: false
+
+      - receiver: Email Notifications
+        matchers:
+          - job =~ "planck-.*"
+        mute_time_intervals:
+          - mute-planck
+        continue: false
+
+      - receiver: Email Notifications
+        matchers:
+          - instance =~ ".*planck.*"
+        mute_time_intervals:
+          - mute-planck
+        continue: false
+
       # 🔴 CRITICAL — Email only (server/service down, disk full, etc.)
       # No New Blocks also gets Telegram as the highest-priority business alert
-
-      # Planck — No New Blocks → Email + Telegram
-      - receiver: Email Notifications
-        matchers:
-          - chain = planck
-          - severity = critical
-          - alertname = "No New Blocks"
-        group_by: ["alertname", "chain"]
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: true
-
-      - receiver: Telegram Notifications
-        matchers:
-          - chain = planck
-          - severity = critical
-          - alertname = "No New Blocks"
-        group_by: ["alertname", "chain"]
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: false
-
-      # Planck — other critical → Email only
-      - receiver: Email Notifications
-        matchers:
-          - chain = planck
-          - severity = critical
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: false
-
-      # Planck — non-critical → Slack
-      - receiver: Slack Notifications
-        matchers:
-          - chain = planck
-        group_wait: 2m
-        repeat_interval: 8736h
-        continue: false
 
       # Mainnet (bootnode + rpcnode metrics use chain=mainnet)
       # No New Blocks + RPC height stall → Email + Telegram
