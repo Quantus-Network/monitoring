@@ -782,7 +782,7 @@
         "definition": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
         "hide": 0,
         "includeAll": true,
-        "allValue": "(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)",
+        "allValue": "",
         "label": "Host",
         "multi": true,
         "name": "job",

@@ -150,6 +150,42 @@ for (const variable of [hostVar, tile]) {
   });
   assert.deepEqual(options, ["app-1", "app-2", "chain-1"]);
 }
+
+// Blank custom all value: Grafana passes the live option list to Prometheus,
+// which joins it as (a|b|c). A set allValue is substituted raw and is not rebuilt.
+function prometheusAllValue(options) {
+  const escaped = options.map((value) => value.replace(/[$^*{}\[\]+?.()|]/g, "\\$&"));
+  if (escaped.length === 1) return escaped[0];
+  return `(${escaped.join("|")})`;
+}
+
+function selectedAll(variable, options) {
+  if (variable.allValue) return variable.allValue;
+  return prometheusAllValue(options);
+}
+
+const planckHostOptions = variableOptions(hostVar, "planck", {
+  seriesJobs: planckSeriesJobs,
+  instantResults: planckInstant,
+});
+const retainedJob = "planck-subsquid-app-2";
+assert.equal(planckSeriesJobs.includes(retainedJob), true);
+assert.equal(planckInstant.some((line) => line.includes(`job="${retainedJob}"`)), false);
+const cpuExpr = host.panels
+  .find((panel) => panel.title === "CPU Usage")
+  .targets[0].expr.replaceAll("${fleet}", "planck")
+  .replaceAll("$job", selectedAll(hostVar, planckHostOptions))
+  .replaceAll("${job}", selectedAll(hostVar, planckHostOptions));
+const jobMatcher = cpuExpr.match(/job=~"([^"]+)"/)[1];
+assert.equal(new RegExp(`^${jobMatcher}$`).test(retainedJob), false);
+assert.equal(new RegExp(`^${jobMatcher}$`).test("planck-subsquid-app-1"), true);
+const mainnetHostOptions = variableOptions(hostVar, "mainnet", {
+  seriesJobs: [],
+  instantResults: mainnetInstant,
+});
+const mainnetAll = selectedAll(hostVar, mainnetHostOptions);
+assert.equal(mainnetAll.includes("app-2"), true);
+assert.equal(mainnetAll.includes("chain-1"), true);
 assert.equal(
   host.panels.some((panel) =>
     (panel.targets ?? []).some((target) => String(target.expr).includes('job=~"$job"')),
