@@ -65,14 +65,91 @@ assert.match(rulesYml, /expr: up\{job=~"mainnet-subsquid-\(app\|chain\)\.\*"\}/)
 
 const tile = host.templating.list.find((item) => item.name === "tile");
 assert.equal(tile.hide, 2);
-assert.match(tile.definition, /label_values\(up\{job=~"\$\{fleet\}-subsquid-\(proc-1-hm\|app-1\|app-2\|db-blue-1\|db-green-1\|chain-1\)"\}, job\)/);
 const repeated = host.panels.find((panel) => panel.repeat === "tile");
 assert.equal(repeated.targets[0].expr, 'up{job="${fleet}-subsquid-$tile"}');
+assert.equal(repeated.options.reduceOptions.calcs[0], "lastNotNull");
 assert.equal(host.panels.some((panel) => panel.title === "app-2" || panel.title === "chain-1"), false);
 
 const hostVar = host.templating.list.find((item) => item.name === "job");
 assert.equal(hostVar.type, "query");
-assert.match(hostVar.definition, /app-2\|db-blue-1\|db-green-1\|chain-1/);
+
+// Grafana 11.3 metric_find_query: label_values uses series metadata over the dashboard
+// range; query_result hits /api/v1/query at range end. metricNamesToVariableValues
+// keeps the first capture group.
+const labelValuesRegex = /^label_values\((?:(.+),\s*)?([a-zA-Z_][a-zA-Z0-9_]*)\)\s*$/;
+const queryResultRegex = /^query_result\((.+)\)\s*$/;
+
+function grafanaRegex(pattern) {
+  const wrapped = pattern.match(/^\/(.*)\/([gimsuy]*)$/);
+  if (!wrapped) throw new Error(`expected Grafana /regex/: ${pattern}`);
+  return new RegExp(wrapped[1], wrapped[2]);
+}
+
+function applyVariableRegex(texts, pattern) {
+  const regex = grafanaRegex(pattern);
+  const values = [];
+  for (const text of texts) {
+    regex.lastIndex = 0;
+    const matches = regex.exec(text);
+    if (!matches) continue;
+    values.push(matches.length > 1 ? matches[1] : text);
+  }
+  return [...new Set(values)].sort();
+}
+
+function variableOptions(variable, fleet, { seriesJobs, instantResults }) {
+  const query = variable.definition.replaceAll("${fleet}", fleet);
+  assert.equal(variable.query.query, variable.definition);
+  const labelValues = query.match(labelValuesRegex);
+  if (labelValues) return applyVariableRegex(seriesJobs, variable.regex);
+  const queryResult = query.match(queryResultRegex);
+  if (queryResult) return applyVariableRegex(instantResults, variable.regex);
+  throw new Error(`unsupported variable query: ${query}`);
+}
+
+function instantResult(job, value) {
+  const chain = job.startsWith("mainnet-") ? "mainnet" : "planck";
+  return `up{chain="${chain}",instance="${job}.example",job="${job}"} ${value} 1727260000000`;
+}
+
+const planckSeriesJobs = [
+  "planck-subsquid-proc-1-hm",
+  "planck-subsquid-app-1",
+  "planck-subsquid-app-2",
+  "planck-subsquid-db-blue-1",
+  "planck-subsquid-db-green-1",
+  "planck-subsquid-chain-1",
+];
+const planckInstant = [
+  instantResult("planck-subsquid-proc-1-hm", 1),
+  instantResult("planck-subsquid-app-1", 0),
+  instantResult("planck-subsquid-db-blue-1", 1),
+  instantResult("planck-subsquid-db-green-1", 1),
+];
+const expectedPlanck = ["app-1", "db-blue-1", "db-green-1", "proc-1-hm"];
+
+for (const variable of [hostVar, tile]) {
+  const options = variableOptions(variable, "planck", {
+    seriesJobs: planckSeriesJobs,
+    instantResults: planckInstant,
+  });
+  assert.deepEqual(options, expectedPlanck);
+  assert.equal(options.includes("app-2"), false);
+  assert.equal(options.includes("chain-1"), false);
+}
+
+const mainnetInstant = [
+  instantResult("mainnet-subsquid-app-2", 1),
+  instantResult("mainnet-subsquid-chain-1", 1),
+  instantResult("mainnet-subsquid-app-1", 1),
+];
+for (const variable of [hostVar, tile]) {
+  const options = variableOptions(variable, "mainnet", {
+    seriesJobs: [],
+    instantResults: mainnetInstant,
+  });
+  assert.deepEqual(options, ["app-1", "app-2", "chain-1"]);
+}
 assert.equal(
   host.panels.some((panel) =>
     (panel.targets ?? []).some((target) => String(target.expr).includes('job=~"$job"')),

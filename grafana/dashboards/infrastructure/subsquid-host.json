@@ -779,7 +779,7 @@
       {
         "current": { "selected": true, "text": "All", "value": "$__all" },
         "datasource": { "type": "prometheus", "uid": "prometheus" },
-        "definition": "label_values(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"}, job)",
+        "definition": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
         "hide": 0,
         "includeAll": true,
         "allValue": "(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)",
@@ -787,9 +787,9 @@
         "multi": true,
         "name": "job",
         "options": [],
-        "query": { "query": "label_values(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"}, job)", "refId": "StandardVariableQuery" },
+        "query": { "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})", "refId": "StandardVariableQuery" },
         "refresh": 1,
-        "regex": "/-subsquid-(.+)$/",
+        "regex": "/job=\"[^\"]*-subsquid-([^\"]+)\"/",
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
@@ -797,7 +797,7 @@
       {
         "current": { "selected": true, "text": "All", "value": "$__all" },
         "datasource": { "type": "prometheus", "uid": "prometheus" },
-        "definition": "label_values(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"}, job)",
+        "definition": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
         "hide": 2,
         "includeAll": true,
         "allValue": "(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)",
@@ -805,9 +805,9 @@
         "multi": true,
         "name": "tile",
         "options": [],
-        "query": { "query": "label_values(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"}, job)", "refId": "StandardVariableQuery" },
+        "query": { "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})", "refId": "StandardVariableQuery" },
         "refresh": 1,
-        "regex": "/-subsquid-(.+)$/",
+        "regex": "/job=\"[^\"]*-subsquid-([^\"]+)\"/",
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
