@@ -380,7 +380,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **System Resources:**
 - 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
 - 🟡 **High CPU Usage** - Triggers when CPU usage exceeds 80% for 15+ minutes
-- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% (Planck and Heisenberg node hosts are excluded)
+- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% for 10+ minutes (Planck and Heisenberg node hosts are excluded). Mainnet bootnode (`a1`–`a7`) and rpcnode (`rpc1`/`rpc2`) use a separate alert at 96% for 30+ minutes, labeled `chain=mainnet`, so it takes the mainnet Slack route and is not muted with Planck or Heisenberg.
 
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes

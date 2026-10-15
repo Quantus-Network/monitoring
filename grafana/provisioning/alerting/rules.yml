@@ -335,13 +335,14 @@ groups:
         execErrState: Error
         for: 15m
         annotations:
-          description: '{{ with $values.B }}CPU usage on {{ index $labels "instance" }} has exceeded 80% (current: {{ printf "%.1f" .Value }}%) for more than 15 minutes{{ else }}CPU usage on {{ index $labels "instance" }} could not be measured - CPU metrics returned no data{{ end }}'
-          summary: 'High CPU usage on {{ index $labels "instance" }}'
+          description: '{{ if match "subsquid-mainnet-" (index $labels "instance") }}Mainnet - {{ else if match "subsquid-" (index $labels "instance") }}Planck testnet - {{ end }}{{ with $values.B }}CPU usage on {{ index $labels "instance" }} has exceeded 80% (current: {{ printf "%.1f" .Value }}%) for more than 15 minutes{{ else }}CPU usage on {{ index $labels "instance" }} could not be measured - CPU metrics returned no data{{ end }}'
+          summary: '{{ if match "subsquid-mainnet-" (index $labels "instance") }}Mainnet - {{ else if match "subsquid-" (index $labels "instance") }}Planck testnet - {{ end }}High CPU usage on {{ index $labels "instance" }}'
         labels:
           severity: warning
 
       # Alert when memory usage is high.
       # Planck/Heisenberg node hosts are excluded — RAM alerts on those testnets are noisy.
+      # Bootnode and rpcnode hosts use mainnet-high-memory-alert instead.
       - uid: high-memory-alert
         title: High Memory Usage
         condition: C
@@ -355,7 +356,7 @@ groups:
               datasource:
                 type: prometheus
                 uid: prometheus
-              expr: (1 - (node_memory_MemAvailable_bytes{job!~"(heisenberg|planck)-node"} / node_memory_MemTotal_bytes{job!~"(heisenberg|planck)-node"})) * 100
+              expr: (1 - (node_memory_MemAvailable_bytes{job!~"(heisenberg|planck|bootnode|rpcnode)-node"} / node_memory_MemTotal_bytes{job!~"(heisenberg|planck|bootnode|rpcnode)-node"})) * 100
               refId: A
               intervalMs: 1000
               maxDataPoints: 43200
@@ -401,6 +402,70 @@ groups:
           description: '{{ with $values.B }}Memory usage on {{ index $labels "instance" }} has exceeded 90% (current: {{ printf "%.1f" .Value }}%) for more than 10 minutes{{ else }}Memory usage on {{ index $labels "instance" }} could not be measured - memory metrics returned no data{{ end }}'
           summary: 'High memory usage on {{ index $labels "instance" }}'
         labels:
+          severity: warning
+
+      # Bootnode a1–a7 and rpcnode rpc1/rpc2 run hot, so this fires later than the generic memory alert.
+      # chain=mainnet selects the mainnet Slack route and does not match the Planck/Heisenberg mute routes.
+      - uid: mainnet-high-memory-alert
+        title: Mainnet High Memory Usage
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              datasource:
+                type: prometheus
+                uid: prometheus
+              expr: (1 - (node_memory_MemAvailable_bytes{job=~"(bootnode|rpcnode)-node"} / node_memory_MemTotal_bytes{job=~"(bootnode|rpcnode)-node"})) * 100
+              refId: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              instant: false
+              range: true
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              datasource:
+                type: __expr__
+                uid: __expr__
+              conditions:
+                - evaluator:
+                    params:
+                      - 96
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: NoData
+        execErrState: Error
+        for: 30m
+        annotations:
+          description: '{{ with $values.B }}Memory usage on {{ index $labels "instance" }} has exceeded 96% (current: {{ printf "%.1f" .Value }}%) for more than 30 minutes{{ else }}Memory usage on {{ index $labels "instance" }} could not be measured - memory metrics returned no data{{ end }}'
+          summary: 'High memory usage on {{ index $labels "instance" }}'
+        labels:
+          chain: mainnet
           severity: warning
 
       # Alert when disk space is low
