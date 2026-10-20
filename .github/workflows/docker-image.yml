@@ -1,0 +1,190 @@
+name: Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      specific_version:
+        description: "Optional: Specify a full version (e.g., v1.2.3 or v0.2.1-beta.1) to build. If empty, uses the latest release tag. MUST start with 'v'. The image :latest tag is applied only when the selected version is the newest stable (non-prerelease) tag."
+        required: false
+        default: ""
+
+jobs:
+  determine_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version_with_v: ${{ steps.version_info.outputs.version_with_v }}
+      is_valid_version: ${{ steps.version_info.outputs.is_valid_version }}
+      promote_latest: ${{ steps.version_info.outputs.promote_latest }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version information
+        id: version_info
+        env:
+          SPECIFIC_VERSION: ${{ github.event.inputs.specific_version }}
+        run: |
+          set -ex
+          TARGET_VERSION=""
+
+          if [[ -n "$SPECIFIC_VERSION" ]]; then
+            TARGET_VERSION="$SPECIFIC_VERSION"
+            echo "Using specified version: $TARGET_VERSION"
+          else
+            echo "No specific version provided, determining latest release tag..."
+            TARGET_VERSION=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
+            if [[ -z "$TARGET_VERSION" ]]; then
+              echo "::error::No version tags starting with 'v' (e.g., vX.Y.Z) found in the repository."
+              echo "is_valid_version=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+            echo "Latest release version found: $TARGET_VERSION"
+          fi
+
+          if [[ ! "$TARGET_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$ ]]; then
+            echo "::error::Version '$TARGET_VERSION' is not a valid format. It must start with 'v' (e.g., v1.2.3 or v0.2.1-beta.1)."
+            echo "is_valid_version=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+          PROMOTE_LATEST=$(bash .github/scripts/should_promote_latest.sh "$TARGET_VERSION")
+          if [[ "$PROMOTE_LATEST" != "true" && "$PROMOTE_LATEST" != "false" ]]; then
+            echo "::error::should_promote_latest.sh must print true or false, got '$PROMOTE_LATEST'"
+            exit 1
+          fi
+
+          echo "version_with_v=$TARGET_VERSION" >> $GITHUB_OUTPUT
+          echo "is_valid_version=true" >> $GITHUB_OUTPUT
+          echo "promote_latest=$PROMOTE_LATEST" >> $GITHUB_OUTPUT
+
+  build_and_publish_image:
+    needs: determine_version
+    if: needs.determine_version.outputs.is_valid_version == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image_name: monitoring-grafana
+            context: grafana
+            dockerfile: grafana/Dockerfile
+            cache_scope: monitoring-grafana
+          - image_name: monitoring-nginx
+            context: nginx
+            dockerfile: nginx/Dockerfile
+            cache_scope: monitoring-nginx
+          - image_name: monitoring-slack-report
+            context: slack-report
+            dockerfile: slack-report/Dockerfile
+            cache_scope: monitoring-slack-report
+          - image_name: monitoring-prometheus
+            context: prometheus
+            dockerfile: prometheus/Dockerfile
+            cache_scope: monitoring-prometheus
+    concurrency:
+      group: ghcr-${{ matrix.image_name }}-${{ needs.determine_version.outputs.version_with_v }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    env:
+      GHCR_IMAGE_PATH: ghcr.io/quantus-network/${{ matrix.image_name }}
+      TARGET_VERSION_WITH_V: ${{ needs.determine_version.outputs.version_with_v }}
+      PROMOTE_LATEST: ${{ needs.determine_version.outputs.promote_latest }}
+
+    steps:
+      - name: Checkout workflow
+        uses: actions/checkout@v4
+
+      - name: Revalidate version
+        run: |
+          set -ex
+          if [[ ! "$TARGET_VERSION_WITH_V" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$ ]]; then
+            echo "::error::Version '$TARGET_VERSION_WITH_V' is not a valid format. It must start with 'v' (e.g., v1.2.3 or v0.2.1-beta.1)."
+            exit 1
+          fi
+          if [[ "$PROMOTE_LATEST" != "true" && "$PROMOTE_LATEST" != "false" ]]; then
+            echo "::error::promote_latest must be 'true' or 'false', got '$PROMOTE_LATEST'"
+            exit 1
+          fi
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if Docker image already exists and fail if so
+        id: check_image
+        run: |
+          set -ex
+          IMAGE_TO_CHECK="${GHCR_IMAGE_PATH}:${TARGET_VERSION_WITH_V}"
+          echo "Checking for image: $IMAGE_TO_CHECK"
+
+          set +e
+          INSPECT_OUTPUT=$(docker manifest inspect "$IMAGE_TO_CHECK" 2>&1)
+          INSPECT_STATUS=$?
+          set -e
+
+          CLASSIFICATION=$(printf '%s\n' "$INSPECT_OUTPUT" | bash .github/scripts/classify_manifest_probe.sh "$INSPECT_STATUS")
+          case "$CLASSIFICATION" in
+            exists)
+              echo "::error::Image $IMAGE_TO_CHECK already exists. Aborting."
+              exit 1
+              ;;
+            not_found)
+              echo "Image $IMAGE_TO_CHECK does not exist. Proceeding with build."
+              ;;
+            error)
+              echo "::error::Failed to inspect $IMAGE_TO_CHECK (exit ${INSPECT_STATUS}). Not treating this as a missing image."
+              printf '%s\n' "$INSPECT_OUTPUT"
+              exit 1
+              ;;
+            *)
+              echo "::error::Unexpected manifest classification '$CLASSIFICATION' (exit ${INSPECT_STATUS})."
+              printf '%s\n' "$INSPECT_OUTPUT"
+              exit 1
+              ;;
+          esac
+
+      - name: Compute image tags
+        id: image_tags
+        run: |
+          set -ex
+          TAGS="${GHCR_IMAGE_PATH}:${TARGET_VERSION_WITH_V}"
+          if [[ "$PROMOTE_LATEST" == "true" ]]; then
+            TAGS="${TAGS},${GHCR_IMAGE_PATH}:latest"
+          fi
+          echo "tags=$TAGS" >> $GITHUB_OUTPUT
+
+      - name: Checkout target version source code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_VERSION_WITH_V }}
+
+      - name: Build and push Docker image from Dockerfile
+        id: push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          platforms: linux/amd64
+          cache-from: type=gha,scope=${{ matrix.cache_scope }}
+          cache-to: type=gha,scope=${{ matrix.cache_scope }},mode=max
+          tags: ${{ steps.image_tags.outputs.tags }}
+
+      - name: Print completion message
+        run: |
+          echo "Successfully built and pushed ${GHCR_IMAGE_PATH}:${TARGET_VERSION_WITH_V}"
+          echo "Digest: ${{ steps.push.outputs.digest }}"
+          echo "Pin: ${TARGET_VERSION_WITH_V}@${{ steps.push.outputs.digest }}"
+          if [[ "$PROMOTE_LATEST" == "true" ]]; then
+            echo "Also tagged ${GHCR_IMAGE_PATH}:latest"
+          fi

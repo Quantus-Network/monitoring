@@ -22,6 +22,11 @@ COPY provisioning/alerting/contactpoints.slack.fragment.yml /etc/grafana/alertin
 COPY provisioning/alerting/policies.local.yml /etc/grafana/alerting-templates/policies.local.yml
 COPY provisioning/alerting/policies.production.yml /etc/grafana/alerting-templates/policies.production.yml
 
+COPY provisioning/datasources /etc/grafana/provisioning/datasources
+COPY provisioning/dashboards /etc/grafana/provisioning/dashboards
+COPY dashboards /usr/share/grafana/dashboards
+COPY grafana.ini /etc/grafana/grafana.ini
+
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 

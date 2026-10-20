@@ -1,6 +1,9 @@
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: ghcr.io/quantus-network/monitoring-prometheus:${MONITORING_TAG:-local}
+    build:
+      context: ./prometheus
+      dockerfile: Dockerfile
     container_name: prometheus
     ports:
       - "127.0.0.1:9090:9090"
@@ -8,34 +11,25 @@ services:
       - CF_ACCESS_CLIENT_ID=${CF_ACCESS_CLIENT_ID:?CF_ACCESS_CLIENT_ID is required}
       - CF_ACCESS_CLIENT_SECRET=${CF_ACCESS_CLIENT_SECRET:?CF_ACCESS_CLIENT_SECRET is required}
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
       - type: tmpfs
         target: /etc/prometheus/secrets
         tmpfs:
           mode: 01777
-    entrypoint: ["/bin/sh", "-c"]
     command:
-      - |
-        if [ -z "$$CF_ACCESS_CLIENT_ID" ] || [ -z "$$CF_ACCESS_CLIENT_SECRET" ]; then
-          echo "error: CF_ACCESS_CLIENT_ID and CF_ACCESS_CLIENT_SECRET must be set" >&2
-          exit 1
-        fi
-        printf '%s' "$$CF_ACCESS_CLIENT_ID" > /etc/prometheus/secrets/cf_access_client_id
-        printf '%s' "$$CF_ACCESS_CLIENT_SECRET" > /etc/prometheus/secrets/cf_access_client_secret
-        exec /bin/prometheus \
-          --config.file=/etc/prometheus/prometheus.yml \
-          --storage.tsdb.path=/prometheus \
-          --storage.tsdb.retention.time=60d \
-          --storage.tsdb.retention.size=30GB \
-          --web.console.libraries=/usr/share/prometheus/console_libraries \
-          --web.console.templates=/usr/share/prometheus/consoles \
-          --web.enable-lifecycle
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=60d
+      - --storage.tsdb.retention.size=30GB
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+      - --web.enable-lifecycle
     restart: unless-stopped
     networks:
       - monitoring
 
   nginx:
+    image: ghcr.io/quantus-network/monitoring-nginx:${MONITORING_TAG:-local}
     build:
       context: ./nginx
       dockerfile: Dockerfile
@@ -74,10 +68,10 @@ services:
     # Based on 11.3.0 instead of latest (12.x) due to datasource provisioning bug
     # Issue: Grafana 12.x fails with "Datasource provisioning error: data source not found"
     # on some platforms (Fedora/RHEL) while working on macOS - race condition in provisioning
+    image: ghcr.io/quantus-network/monitoring-grafana:${MONITORING_TAG:-local}
     build:
       context: ./grafana
       dockerfile: Dockerfile
-    image: quantus/grafana:11.3.0
     container_name: grafana
     ports:
       - "127.0.0.1:3000:3000"
@@ -99,7 +93,7 @@ services:
       # alerting (incl. contact-point secrets) are not publicly readable.
       - GF_AUTH_ANONYMOUS_ENABLED=false
       # Set Welcome dashboard as home page
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/overview/welcome.json
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/usr/share/grafana/dashboards/overview/welcome.json
       # PostgreSQL Database Configuration
       - GF_DATABASE_TYPE=postgres
       - GF_DATABASE_HOST=postgres:5432
@@ -127,14 +121,6 @@ services:
       - GF_RENDERING_RENDERER_TOKEN=${GRAFANA_RENDERER_TOKEN:--}
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
-      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
-      - ./grafana/branding:/etc/grafana/branding:ro
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
-      # Login background: must override image file (Grafana 11.3 uses url(public/img/g8_login_*.svg)). Bind mount = no stale build cache.
-      - ./grafana/branding/quantus_login_dark.svg:/usr/share/grafana/public/img/g8_login_dark.svg:ro
-      - ./grafana/branding/quantus_login_light.svg:/usr/share/grafana/public/img/g8_login_light.svg:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -182,10 +168,10 @@ services:
       - monitoring
 
   slack-report:
+    image: ghcr.io/quantus-network/monitoring-slack-report:${MONITORING_TAG:-local}
     build:
       context: ./slack-report
       dockerfile: Dockerfile
-    image: quantus/slack-report:latest
     container_name: slack-report
     profiles: ["slack-report"]
     environment:
