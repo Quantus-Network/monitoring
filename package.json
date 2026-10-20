@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "test": "node --test prometheus/*.test.mjs .github/scripts/*.test.mjs stack-images.test.mjs",
     "format": "prettier --write \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml",
     "format:check": "prettier --check \"grafana/**/*.{json,yml,yaml}\" docker-compose.yml"
   },

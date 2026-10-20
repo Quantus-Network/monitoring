@@ -9,7 +9,7 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: false
     options:
-      path: /var/lib/grafana/dashboards/overview
+      path: /usr/share/grafana/dashboards/overview
   - name: "Chains"
     orgId: 1
     folder: "Chains"
@@ -18,7 +18,7 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards/chains
+      path: /usr/share/grafana/dashboards/chains
   - name: "Infrastructure"
     orgId: 1
     folder: "Infrastructure"
@@ -27,7 +27,7 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards/infrastructure
+      path: /usr/share/grafana/dashboards/infrastructure
   - name: "Applications"
     orgId: 1
     folder: "Applications"
@@ -36,4 +36,4 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards/applications
+      path: /usr/share/grafana/dashboards/applications

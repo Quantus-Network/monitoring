@@ -23,8 +23,8 @@ cd monitoring
 cp .env.example .env
 nano .env  # Set passwords, SMTP, TELEGRAM_*, SLACK_WEBHOOK_URL, ALERT_EMAIL_ADDRESSES
 
-# 3. Start the stack
-docker compose up -d
+# 3. Build the local images and start the stack
+docker compose up --build -d
 
 # 4. Access services
 open http://localhost:3000       # Grafana (login: admin / admin)
@@ -37,6 +37,22 @@ That's it! 🎉
 - **Grafana**: Login required (`admin` / `admin` by default). Anonymous access is disabled.
 - **Public dashboards**: Use Grafana’s built-in Public Dashboard share for selected boards only (see [Public Dashboards](#public-dashboards)). Explore, alerting, and other dashboards stay private.
 - **Prometheus**: Secured with Basic Auth (`admin` / `prometheus`)
+- **Images**: Dashboards, Grafana provisioning, `grafana.ini`, and `prometheus.yml` are copied into the images. A change to those files needs `docker compose up --build -d`. `MONITORING_TAG` defaults to `local`.
+
+## Publishing images
+
+The stack publishes four images from one git tag: `monitoring-grafana`, `monitoring-nginx`, `monitoring-prometheus`, and `monitoring-slack-report`.
+
+1. Tag the commit that contains the Dockerfiles, for example `v0.1.0`. The tag must match `vX.Y.Z` or `vX.Y.Z-prerelease`.
+2. Run the **Docker Image** workflow (`.github/workflows/docker-image.yml`) from the Actions tab. Leave the version empty to build the newest `v*` tag, or set it to a specific tag. The workflow pushes `ghcr.io/quantus-network/<image>:<tag>` and prints the digest. `:latest` moves only when that tag is the newest stable tag. A tag that already exists is not rebuilt.
+3. On a host that should run the published release, set `MONITORING_TAG` to that tag and pull without rebuilding:
+
+```bash
+MONITORING_TAG=v0.1.0 docker compose pull
+MONITORING_TAG=v0.1.0 docker compose up -d --no-build
+```
+
+`--no-build` keeps Compose from replacing the pulled image with a local build of the working tree. After the first push, confirm the new GHCR packages are private.
 
 ## Access URLs
 
@@ -113,10 +129,9 @@ scrape_configs:
           role: 'validator'
 ```
 
-Reload Prometheus:
+Rebuild Prometheus so the image picks up `prometheus.yml`:
 ```bash
-# With authentication
-curl -u admin:prometheus -X POST http://localhost:9091/-/reload
+docker compose up --build -d prometheus
 ```
 
 ### Scraping metrics behind Cloudflare Access
@@ -140,11 +155,10 @@ http_headers:
       - /etc/prometheus/secrets/cf_access_client_secret
 ```
 
-Then recreate Prometheus (so secrets are rewritten) and reload if you only changed the YAML:
+Then rebuild Prometheus so the image picks up the scrape config and rewrites the secrets:
 
 ```bash
-docker compose up -d prometheus
-curl -u admin:prometheus -X POST http://localhost:9091/-/reload
+docker compose up --build -d prometheus
 ```
 
 ## Configuration
@@ -160,6 +174,9 @@ cp .env.example .env
 Key variables (see `.env.example` for the full list, including SMTP, Telegram, and Slack):
 
 ```bash
+# Image tag. local for a working-tree build; vX.Y.Z when pulling a published release.
+MONITORING_TAG=local
+
 # Grafana Configuration
 GRAFANA_ADMIN_PASSWORD=admin
 
@@ -546,14 +563,18 @@ docker compose down -v
 
 ### Update Images
 ```bash
+# Local tree (dashboards, scrape config, nginx, slack-report)
+docker compose up --build -d
+
+# Published release. Set MONITORING_TAG to the git tag first.
 docker compose pull
-docker compose up -d
+docker compose up -d --no-build
 ```
 
 ## Data Persistence
 
 - **Prometheus data**: Stored in Docker volume `prometheus-data` (60 days retention, 30GB max)
-- **Grafana data**: Stored in Docker volume `grafana-data` (dashboards, datasources, settings)
+- **Grafana data**: Stored in Docker volume `grafana-data` (users, preferences, alert state). Dashboards and provisioning ship in the Grafana image, under `/usr/share/grafana/dashboards`, not in this volume.
 
 To backup:
 ```bash
@@ -626,6 +647,9 @@ Grafana serves `/public/img/*.svg` with long browser cache headers (`Cache-Contr
 
 ```
 monitoring/
+├── .github/
+│   ├── workflows/docker-image.yml  # Manual GHCR publish for one git tag
+│   └── scripts/                    # Version and manifest checks for that workflow
 ├── docker-compose.yml              # Main configuration (+ slack-report profile)
 ├── slack-report/                   # Daily Slack dashboard reports (opt-in profile)
 │   ├── Dockerfile                  # Alpine + supercronic report runner
@@ -634,12 +658,16 @@ monitoring/
 ├── scripts/
 │   └── reorganize_dashboards.py    # One-off dashboard maintenance helper
 ├── prometheus/
+│   ├── Dockerfile                  # Prometheus 3 image with scrape config baked in
+│   ├── docker-entrypoint.sh        # Writes Cloudflare Access scrape secrets
 │   └── prometheus.yml              # Prometheus scrape configs
 ├── nginx/
 │   ├── nginx.conf                  # Nginx reverse proxy config
 │   ├── Dockerfile                  # Custom nginx image with htpasswd
 │   └── docker-entrypoint.sh        # Auth generation script
 ├── grafana/
+│   ├── Dockerfile                  # Grafana 11.3.0 with branding, dashboards, and provisioning
+│   ├── grafana.ini
 │   ├── dashboards/                 # Pre-loaded dashboards (by concern)
 │   │   ├── overview/               # Home / multi-chain summary
 │   │   ├── chains/                 # Chain dashboards (chain selector)
@@ -754,7 +782,7 @@ ports:
 This means rate limiting is too strict. Current settings allow 30 requests/second (burst 50), which should be enough. If you still see errors:
 1. Check nginx logs: `docker compose logs nginx`
 2. Adjust rate limits in `nginx/nginx.conf` if needed
-3. Restart nginx: `docker compose restart nginx`
+3. Rebuild nginx: `docker compose up --build -d nginx`
 
 ### Cannot access Prometheus (401 Unauthorized)
 
@@ -823,7 +851,7 @@ This stack includes built-in security (Nginx + Basic Auth + Rate Limiting). For 
 - **Increase retention** if needed: Edit `docker-compose.yml` storage settings
 - **Setup backups** for Docker volumes
 - **Monitor the monitoring** - Set up alerting for stack availability
-- **Regular updates**: `docker compose pull && docker compose up -d`
+- **Regular updates**: tag a release and run the Docker Image workflow, then `docker compose pull && docker compose up -d --no-build` with `MONITORING_TAG` set. Local changes use `docker compose up --build -d`.
 
 ### Changing Prometheus Credentials:
 ```bash
