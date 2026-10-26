@@ -109,8 +109,8 @@ The stack monitors:
     - Connected nodes/feeds/shards
     - Message rates and dropped messages
     - Service availability
-  - Logs Host (hm-logs.quantus.cat) - VPS system metrics
-  - Graylog (qm-logs.quantus.cat) - Ingest, journal, indexer failures, JVM heap
+  - Logs Host (hm-logs.quantus.com) - VPS system metrics
+  - Graylog (qm-logs.quantus.com) - Ingest, journal, indexer failures, JVM heap
 
 ## Adding Your Nodes
 
@@ -402,7 +402,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
 - 🔴 **Logs Host Down** - Triggers when the logs VPS is unreachable for 3+ minutes
-- 🔴 **Graylog Down** - Triggers when Graylog (`qm-logs.quantus.cat`) is unreachable for 3+ minutes
+- 🔴 **Graylog Down** - Triggers when Graylog (`qm-logs.quantus.com`) is unreachable for 3+ minutes
 - 🟡 **Graylog Journal High** - Triggers when the Graylog journal exceeds 65% for 5+ minutes
 - 🟡 **Graylog Indexer Failures** - Triggers when OpenSearch write/flush failures are above 0 for 5+ minutes
 - 🟡 **Graylog Heap High** - Triggers when Graylog JVM heap exceeds 85% for 10+ minutes

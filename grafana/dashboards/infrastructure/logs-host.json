@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Logs Host System Metrics\n\nCapacity and health for the logs host (`hm-logs.quantus.cat`)."
+        "content": "# Logs Host System Metrics\n\nCapacity and health for the logs host (`hm-logs.quantus.com`)."
       }
     },
     {

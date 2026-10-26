@@ -819,7 +819,7 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets:
-    - hm-logs.quantus.cat
+    - hm-logs.quantus.com
 - job_name: 'logs-graylog'
   honor_timestamps: true
   track_timestamps_staleness: false
@@ -837,4 +837,4 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets:
-    - qm-logs.quantus.cat
+    - qm-logs.quantus.com
