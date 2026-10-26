@@ -2631,14 +2631,9 @@
             "selected": false,
             "text": "planck",
             "value": "planck"
-          },
-          {
-            "selected": false,
-            "text": "heisenberg",
-            "value": "heisenberg"
           }
         ],
-        "query": "mainnet bootnode : bootnode,mainnet rpcnode : rpcnode,planck,heisenberg",
+        "query": "mainnet bootnode : bootnode,mainnet rpcnode : rpcnode,planck",
         "skipUrlSync": false,
         "type": "custom"
       }

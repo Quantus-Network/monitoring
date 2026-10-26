@@ -107,7 +107,7 @@ groups:
               datasource:
                 type: prometheus
                 uid: prometheus
-              expr: substrate_sub_libp2p_peers_count{chain!="heisenberg"}
+              expr: substrate_sub_libp2p_peers_count
               refId: A
               intervalMs: 1000
               maxDataPoints: 43200
@@ -347,7 +347,7 @@ groups:
           severity: warning
 
       # Alert when memory usage is high.
-      # Planck/Heisenberg node hosts are excluded — RAM alerts on those testnets are noisy.
+      # Planck node hosts are excluded — RAM alerts on that testnet are noisy.
       # Bootnode and rpcnode hosts use mainnet-high-memory-alert instead.
       - uid: high-memory-alert
         title: High Memory Usage
@@ -362,7 +362,7 @@ groups:
               datasource:
                 type: prometheus
                 uid: prometheus
-              expr: (1 - (node_memory_MemAvailable_bytes{job!~"(heisenberg|planck|bootnode|rpcnode)-node"} / node_memory_MemTotal_bytes{job!~"(heisenberg|planck|bootnode|rpcnode)-node"})) * 100
+              expr: (1 - (node_memory_MemAvailable_bytes{job!~"(planck|bootnode|rpcnode)-node"} / node_memory_MemTotal_bytes{job!~"(planck|bootnode|rpcnode)-node"})) * 100
               refId: A
               intervalMs: 1000
               maxDataPoints: 43200
@@ -411,7 +411,7 @@ groups:
           severity: warning
 
       # Bootnode a1–a7 and rpcnode rpc1/rpc2 run hot, so this fires later than the generic memory alert.
-      # chain=mainnet selects the mainnet Slack route and does not match the Planck/Heisenberg mute routes.
+      # chain=mainnet selects the mainnet Slack route and does not match the Planck mute routes.
       - uid: mainnet-high-memory-alert
         title: Mainnet High Memory Usage
         condition: C

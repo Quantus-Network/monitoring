@@ -9,30 +9,6 @@ policies:
     # Effectively notify once until resolved; re-notify only after resolve → fire again
     repeat_interval: 8736h
     routes:
-      # Heisenberg — no email, Slack, or Telegram.
-      # Grafana requires a receiver; mute-heisenberg (mute_times.yml) suppresses every message.
-      # Match chain, scrape job, and host name: Node Down, disk, and CPU have no chain label.
-      - receiver: Email Notifications
-        matchers:
-          - chain = heisenberg
-        mute_time_intervals:
-          - mute-heisenberg
-        continue: false
-
-      - receiver: Email Notifications
-        matchers:
-          - job =~ "heisenberg-.*"
-        mute_time_intervals:
-          - mute-heisenberg
-        continue: false
-
-      - receiver: Email Notifications
-        matchers:
-          - instance =~ ".*heisenberg.*"
-        mute_time_intervals:
-          - mute-heisenberg
-        continue: false
-
       # Planck — no email, Slack, or Telegram.
       # Match chain, scrape job, and host name: Node Down, disk, and CPU have no chain label.
       - receiver: Email Notifications

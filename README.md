@@ -94,7 +94,7 @@ The stack monitors:
   - Disk usage and I/O
   - Network traffic (receive/transmit)
   - System uptime
-- **Remote Blockchain Nodes** - Planck, Heisenberg, mainnet bootnode, and mainnet rpcnode fleets
+- **Remote Blockchain Nodes** - Planck, mainnet bootnode, and mainnet rpcnode fleets
   - Node metrics (system resources, peers, network I/O)
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
@@ -353,7 +353,7 @@ docker compose --profile slack-report up -d --build
 **Dashboard list** (`SLACK_REPORT_DASHBOARDS`) — comma-separated UIDs; append query params for template variables:
 
 ```bash
-SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck,chain-health?var-chain=heisenberg
+SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck
 ```
 
 **Schedule:** default `0 8 * * *` (08:00) in `SLACK_REPORT_TZ` (default `UTC`). Override with `SLACK_REPORT_CRON` / `SLACK_REPORT_TZ`.
@@ -377,9 +377,9 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
 - **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
-- **Planck** and **Heisenberg** → not notified (email, Slack, and Telegram are muted)
+- **Planck** → not notified (email, Slack, and Telegram are muted)
 
-Planck and Heisenberg alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=planck` or `chain=heisenberg`, a `planck-*` or `heisenberg-*` job, or an instance name containing `planck` or `heisenberg`. That covers chain alerts, Planck apps labeled `chain=planck`, and host alerts (node down, disk, CPU) that have no chain label. Mainnet bootnode and rpcnode still notify. The same mute routes are in the email-only local policies.
+Planck alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=planck`, a `planck-*` job, or an instance name containing `planck`. That covers chain alerts, Planck apps labeled `chain=planck`, and host alerts (node down, disk, CPU) that have no chain label. Mainnet bootnode and rpcnode still notify. The same mute routes are in the email-only local policies.
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
@@ -392,12 +392,12 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **Node Health:**
 - 🔴 **Node Down** - Triggers when a `*-node`, `*-chain`, or `*-substrate` scrape is down for 5+ minutes
 - 🔴 **No New Blocks** - Fires when no new blocks have been produced for 7+ minutes (rule); first Telegram notification arrives ~10 min after the last block (7 min threshold + 1 min `for:` + ~2 min `group_wait`). Mainnet RPC nodes do not export `last_block_time`; they use a dedicated best-block height stall (`delta(...)[7m] < 1`)
-- 🟡 **Low Peer Count** - Triggers when peer count drops below 2 (all non-Heisenberg chains, including mainnet)
+- 🟡 **Low Peer Count** - Triggers when peer count drops below 2 (all chains, including mainnet)
 
 **System Resources:**
 - 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
 - 🟡 **High CPU Usage** - Triggers when CPU usage exceeds 80% for 15+ minutes
-- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% for 10+ minutes (Planck and Heisenberg node hosts are excluded). Mainnet bootnode (`a1`–`a7`) and rpcnode (`rpc1`/`rpc2`) use a separate alert at 96% for 30+ minutes, labeled `chain=mainnet`, so it takes the mainnet Slack route and is not muted with Planck or Heisenberg.
+- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% for 10+ minutes (Planck node hosts are excluded). Mainnet bootnode (`a1`–`a7`) and rpcnode (`rpc1`/`rpc2`) use a separate alert at 96% for 30+ minutes, labeled `chain=mainnet`, so it takes the mainnet Slack route and is not muted with Planck.
 
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
@@ -496,7 +496,6 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 |---------|----------|-------------------|-----------------|
 | **mainnet** (bootnode + rpcnode) 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
 | **Planck** | Muted | not notified | — |
-| **Heisenberg** | Muted | not notified | — |
 
 Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, once until resolved
@@ -688,7 +687,7 @@ monitoring/
 │           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
 │           ├── policies.production.yml # Email / Telegram / Slack routing
-│           └── mute_times.yml          # Always-on mute for Planck and Heisenberg notifications
+│           └── mute_times.yml          # Always-on mute for Planck notifications
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
@@ -698,24 +697,24 @@ monitoring/
 
 ## Included Dashboards
 
-Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (mainnet bootnode / mainnet rpcnode / planck / heisenberg).
+Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (mainnet bootnode / mainnet rpcnode / planck).
 
 ### Overview (home)
 
 **Quantus Network Overview** — first page after login:
-- Chain height, last block age, and uptime for Planck, Heisenberg, mainnet bootnodes, and mainnet RPC nodes
+- Chain height, last block age, and uptime for Planck, mainnet bootnodes, and mainnet RPC nodes
 - Telemetry host status and connected nodes
 - Refreshes every 10 seconds
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
-- Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
+- Chains: Planck (Chain 1–2 + Node 1–2); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
 - Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck: Indexer / API / DB + sync) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains
 
-Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is mainnet bootnode / mainnet rpcnode / planck / heisenberg. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
+Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is mainnet bootnode / mainnet rpcnode / planck. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
 
 | Dashboard | What it covers |
 |-----------|----------------|

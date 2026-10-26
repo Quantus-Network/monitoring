@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DASHBOARDS = ROOT / "grafana" / "dashboards"
-CHAINS = ("planck", "heisenberg")
+CHAINS = ("planck",)
 
 CONSENSUS_TITLES = {
     "Estimated Network Hashrate",
@@ -151,9 +151,8 @@ def chain_variable(include_datasource: bool = False) -> list[dict]:
             "name": "chain",
             "options": [
                 {"selected": True, "text": "planck", "value": "planck"},
-                {"selected": False, "text": "heisenberg", "value": "heisenberg"},
             ],
-            "query": "planck,heisenberg",
+            "query": "planck",
             "skipUrlSync": False,
             "type": "custom",
         }
@@ -465,7 +464,7 @@ def update_welcome() -> None:
     welcome = load(DASHBOARDS / "general" / "welcome.json")
     welcome["panels"][0]["options"]["content"] = (
         "# Quantus Network Overview\n\n"
-        "Real-time monitoring across **Planck** and **Heisenberg**. "
+        "Real-time monitoring across **Planck**. "
         "Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n"
         "[quantus.com](https://www.quantus.com/)"
     )
