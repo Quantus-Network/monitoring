@@ -79,7 +79,7 @@ Public share state is stored in Grafana’s database (not in the provisioned JSO
 |----------------------|--------------|
 | **Service Status** (uptime / operational status only) | Infrastructure host boards (CPU, mem, disk, network, hostnames) |
 | Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Explorer, Graylog) |
-| | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
+| | Monitoring Stack and any board that exposes capacity or topology |
 
 Do **not** public-share Quersi Host, Logs Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
 
@@ -731,7 +731,6 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 |-----------|----------------|
 | **Monitoring Stack** | Docker host running Prometheus/Grafana |
 | **Telemetry** | Telemetry VPS host + backend message feeds |
-| **Support Host** | Support server system metrics |
 | **Senoti Host** | Senoti fleet system metrics |
 | **Subsquid Host** | Subsquid fleet system metrics (Fleet: mainnet / Planck) |
 | **Quersi Host** | Quersi wallet remote-config system metrics |

@@ -445,12 +445,6 @@ def move_infrastructure_and_apps() -> None:
             "infra-telemetry",
             ["infrastructure", "telemetry"],
         ),
-        DASHBOARDS / "system" / "support-monitoring.json": (
-            DASHBOARDS / "infrastructure" / "support-host.json",
-            "Support Host",
-            "infra-support-host",
-            ["infrastructure", "support"],
-        ),
         DASHBOARDS / "system" / "explorer-monitoring.json": (
             DASHBOARDS / "applications" / "explorer.json",
             "Explorer",
