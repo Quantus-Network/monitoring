@@ -78,7 +78,7 @@ Public share state is stored in Grafana’s database (not in the provisioned JSO
 | Safe to public-share | Keep private |
 |----------------------|--------------|
 | **Service Status** (uptime / operational status only) | Infrastructure host boards (CPU, mem, disk, network, hostnames) |
-| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Faucet, Explorer, Graylog) |
+| Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Explorer, Graylog) |
 | | Monitoring Stack, Support Host, and any board that exposes capacity or topology |
 
 Do **not** public-share Quersi Host, Logs Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
@@ -672,7 +672,7 @@ monitoring/
 │   │   ├── overview/               # Home / multi-chain summary
 │   │   ├── chains/                 # Chain dashboards (chain selector)
 │   │   ├── infrastructure/         # Hosts & telemetry
-│   │   └── applications/           # Faucet, explorer, graylog
+│   │   └── applications/           # Explorer, graylog
 │   ├── branding/                   # Quantus branding assets
 │   │   ├── logo.svg                # Sidebar logo (SVG)
 │   │   ├── logo.png                # Apple touch icon
@@ -709,7 +709,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Planck / Heisenberg (Chain 1–2 + Node 1–2 each); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck: Indexer / API / DB + sync) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Faucet; Telemetry
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck: Indexer / API / DB + sync) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
@@ -741,7 +741,6 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 
 | Dashboard | What it covers |
 |-----------|----------------|
-| **Faucet** | Request rates, transfers, balance, rejections |
 | **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: mainnet / Planck) |
 | **Graylog** | Ingest rate, journal fill, buffer fill, indexer failures, heap |
 

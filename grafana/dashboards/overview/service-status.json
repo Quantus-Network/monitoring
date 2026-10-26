@@ -4636,199 +4636,6 @@
         "x": 0,
         "y": 99
       },
-      "id": 5,
-      "options": {
-        "mode": "markdown",
-        "content": "## Faucet"
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Faucet",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 101
-      },
-      "id": 50,
-      "targets": [
-        {
-          "expr": "up{job=\"support-faucet\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Faucet — 30d Availability",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 101
-      },
-      "id": 51,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"support-faucet\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Faucet Success Rate",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 101
-      },
-      "id": 52,
-      "targets": [
-        {
-          "expr": "(faucet_successful_transfers{job=\"support-faucet\"} / (faucet_total_requests{job=\"support-faucet\"} > 0)) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 105
-      },
       "id": 7,
       "options": {
         "mode": "markdown",
@@ -4842,7 +4649,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 107
+        "y": 101
       },
       "id": 70,
       "targets": [
@@ -4907,7 +4714,7 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 107
+        "y": 101
       },
       "id": 71,
       "targets": [
@@ -4965,7 +4772,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 107
+        "y": 101
       },
       "id": 72,
       "targets": [
@@ -5030,7 +4837,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 107
+        "y": 101
       },
       "id": 73,
       "targets": [
@@ -5088,7 +4895,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 105
       },
       "id": 74,
       "targets": [

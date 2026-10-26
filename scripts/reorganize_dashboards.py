@@ -451,12 +451,6 @@ def move_infrastructure_and_apps() -> None:
             "infra-support-host",
             ["infrastructure", "support"],
         ),
-        DASHBOARDS / "system" / "faucet-monitoring.json": (
-            DASHBOARDS / "applications" / "faucet.json",
-            "Faucet",
-            "app-faucet",
-            ["applications", "faucet"],
-        ),
         DASHBOARDS / "system" / "explorer-monitoring.json": (
             DASHBOARDS / "applications" / "explorer.json",
             "Explorer",
