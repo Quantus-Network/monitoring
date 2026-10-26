@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DASHBOARDS = ROOT / "grafana" / "dashboards"
-CHAINS = ("planck", "heisenberg")
+CHAINS = ("bootnode", "rpcnode")
 
 CONSENSUS_TITLES = {
     "Estimated Network Hashrate",
@@ -143,17 +143,17 @@ def stack_panels(panels: list[dict]) -> list[dict]:
 def chain_variable(include_datasource: bool = False) -> list[dict]:
     variables = [
         {
-            "current": {"selected": True, "text": "planck", "value": "planck"},
+            "current": {"selected": True, "text": "mainnet bootnode", "value": "bootnode"},
             "hide": 0,
             "includeAll": False,
             "label": "Chain",
             "multi": False,
             "name": "chain",
             "options": [
-                {"selected": True, "text": "planck", "value": "planck"},
-                {"selected": False, "text": "heisenberg", "value": "heisenberg"},
+                {"selected": True, "text": "mainnet bootnode", "value": "bootnode"},
+                {"selected": False, "text": "mainnet rpcnode", "value": "rpcnode"},
             ],
-            "query": "planck,heisenberg",
+            "query": "mainnet bootnode : bootnode,mainnet rpcnode : rpcnode",
             "skipUrlSync": False,
             "type": "custom",
         }
@@ -445,18 +445,6 @@ def move_infrastructure_and_apps() -> None:
             "infra-telemetry",
             ["infrastructure", "telemetry"],
         ),
-        DASHBOARDS / "system" / "support-monitoring.json": (
-            DASHBOARDS / "infrastructure" / "support-host.json",
-            "Support Host",
-            "infra-support-host",
-            ["infrastructure", "support"],
-        ),
-        DASHBOARDS / "system" / "faucet-monitoring.json": (
-            DASHBOARDS / "applications" / "faucet.json",
-            "Faucet",
-            "app-faucet",
-            ["applications", "faucet"],
-        ),
         DASHBOARDS / "system" / "explorer-monitoring.json": (
             DASHBOARDS / "applications" / "explorer.json",
             "Explorer",
@@ -477,7 +465,7 @@ def update_welcome() -> None:
     welcome = load(DASHBOARDS / "general" / "welcome.json")
     welcome["panels"][0]["options"]["content"] = (
         "# Quantus Network Overview\n\n"
-        "Real-time monitoring across **Planck** and **Heisenberg**. "
+        "Real-time monitoring across **Mainnet bootnodes** and **Mainnet RPC nodes**. "
         "Use the **Chains** folder dashboards with the chain selector for detailed views.\n\n"
         "[quantus.com](https://www.quantus.com/)"
     )

@@ -23,7 +23,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Graylog\n\nIngest, backpressure, indexer errors, and JVM heap for `qm-logs.quantus.cat`. Host capacity is on **Logs Host**."
+        "content": "# Graylog\n\nIngest, backpressure, indexer errors, and JVM heap for `qm-logs.quantus.com`. Host capacity is on **Logs Host**."
       }
     },
     {
