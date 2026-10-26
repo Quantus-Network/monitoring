@@ -94,15 +94,15 @@ The stack monitors:
   - Disk usage and I/O
   - Network traffic (receive/transmit)
   - System uptime
-- **Remote Blockchain Nodes** - Planck, mainnet bootnode, and mainnet rpcnode fleets
+- **Remote Blockchain Nodes** - mainnet bootnode and mainnet rpcnode fleets
   - Node metrics (system resources, peers, network I/O)
   - Substrate metrics (block production, finalization)
   - Mining metrics (hashrate, difficulty)
   - Mainnet bootnode (`a1`–`a7`) and mainnet rpcnode (`rpc1`/`rpc2`) scrapes use Cloudflare Access headers (same `http_headers` block as senoti/quersi)
-- **Subsquid / Explorer** - Planck testnet and mainnet fleets (`planck-subsquid-*`, `mainnet-subsquid-*`)
-  - Processor Prometheus on `subsquid-proc-1` / `subsquid-mainnet-proc-1` (active-color indexer)
-  - node_exporter on proc via `subsquid-proc-1-hm` / `subsquid-mainnet-proc-1-hm`, and on app and both DB colors. Planck has a single app host and no dedicated chain node. Mainnet also scrapes `app-2` and `chain-1` (`subsquid-*.quantus.com` / `subsquid-mainnet-*.quantus.com`)
-  - Mainnet scrapes use the same Cloudflare Access headers as senoti/quersi
+- **Subsquid / Explorer** - mainnet fleet (`mainnet-subsquid-*`)
+  - Processor Prometheus on `subsquid-mainnet-proc-1` (active-color indexer)
+  - node_exporter on proc via `subsquid-mainnet-proc-1-hm`, and on both app hosts, both DB colors, and `chain-1` (`subsquid-mainnet-*.quantus.com`)
+  - Scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
   - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
   - Telemetry Backend (feed-telemetry.quantus.cat) - Application metrics
@@ -111,6 +111,7 @@ The stack monitors:
     - Service availability
   - Logs Host (hm-logs.quantus.com) - VPS system metrics
   - Graylog (qm-logs.quantus.com) - Ingest, journal, indexer failures, JVM heap
+  - Senoti (`senoti-app-1`, `senoti-db-1`, `senoti-mq-1`, `senoti-watcher-1`, `senoti-core-1` on `senoti-*.quantus.com`) - mainnet notification hosts, labeled `chain=mainnet`
 
 ## Adding Your Nodes
 
@@ -280,10 +281,10 @@ docker compose up -d --build grafana
 
 Status: firing
 Severity: critical
-Chain: planck
-Instance: a1-qm-planck.quantus.cat
+Chain: mainnet
+Instance: a1
 
-📋 No new blocks on planck for 7+ minutes
+📋 No new blocks on mainnet for 7+ minutes
 Check block production immediately
 
 🔗 View in Grafana
@@ -319,8 +320,8 @@ docker compose up -d --build grafana
 ```
 🚨 High CPU Usage — FIRING
 Severity: warning
-Chain: planck
-Instance: example-host
+Chain: mainnet
+Instance: a1
 
 📋 CPU usage high
 …
@@ -353,7 +354,7 @@ docker compose --profile slack-report up -d --build
 **Dashboard list** (`SLACK_REPORT_DASHBOARDS`) — comma-separated UIDs; append query params for template variables:
 
 ```bash
-SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=planck
+SLACK_REPORT_DASHBOARDS=welcome-overview,service-status,chain-health?var-chain=bootnode
 ```
 
 **Schedule:** default `0 8 * * *` (08:00) in `SLACK_REPORT_TZ` (default `UTC`). Override with `SLACK_REPORT_CRON` / `SLACK_REPORT_TZ`.
@@ -377,9 +378,6 @@ When **both** Telegram (`TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`) and `SLACK_WE
 - 🟡 **Warnings / non-critical** → Slack
 - Default receiver → Slack
 - **mainnet** (bootnode + rpcnode) → 2 min `group_wait`
-- **Planck** → not notified (email, Slack, and Telegram are muted)
-
-Planck alerts still evaluate in Grafana. Notifications are muted when an alert has `chain=planck`, a `planck-*` job, or an instance name containing `planck`. That covers chain alerts, Planck apps labeled `chain=planck`, and host alerts (node down, disk, CPU) that have no chain label. Mainnet bootnode and rpcnode still notify. The same mute routes are in the email-only local policies.
 
 If either Telegram or Slack is missing, Grafana falls back to email-only local policies (`policies.local.yml`). Contact points for whichever channels are configured are still provisioned, but routing only uses Email until both are set.
 
@@ -397,7 +395,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **System Resources:**
 - 🔴 **Low Disk Space** - Triggers when disk usage exceeds 85%
 - 🟡 **High CPU Usage** - Triggers when CPU usage exceeds 80% for 15+ minutes
-- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% for 10+ minutes (Planck node hosts are excluded). Mainnet bootnode (`a1`–`a7`) and rpcnode (`rpc1`/`rpc2`) use a separate alert at 96% for 30+ minutes, labeled `chain=mainnet`, so it takes the mainnet Slack route and is not muted with Planck.
+- 🟡 **High Memory Usage** - Triggers when memory usage exceeds 90% for 10+ minutes. Mainnet bootnode (`a1`–`a7`) and rpcnode (`rpc1`/`rpc2`) use a separate alert at 96% for 30+ minutes, labeled `chain=mainnet`, so it takes the mainnet Slack route.
 
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
@@ -495,7 +493,6 @@ Policies are assembled at container start from `policies.production.yml` or `pol
 | Network | Priority | First Notification | Repeat Interval |
 |---------|----------|-------------------|-----------------|
 | **mainnet** (bootnode + rpcnode) 🔴 | Highest | 2 minutes | once until resolved (`8736h`) |
-| **Planck** | Muted | not notified | — |
 
 Fallback by severity (if no chain label):
 - **Critical alerts** (severity=critical): 10s wait, once until resolved
@@ -687,7 +684,7 @@ monitoring/
 │           ├── contactpoints.slack.fragment.yml
 │           ├── policies.local.yml      # Email-only (local/testing)
 │           ├── policies.production.yml # Email / Telegram / Slack routing
-│           └── mute_times.yml          # Always-on mute for Planck notifications
+│           └── mute_times.yml          # Deletes a retired notification mute
 ├── .env.example                    # Environment variables template
 ├── .gitignore
 └── README.md
@@ -697,24 +694,24 @@ monitoring/
 
 ## Included Dashboards
 
-Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (mainnet bootnode / mainnet rpcnode / planck).
+Dashboards are grouped by **concern**, not by network. Chain-specific views use a **Chain** dropdown (mainnet bootnode / mainnet rpcnode).
 
 ### Overview (home)
 
 **Quantus Network Overview** — first page after login:
-- Chain height, last block age, and uptime for Planck, mainnet bootnodes, and mainnet RPC nodes
+- Chain height, last block age, and uptime for mainnet bootnodes and mainnet RPC nodes
 - Telemetry host status and connected nodes
 - Refreshes every 10 seconds
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
-- Chains: Planck (Chain 1–2 + Node 1–2); Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Planck: Indexer / API / DB + sync) and Mainnet Explorer units (Indexer / API 1–2 / DB / Chain + sync); Telemetry
+- Chains: Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
+- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Indexer / API 1–2 / DB / Chain + sync); Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
 ### Chains
 
-Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is mainnet bootnode / mainnet rpcnode / planck. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
+Chain dashboards link to each other via the **Chains** dropdown. The Chain selector is mainnet bootnode / mainnet rpcnode. **Consensus & Mining** QPoW panels join validator metrics on the selected job's `chain` label (RPC nodes do not export QPoW).
 
 | Dashboard | What it covers |
 |-----------|----------------|
@@ -730,8 +727,8 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 |-----------|----------------|
 | **Monitoring Stack** | Docker host running Prometheus/Grafana |
 | **Telemetry** | Telemetry VPS host + backend message feeds |
-| **Senoti Host** | Senoti fleet system metrics |
-| **Subsquid Host** | Subsquid fleet system metrics (Fleet: mainnet / Planck) |
+| **Senoti Host** | Mainnet Senoti fleet system metrics |
+| **Subsquid Host** | Mainnet Subsquid fleet system metrics |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
 | **Logs Host** | Logs server system metrics |
 
@@ -739,7 +736,7 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 
 | Dashboard | What it covers |
 |-----------|----------------|
-| **Explorer** | Subsquid sync, RPC, Node.js performance (Fleet: mainnet / Planck) |
+| **Explorer** | Subsquid sync, RPC, Node.js performance |
 | **Graylog** | Ingest rate, journal fill, buffer fill, indexer failures, heap |
 
 ## Customization

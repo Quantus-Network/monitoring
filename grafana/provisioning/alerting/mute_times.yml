@@ -1,13 +1,6 @@
 apiVersion: 1
 
-# Always-on mutes. end_time 24:00 is the exclusive end of the day.
-# Weekdays are Sunday=0 … Saturday=6; monday:sunday is rejected because Sunday sorts first.
-muteTimes:
+# Removes the always-on Planck mute from Grafana instances that already provisioned it.
+deleteMuteTimes:
   - orgId: 1
     name: mute-planck
-    time_intervals:
-      - times:
-          - start_time: "00:00"
-            end_time: "24:00"
-        weekdays: ["sunday:saturday"]
-        location: UTC

@@ -18,7 +18,7 @@
       "id": 1,
       "options": {
         "mode": "markdown",
-        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for Subsquid hosts. Use **Fleet** (mainnet vs Planck testnet) and **Host** to focus a role or view All.\n\nMainnet: `subsquid-mainnet-*.quantus.com` (includes app-2 and chain-1). Planck: `subsquid-*.quantus.com` (app-1 and DB colors only; no app-2 and no dedicated chain node). UP tiles list only hosts Prometheus is scraping for the selected fleet.\n\n**DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
+        "content": "# Subsquid Fleet System Metrics\n\nCapacity and health for mainnet Subsquid hosts (`subsquid-mainnet-*.quantus.com`, including app-2 and chain-1). Use **Host** to focus a role or view All.\n\nUP tiles list only hosts Prometheus is scraping. **DB blue/green:** Outside a deploy cutover, only one of `db-blue` / `db-green` is expected UP; the other may be inactive. Alert fires only when both are down."
       }
     },
     {
@@ -755,7 +755,7 @@
           "text": "mainnet",
           "value": "mainnet"
         },
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "Fleet",
         "multi": false,
@@ -765,14 +765,9 @@
             "selected": true,
             "text": "mainnet",
             "value": "mainnet"
-          },
-          {
-            "selected": false,
-            "text": "planck",
-            "value": "planck"
           }
         ],
-        "query": "mainnet,planck",
+        "query": "mainnet",
         "skipUrlSync": false,
         "type": "custom"
       },
@@ -787,7 +782,10 @@
         "multi": true,
         "name": "job",
         "options": [],
-        "query": { "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})", "refId": "StandardVariableQuery" },
+        "query": {
+          "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "/job=\"[^\"]*-subsquid-([^\"]+)\"/",
         "skipUrlSync": false,
@@ -805,7 +803,10 @@
         "multi": true,
         "name": "tile",
         "options": [],
-        "query": { "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})", "refId": "StandardVariableQuery" },
+        "query": {
+          "query": "query_result(up{job=~\"${fleet}-subsquid-(proc-1-hm|app-1|app-2|db-blue-1|db-green-1|chain-1)\"})",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 1,
         "regex": "/job=\"[^\"]*-subsquid-([^\"]+)\"/",
         "skipUrlSync": false,

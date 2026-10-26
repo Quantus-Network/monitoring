@@ -889,7 +889,7 @@
           "text": "mainnet",
           "value": "mainnet"
         },
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "Fleet",
         "multi": false,
@@ -899,14 +899,9 @@
             "selected": true,
             "text": "mainnet",
             "value": "mainnet"
-          },
-          {
-            "selected": false,
-            "text": "planck",
-            "value": "planck"
           }
         ],
-        "query": "mainnet,planck",
+        "query": "mainnet",
         "skipUrlSync": false,
         "type": "custom"
       }

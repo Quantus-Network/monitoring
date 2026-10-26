@@ -44,512 +44,6 @@
         "x": 0,
         "y": 5
       },
-      "id": 81,
-      "options": {
-        "mode": "markdown",
-        "content": "### Planck"
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Chain 1",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 7
-      },
-      "id": 82,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-chain\", instance=~\"a1.*\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Chain 2",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 7
-      },
-      "id": 83,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-chain\", instance=~\"a2.*\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Node 1",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 7
-      },
-      "id": 84,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-node\", instance=~\"a1.*\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Node 2",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 7
-      },
-      "id": 85,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-node\", instance=~\"a2.*\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Chain 1 — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 11
-      },
-      "id": 86,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-chain\", instance=~\"a1.*\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Chain 2 — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 11
-      },
-      "id": 87,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-chain\", instance=~\"a2.*\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Node 1 — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 11
-      },
-      "id": 88,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-node\", instance=~\"a1.*\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Planck Node 2 — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 11
-      },
-      "id": 89,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-node\", instance=~\"a2.*\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 15
-      },
       "id": 200,
       "options": {
         "mode": "markdown",
@@ -563,7 +57,7 @@
         "h": 4,
         "w": 3,
         "x": 0,
-        "y": 17
+        "y": 7
       },
       "id": 201,
       "targets": [
@@ -628,7 +122,7 @@
         "h": 4,
         "w": 3,
         "x": 3,
-        "y": 17
+        "y": 7
       },
       "id": 202,
       "targets": [
@@ -693,7 +187,7 @@
         "h": 4,
         "w": 3,
         "x": 6,
-        "y": 17
+        "y": 7
       },
       "id": 203,
       "targets": [
@@ -758,7 +252,7 @@
         "h": 4,
         "w": 3,
         "x": 9,
-        "y": 17
+        "y": 7
       },
       "id": 204,
       "targets": [
@@ -823,7 +317,7 @@
         "h": 4,
         "w": 3,
         "x": 12,
-        "y": 17
+        "y": 7
       },
       "id": 205,
       "targets": [
@@ -888,7 +382,7 @@
         "h": 4,
         "w": 3,
         "x": 15,
-        "y": 17
+        "y": 7
       },
       "id": 206,
       "targets": [
@@ -953,7 +447,7 @@
         "h": 4,
         "w": 3,
         "x": 18,
-        "y": 17
+        "y": 7
       },
       "id": 207,
       "targets": [
@@ -1018,7 +512,7 @@
         "h": 4,
         "w": 3,
         "x": 0,
-        "y": 21
+        "y": 11
       },
       "id": 208,
       "targets": [
@@ -1083,7 +577,7 @@
         "h": 4,
         "w": 3,
         "x": 3,
-        "y": 21
+        "y": 11
       },
       "id": 209,
       "targets": [
@@ -1148,7 +642,7 @@
         "h": 4,
         "w": 3,
         "x": 6,
-        "y": 21
+        "y": 11
       },
       "id": 210,
       "targets": [
@@ -1213,7 +707,7 @@
         "h": 4,
         "w": 3,
         "x": 9,
-        "y": 21
+        "y": 11
       },
       "id": 211,
       "targets": [
@@ -1278,7 +772,7 @@
         "h": 4,
         "w": 3,
         "x": 12,
-        "y": 21
+        "y": 11
       },
       "id": 212,
       "targets": [
@@ -1343,7 +837,7 @@
         "h": 4,
         "w": 3,
         "x": 15,
-        "y": 21
+        "y": 11
       },
       "id": 213,
       "targets": [
@@ -1408,7 +902,7 @@
         "h": 4,
         "w": 3,
         "x": 18,
-        "y": 21
+        "y": 11
       },
       "id": 214,
       "targets": [
@@ -1473,7 +967,7 @@
         "h": 4,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 15
       },
       "id": 215,
       "targets": [
@@ -1531,7 +1025,7 @@
         "h": 4,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 15
       },
       "id": 216,
       "targets": [
@@ -1588,7 +1082,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 19
       },
       "id": 217,
       "options": {
@@ -1603,7 +1097,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 31
+        "y": 21
       },
       "id": 218,
       "targets": [
@@ -1668,7 +1162,7 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 31
+        "y": 21
       },
       "id": 219,
       "targets": [
@@ -1733,7 +1227,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 31
+        "y": 21
       },
       "id": 220,
       "targets": [
@@ -1798,7 +1292,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 31
+        "y": 21
       },
       "id": 221,
       "targets": [
@@ -1863,7 +1357,7 @@
         "h": 4,
         "w": 12,
         "x": 0,
-        "y": 35
+        "y": 25
       },
       "id": 222,
       "targets": [
@@ -1921,7 +1415,7 @@
         "h": 4,
         "w": 12,
         "x": 12,
-        "y": 35
+        "y": 25
       },
       "id": 223,
       "targets": [
@@ -1978,7 +1472,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 29
       },
       "id": 2,
       "options": {
@@ -1993,7 +1487,7 @@
         "h": 4,
         "w": 12,
         "x": 0,
-        "y": 41
+        "y": 31
       },
       "id": 10,
       "targets": [
@@ -2058,7 +1552,7 @@
         "h": 4,
         "w": 12,
         "x": 12,
-        "y": 41
+        "y": 31
       },
       "id": 11,
       "targets": [
@@ -2115,7 +1609,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 35
       },
       "id": 100,
       "options": {
@@ -2130,7 +1624,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 47
+        "y": 37
       },
       "id": 101,
       "targets": [
@@ -2195,7 +1689,7 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 47
+        "y": 37
       },
       "id": 103,
       "targets": [
@@ -2260,7 +1754,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 47
+        "y": 37
       },
       "id": 102,
       "targets": [
@@ -2318,7 +1812,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 47
+        "y": 37
       },
       "id": 104,
       "targets": [
@@ -2375,7 +1869,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 41
       },
       "id": 3,
       "options": {
@@ -2390,12 +1884,12 @@
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 53
+        "y": 43
       },
       "id": 20,
       "targets": [
         {
-          "expr": "up{job=\"planck-senoti-app-1\"}",
+          "expr": "up{job=\"senoti-app-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2455,12 +1949,12 @@
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 53
+        "y": 43
       },
       "id": 21,
       "targets": [
         {
-          "expr": "up{job=\"planck-senoti-db-1\"}",
+          "expr": "up{job=\"senoti-db-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2520,12 +2014,12 @@
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 53
+        "y": 43
       },
       "id": 22,
       "targets": [
         {
-          "expr": "up{job=\"planck-senoti-mq-1\"}",
+          "expr": "up{job=\"senoti-mq-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2585,12 +2079,12 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 53
+        "y": 43
       },
       "id": 23,
       "targets": [
         {
-          "expr": "up{job=\"planck-senoti-watcher-1\"}",
+          "expr": "up{job=\"senoti-watcher-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2650,12 +2144,12 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 53
+        "y": 43
       },
       "id": 24,
       "targets": [
         {
-          "expr": "up{job=\"planck-senoti-core-1\"}",
+          "expr": "up{job=\"senoti-core-1\"}",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2715,12 +2209,12 @@
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 57
+        "y": 47
       },
       "id": 25,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"planck-senoti-app-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"senoti-app-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2773,12 +2267,12 @@
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 57
+        "y": 47
       },
       "id": 26,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"planck-senoti-db-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"senoti-db-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2831,12 +2325,12 @@
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 57
+        "y": 47
       },
       "id": 27,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"planck-senoti-mq-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"senoti-mq-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2889,12 +2383,12 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 57
+        "y": 47
       },
       "id": 28,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"planck-senoti-watcher-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"senoti-watcher-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -2947,12 +2441,12 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 57
+        "y": 47
       },
       "id": 29,
       "targets": [
         {
-          "expr": "avg_over_time(up{job=\"planck-senoti-core-1\"}[30d]) * 100",
+          "expr": "avg_over_time(up{job=\"senoti-core-1\"}[30d]) * 100",
           "refId": "A",
           "datasource": {
             "type": "prometheus",
@@ -3004,9 +2498,9 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 51
       },
-      "id": 4,
+      "id": 304,
       "options": {
         "mode": "markdown",
         "content": "## Explorer"
@@ -3017,448 +2511,9 @@
       "title": "Indexer",
       "gridPos": {
         "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 63
-      },
-      "id": 30,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-subsquid-proc-1\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "API",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 63
-      },
-      "id": 31,
-      "targets": [
-        {
-          "expr": "up{job=\"planck-subsquid-app-1\"}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "DB",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 63
-      },
-      "id": 33,
-      "targets": [
-        {
-          "expr": "max(up{job=~\"planck-subsquid-db-(blue|green)-1\"})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "DOWN",
-                  "color": "red"
-                },
-                "1": {
-                  "text": "UP",
-                  "color": "green"
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#5C2E22"
-              },
-              {
-                "value": 1,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Indexer — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 67
-      },
-      "id": 40,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-subsquid-proc-1\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "API — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 67
-      },
-      "id": 41,
-      "targets": [
-        {
-          "expr": "avg_over_time(up{job=\"planck-subsquid-app-1\"}[30d]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "DB — 30d",
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 67
-      },
-      "id": 43,
-      "targets": [
-        {
-          "expr": "avg_over_time((max(up{job=~\"planck-subsquid-db-(blue|green)-1\"}))[30d:1m]) * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "instant": true,
-          "range": false
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 2,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 50,
-                "color": "#E8834A"
-              },
-              {
-                "value": 90,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Indexer Sync",
-      "gridPos": {
-        "h": 4,
-        "w": 24,
-        "x": 0,
-        "y": 71
-      },
-      "id": 36,
-      "targets": [
-        {
-          "expr": "sqd_processor_sync_ratio{job=\"planck-subsquid-proc-1\"} * 100",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "options": {
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"]
-        },
-        "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "value"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "decimals": 1,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "value": null,
-                "color": "#C23B1A"
-              },
-              {
-                "value": 95,
-                "color": "#E8834A"
-              },
-              {
-                "value": 99.5,
-                "color": "#1E4A3A"
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 75
-      },
-      "id": 304,
-      "options": {
-        "mode": "markdown",
-        "content": "## Mainnet Explorer"
-      }
-    },
-    {
-      "type": "stat",
-      "title": "Indexer",
-      "gridPos": {
-        "h": 4,
         "w": 5,
         "x": 0,
-        "y": 77
+        "y": 53
       },
       "id": 330,
       "targets": [
@@ -3523,7 +2578,7 @@
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 77
+        "y": 53
       },
       "id": 331,
       "targets": [
@@ -3588,7 +2643,7 @@
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 77
+        "y": 53
       },
       "id": 332,
       "targets": [
@@ -3653,7 +2708,7 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 77
+        "y": 53
       },
       "id": 333,
       "targets": [
@@ -3718,7 +2773,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 77
+        "y": 53
       },
       "id": 335,
       "targets": [
@@ -3783,7 +2838,7 @@
         "h": 4,
         "w": 5,
         "x": 0,
-        "y": 81
+        "y": 57
       },
       "id": 340,
       "targets": [
@@ -3841,7 +2896,7 @@
         "h": 4,
         "w": 5,
         "x": 5,
-        "y": 81
+        "y": 57
       },
       "id": 341,
       "targets": [
@@ -3899,7 +2954,7 @@
         "h": 4,
         "w": 5,
         "x": 10,
-        "y": 81
+        "y": 57
       },
       "id": 342,
       "targets": [
@@ -3957,7 +3012,7 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 81
+        "y": 57
       },
       "id": 343,
       "targets": [
@@ -4015,7 +3070,7 @@
         "h": 4,
         "w": 4,
         "x": 20,
-        "y": 81
+        "y": 57
       },
       "id": 345,
       "targets": [
@@ -4073,7 +3128,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 85
+        "y": 61
       },
       "id": 336,
       "targets": [
@@ -4128,7 +3183,7 @@
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 89
+        "y": 65
       },
       "id": 7,
       "options": {
@@ -4143,7 +3198,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 91
+        "y": 67
       },
       "id": 70,
       "targets": [
@@ -4208,7 +3263,7 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 91
+        "y": 67
       },
       "id": 71,
       "targets": [
@@ -4266,7 +3321,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 91
+        "y": 67
       },
       "id": 72,
       "targets": [
@@ -4331,7 +3386,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 91
+        "y": 67
       },
       "id": 73,
       "targets": [
@@ -4389,7 +3444,7 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 95
+        "y": 71
       },
       "id": 74,
       "targets": [

@@ -1102,14 +1102,9 @@
             "selected": false,
             "text": "mainnet rpcnode",
             "value": "rpcnode"
-          },
-          {
-            "selected": false,
-            "text": "planck",
-            "value": "planck"
           }
         ],
-        "query": "mainnet bootnode : bootnode,mainnet rpcnode : rpcnode,planck",
+        "query": "mainnet bootnode : bootnode,mainnet rpcnode : rpcnode",
         "skipUrlSync": false,
         "type": "custom"
       }
