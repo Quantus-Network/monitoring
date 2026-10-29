@@ -1159,6 +1159,84 @@ groups:
           severity: critical
 
       # ===============================================
+      # QUANTUM CANARY HOST ALERTS (single host — no chain)
+      # ===============================================
+      - uid: quantum_canary_host_down
+        title: Quantum Canary Host Down
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: prometheus
+            model:
+              expr: up{job="quantum-canary-1"}
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 0
+                      - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: []
+                  reducer:
+                    params: []
+                    type: avg
+                  type: query
+              datasource:
+                name: Expression
+                type: __expr__
+                uid: __expr__
+              expression: A
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+              reducer: last
+              refId: B
+              type: reduce
+          - refId: C
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: __expr__
+            model:
+              conditions:
+                - evaluator:
+                    params:
+                      - 1
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                      - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              expression: B
+              refId: C
+              type: threshold
+        noDataState: Alerting
+        execErrState: Alerting
+        for: 3m
+        annotations:
+          description: 'Quantum Canary host ({{ index $labels "instance" }}) is down for more than 3 minutes'
+          summary: "Quantum Canary Host is DOWN"
+        labels:
+          severity: critical
+
+      # ===============================================
       # LOGS HOST ALERTS (logs server — no chain)
       # ===============================================
       - uid: logs_host_down
