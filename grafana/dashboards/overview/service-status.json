@@ -3488,6 +3488,143 @@
           }
         }
       }
+    },
+    {
+      "type": "text",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 75
+      },
+      "id": 400,
+      "options": {
+        "mode": "markdown",
+        "content": "## Quantum Canary"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Quantum Canary",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 77
+      },
+      "id": 401,
+      "targets": [
+        {
+          "expr": "up{job=\"quantum-canary-1\"}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#5C2E22"
+              },
+              {
+                "value": 1,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Quantum Canary — 30d Availability",
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 12,
+        "y": 77
+      },
+      "id": 402,
+      "targets": [
+        {
+          "expr": "avg_over_time(up{job=\"quantum-canary-1\"}[30d]) * 100",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "instant": true,
+          "range": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"]
+        },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "decimals": 2,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "#C23B1A"
+              },
+              {
+                "value": 50,
+                "color": "#E8834A"
+              },
+              {
+                "value": 90,
+                "color": "#1E4A3A"
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "time": {

@@ -81,7 +81,7 @@ Public share state is stored in Grafana’s database (not in the provisioned JSO
 | Selected Chain boards that only show public chain health (e.g. Chain Health), after review | Applications boards with balances, process internals, or endpoint inventories (Explorer, Graylog) |
 | | Monitoring Stack and any board that exposes capacity or topology |
 
-Do **not** public-share Quersi Host, Logs Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
+Do **not** public-share Quersi Host, Quantum Canary Host, Logs Host, Senoti Host, Subsquid Host, or other Infrastructure/Applications dashboards as-is.
 
 ## What's Being Monitored?
 
@@ -112,6 +112,7 @@ The stack monitors:
   - Logs Host (hm-logs.quantus.com) - VPS system metrics
   - Graylog (qm-logs.quantus.com) - Ingest, journal, indexer failures, JVM heap
   - Senoti (`senoti-app-1`, `senoti-db-1`, `senoti-mq-1`, `senoti-watcher-1`, `senoti-core-1` on `senoti-*.quantus.com`) - mainnet notification hosts, labeled `chain=mainnet`
+  - Quantum Canary (`quantum-canary-1` on `hm-api.quantumcanary.org`) - host system metrics behind the shared Cloudflare Access service token
 
 ## Adding Your Nodes
 
@@ -400,6 +401,7 @@ Alerts are configured via provisioning files in `grafana/provisioning/alerting/`
 **Support Services:**
 - 🔴 **Telemetry Host Down** - Triggers when telemetry host is unreachable for 5+ minutes
 - 🔴 **Logs Host Down** - Triggers when the logs VPS is unreachable for 3+ minutes
+- 🔴 **Quantum Canary Host Down** - Triggers when the Quantum Canary host is unreachable for 3+ minutes
 - 🔴 **Graylog Down** - Triggers when Graylog (`qm-logs.quantus.com`) is unreachable for 3+ minutes
 - 🟡 **Graylog Journal High** - Triggers when the Graylog journal exceeds 65% for 5+ minutes
 - 🟡 **Graylog Indexer Failures** - Triggers when OpenSearch write/flush failures are above 0 for 5+ minutes
@@ -705,7 +707,7 @@ Dashboards are grouped by **concern**, not by network. Chain-specific views use 
 
 **Service Status** — public-safe status for chains and support services (intended for Grafana Public Dashboard sharing):
 - Chains: Mainnet Bootnodes (`a1`–`a7` chain + host, fleet 30d); Mainnet RPC nodes (`rpc1`/`rpc2` chain + host, fleet 30d)
-- Quersi; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Indexer / API 1–2 / DB / Chain + sync); Telemetry
+- Quersi; Quantum Canary; Logs (Host / Graylog); Senoti units (App / DB / MQ / Watcher / Core); Explorer (Indexer / API 1–2 / DB / Chain + sync); Telemetry
 - Explorer DB uses `max(up)` across blue/green (only one active outside cutover; matches alerts)
 - Per-unit UP/DOWN, 30d availability %, and coarse success/error rates only — no host capacity, balances, or internal topology
 
@@ -730,6 +732,7 @@ Chain dashboards link to each other via the **Chains** dropdown. The Chain selec
 | **Senoti Host** | Mainnet Senoti fleet system metrics |
 | **Subsquid Host** | Mainnet Subsquid fleet system metrics |
 | **Quersi Host** | Quersi wallet remote-config system metrics |
+| **Quantum Canary Host** | Quantum Canary host system metrics |
 | **Logs Host** | Logs server system metrics |
 
 ### Applications
