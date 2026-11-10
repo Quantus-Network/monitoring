@@ -57,7 +57,7 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets:
-    - qm-telemetry.quantus.cat:443
+    - qm-telemetry.quantus.com:443
     labels:
       instance: 'telemetry-vps'
       environment: 'production'
@@ -78,7 +78,7 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets:
-    - feed-telemetry.quantus.cat:443
+    - feed-telemetry.quantus.com:443
     labels:
       instance: 'telemetry-backend'
       environment: 'production'

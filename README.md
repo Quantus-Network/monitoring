@@ -104,8 +104,8 @@ The stack monitors:
   - node_exporter on proc via `subsquid-mainnet-proc-1-hm`, and on both app hosts, both DB colors, and `chain-1` (`subsquid-mainnet-*.quantus.com`)
   - Scrapes use the same Cloudflare Access headers as senoti/quersi
 - **Support Services** - Telemetry and monitoring infrastructure
-  - Telemetry Host (qm-telemetry.quantus.cat) - VPS system metrics
-  - Telemetry Backend (feed-telemetry.quantus.cat) - Application metrics
+  - Telemetry Host (qm-telemetry.quantus.com) - VPS system metrics
+  - Telemetry Backend (feed-telemetry.quantus.com) - Application metrics
     - Connected nodes/feeds/shards
     - Message rates and dropped messages
     - Service availability
